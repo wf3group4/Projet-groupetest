@@ -1,0 +1,6 @@
+Salut {{user.name}} {{user.lastname}}
+<br>
+On a bien pris en compte ton inscription. Clique sur le lien pour la valider:
+<br>
+ {% set link = absolute_url(path('validation_email', {email: user.email, token: user.token})) %}
+<a href="{{link}}">{{link}}</a>
