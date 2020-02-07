@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Marc{% endblock %}
+
+{% block body %}
+
+    
+    <div class="container">
+        <h1 class="text-center py-5">Mon profil</h1>  
+        <div class="row">
+            <div class="col-4">
+                <img src="http://2.bp.blogspot.com/_PMp_xOvYITA/TL94F65CnSI/AAAAAAAAAC4/tMztAHhKdsA/s1600/van.bmp" alt="image profile" class="h-75">
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <h2>Nom: Jean-Claude</p>
+                    <h2>Prenom: Von Schmout</p>
+                </div>
+                <h2>Ma description</h2>
+                <p>Je suis un type trop cool et trop musclé en plus wesh!</p>
+                <a href="#" class="btn btn-outline-primary">Modifier mon profil</a>
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h2>Mes réalisations</h2>
+            <a href="#" class="btn btn-outline-primary">Ajouter une image</a>
+            <div class="row d-flex flex-wrap">
+                <div class="card p-3 m-3" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+                <div class="card p-3 m-3" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+                <div class="card p-3 m-3" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>  
+                <div class="card p-3 m-3" style="width: 18rem;">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>    
+            </div>
+            <a href="#" class="btn btn-outline-primary">Ajouter un lien</a><br>
+            <a href="#">https://getbootstrap.com/</a><br>
+            <a href="#">https://www.php.net/</a>
+        </div>
+        <hr>
+        <div>
+            <h2>Mes annonces:</h2>
+            <a href="#" class="btn btn-outline-primary">Ajouter une annonce</a>
+            <article class="border rounded my-3 p-2 bg-light">
+                <div class="row">
+                    <h3 class="ml-3">Recherche musicien pour BO Jeu vidéo</h3>
+                    <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
+                </div>
+                
+                <p class="  ml-3">Je suis à la recherche d'un d'un musicien pour faire la BO de mon jeu vidéo qui est un RTS orienté...</p>
+                <hr>
+                <div class="row">
+                    Jean mimi - Suzette93 - Mouloud sont interesser
+                </div>
+            </article>
+            <article class="border rounded my-3 p-2 bg-light">
+                <div class="row">
+                    <h3 class="ml-3">Recherche musicien pour BO Jeu vidéo</h3>
+                    <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
+                </div>
+                
+                <p class="ml-3">Je suis à la recherche d'un d'un musicien pour faire la BO de mon jeu vidéo qui est un RTS orienté...</p>
+                <hr>
+                <div class="row">
+                    Jean mimi - Suzette93 - Mouloud sont interesser
+                </div>
+            </article>
+        </div>
+    </div>
+
+{% endblock %}
