@@ -37,8 +37,11 @@ class SecurityController extends AbstractController
             );
             $now = new \DateTime();
             $user
+                ->setCreatedAt($now)
+                ->setUpdatedAt($now)
                 -> setToken($this->generateToken())
                 -> setActive(0)
+
             ;
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
