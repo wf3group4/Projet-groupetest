@@ -16,4 +16,15 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+
+    
+    /**
+     * @Route("/mon-compte", name="mon_compte")
+     */
+    public function mon_compte()
+    {
+        return $this->render('main/mon_compte.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
 }
