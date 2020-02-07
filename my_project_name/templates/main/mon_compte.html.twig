@@ -4,18 +4,17 @@
 
 {% block body %}
 
-    
     <div class="container">
         <h1 class="text-center py-5">Mon profil</h1>  
         <div class="row">
             <div class="col-4">
-                <img src="http://2.bp.blogspot.com/_PMp_xOvYITA/TL94F65CnSI/AAAAAAAAAC4/tMztAHhKdsA/s1600/van.bmp" alt="image profile" class="h-75">
+                <img src="images/{{ app.user.avatar }}" alt="image profile" class="img-thumbnail">
             </div>
             <div class="col-8">
-                    <h2>{{app.user.name}} {{app.user.lastname}}</p> 
+                    <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
                 <h2>Ma description</h2>
-                <p>Je suis un type trop cool et trop musclé en plus wesh!</p>
-                <a href="{{path('modif_compte',{name: app.user.name})}}" class="btn btn-outline-primary">Modifier mon profil</a>
+                <p>{{ app.user.description }}</p>
+                <a href="#" class="btn btn-outline-primary">Modifier mon profil</a> <!-- MODIFIER LE LIEN -->
             </div>
         </div>
         <hr>

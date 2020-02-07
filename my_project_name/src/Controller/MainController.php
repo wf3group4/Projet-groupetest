@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Form\ModifCompteType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends AbstractController
 {
@@ -32,15 +34,47 @@ class MainController extends AbstractController
 
      
     /**
-     * @Route("/modification-compte/{name}", name="modif_compte")
+     * @Route("/modification-compte/{id}", name="modif_compte")
      */
-    public function modif_compte($name, Request $request, UsersRepository $usersRepo )
+    public function modif_compte($id, Request $request, UsersRepository $usersRepo, UserPasswordEncoderInterface $passwordEncoder)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $usersRepo->find($name); 
-       
+        $user = $usersRepo->find($id);
+
+        $form = $this->createForm(ModifCompteType::class, $user);
+        dump($form);die();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData()
+                ->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+
+//                $file = $form['avatar']->getData();
+//                    if($file){
+//                       $repertoire = $this->getParameter('images');
+//                       $nameOfPicture = 'avatar-'.rand(1,99999).'.'.$file->guessExtension();
+//                       $file->move($repertoire, $nameOfPicture);
+//                       $user->setAvatar($nameOfPicture);
+//                    }
+
+                 dump($form);die();
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', "Le profil a bien été modifié.");
+
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $user->getId()
+            ]);
+        }
+
         return $this->render('main/modif_compte.html.twig', [
-            'controller_name' => 'MainController',
+            'form' => $form->createView(),
         ]);
     }
 }

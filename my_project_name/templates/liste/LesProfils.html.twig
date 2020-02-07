@@ -26,27 +26,35 @@
     <!-- LISTES DES PROFILES -->
 
     <div class="px-3">
-    {% for profile in profiles %}
+    {% for profil in profiles %}
         <div class="row mt-3 py-4 border-bottom" id="Profiles">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-4">
-                        <a href="#"><img src="{{ asset('images/imageDefault.jpg') }}" class="img-thumbnail"></a>
+                        {% if profil.avatar %}
+                        <a href="{{ path('profil', {id:profil.id}) }}">
+                            <img src="images/{{ profil.avatar }}" alt="avatar" class="w-50">
+                        </a>
+                        {% else %}
+                            <a href="{{ path('profil', {id: profil.id}) }}">
+                                <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar" class="img-thumbnail" title="Voir le profil">
+                            </a>
+                        {% endif %}
                     </div>
                     <div class="col-8">
                         <div class="row">
                             <div class="col-12">
-                                <h2>{{ profile.name }} {{ profile.lastname }}</h2>
-                                <p>{{ profile.description|raw|slice(0,60) }}...</p>
+                                <h2>{{ profil.name }} {{ profil.lastname }}</h2>
+                                <p>{{ profil.description|raw|slice(0,60) }}...</p>
                                 <div class="row">
                                     <div class="col-4">
-                                        <p>{{ profile.email }}</p>
+                                        <p>{{ profil.email }}</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-8">
-                                        <a class="btn btn-outline-primary" href="{{ path('profil', {id: profile.id}) }}">Voir mon profil</a>
-                                        <a class="btn btn-outline-primary" href="#">Me contacter</a>
+                                        <a class="btn btn-outline-primary" href="{{ path('profil', {id: profil.id}) }}">Voir le profil <i class="fas fa-search-plus"></i></a>
+                                        <a class="btn btn-outline-primary" href="#">Me contacter <i class="fas fa-envelope"></i></a>
                                     </div>
                                 </div>
                             </div>
