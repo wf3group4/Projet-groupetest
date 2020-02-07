@@ -17,7 +17,7 @@
 	<div class=" row my-5 border">
         <div class="col">
 		
-            {% if app.user and app.user.hasRole('ROLE_STAFF') %}
+            {% if app.user and app.user.hasRole('ROLE_ADMIN') %}
 			Vous êtes STAFF
 		    {% elseif app.user and app.user.hasRole('ROLE_PUBLISHER') %}
 			Vous êtes PUBLISHER
@@ -25,8 +25,8 @@
 			Vous n'êtes pas connectés
 		    {% endif %}
 
-		    {% if is_granted('ROLE_STAFF') %}
-			Vous êtes STAFF
+		    {% if is_granted('ROLE_ADMIN) %}
+			Vous êtes ADMIN
 		    {% endif %}
         </div>   
     </div>
