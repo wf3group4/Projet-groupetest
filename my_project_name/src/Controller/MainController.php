@@ -42,7 +42,6 @@ class MainController extends AbstractController
         $user = $usersRepo->find($id);
 
         $form = $this->createForm(ModifCompteType::class, $user);
-        dump($form);die();
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
@@ -54,15 +53,14 @@ class MainController extends AbstractController
                     )
                 );
 
-//                $file = $form['avatar']->getData();
-//                    if($file){
-//                       $repertoire = $this->getParameter('images');
-//                       $nameOfPicture = 'avatar-'.rand(1,99999).'.'.$file->guessExtension();
-//                       $file->move($repertoire, $nameOfPicture);
-//                       $user->setAvatar($nameOfPicture);
-//                    }
+                $file = $form['avatar']->getData();
+                    if($file){
+                       $repertoire = $this->getParameter('images');
+                       $nameOfPicture = 'avatar-'.rand(1,99999).'.'.$file->guessExtension();
+                       $file->move($repertoire, $nameOfPicture);
+                       $user->setAvatar($nameOfPicture);
+                    }
 
-                 dump($form);die();
             $em->persist($user);
             $em->flush();
 

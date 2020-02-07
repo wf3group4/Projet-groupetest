@@ -44,16 +44,16 @@ class ModifCompteType extends AbstractType
             ])
             ->add('avatar',FileType::class,[
                 'label' => 'Modifier son avatar',
+                'required' => false,
+                'mapped' => false,
             ])
             ->add('save', SubmitType::class,[
                 'label' => 'Envoyer',
                 'row_attr' => [
-                    'require' => false,
                     'class' => 'text-right'
                 ],
             ])
         ;
-        dump($builder);die();
     }
 
     public function configureOptions(OptionsResolver $resolver)

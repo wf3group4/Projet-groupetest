@@ -14,7 +14,7 @@
                     <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
                 <h2>Ma description</h2>
                 <p>{{ app.user.description }}</p>
-                <a href="#" class="btn btn-outline-primary">Modifier mon profil</a> <!-- MODIFIER LE LIEN -->
+                <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a> <!-- MODIFIER LE LIEN -->
             </div>
         </div>
         <hr>
