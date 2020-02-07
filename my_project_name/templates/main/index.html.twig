@@ -8,15 +8,15 @@
 <main>
     <div class="row my-5 border">
         <div class="col">
-	        <h1>{{ 'accueil.titre' }}</h1>
-	        <h3>{{ 'accueil.soustitre' }}</h3>
+	        <h1>{#{{ 'accueil.titre' }} #}Entrées des Artistes</h1>
+	        <h3>{#{{ 'accueil.soustitre' }} #}</h3>
         </div>
     </div>
 	
 	<div class=" row my-5 border">
         <div class="col">
-		
-            {% if app.user and app.user.hasRole('ROLE_ADMIN') %}
+		<p> un petit message disant quel ROLE le logué a  </p>
+          {#  {% if app.user and app.user.hasRole('ROLE_ADMIN') %}
 			Vous êtes STAFF
 		    {% elseif app.user and app.user.hasRole('ROLE_PUBLISHER') %}
 			Vous êtes PUBLISHER
@@ -26,7 +26,7 @@
 
 		    {% if is_granted('ROLE_ADMIN') %}
 			Vous êtes ADMIN
-		    {% endif %}
+		    {% endif %} #}
         </div>   
     </div>
 
@@ -40,13 +40,28 @@
 
     	<div class="row">
             <div class="col">
-                <h2 {{ displayOffres() }}>Liste des 5 dernières offres :</h2>	
-            </div>
+                <h2{# {{ displayAnnonces /* ou autre nom de fonction dev par Mattieu, ici pour afficher les 5 dernières annonce  */() }} #}>Liste des 5 dernières annonces :</h2>	
+            {# {% for annonce in annonces %} {# pas sur de ce 'for'block #}
+			{# {% include 'liste/annonce.html.twig' with { annonce: annonce } %} 
+		    {#{% endfor %}#}
+
+        	<div class="card">
+		        <div class="card-body">
+		    	<h5 class="card-title">{# {{ annonce.title }} #}</h5>
+			    <p class="card-text">{# {{ annonce.text|raw|slice(0,5) }} #}...</p>
+			    <a href="{# {{ path('annonce', { id: annonce.id }) }} #}" class="btn btn-primary text-info">Lire l'article</a>
+		    </div>
+	    </div>
 
             <div class="col">
                 <h2 class="text-warning">Bienvenue aux nouveaux !</h2>	
-                <h3 {{displayProfiles () }}>Liste des 5 dernières inscriptions :</h3>
+                <h3 {#   {{displayProfiles ()/* ou autre nom de fonction, pour retourner les 5 dernièrs profiles  */}} #}> :</h3>
             </div>
+            <div class="card-body">
+			<h5 class="card-title">{# {{ profile.title }}#}</h5>
+			<p class="card-text">{# {{ profile.text|raw|slice(0,5) }}#}...</p>
+			<a href="{# {{ path('profile', { id: profile.id }) }}#}" class="btn btn-primary text-info">Liste des 5 dernières inscriptions</a>
+		</div>
         </div>
 </main>
 >
