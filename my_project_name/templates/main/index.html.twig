@@ -13,27 +13,8 @@
 				
 			</div>
 		</div>
-<img src="" alt="" class="">
 
-		<div class=" row  ">
-			<div class="col">
-				<p>
-					un petit message disant quel ROLE le logué a
-				</p>
-				{#  {% if app.user and app.user.hasRole('ROLE_ADMIN') %}
-										Vous êtes STAFF
-									    {% elseif app.user and app.user.hasRole('ROLE_PUBLISHER') %}
-										Vous êtes PUBLISHER
-									    {% else %}
-										Vous n'êtes pas connectés
-									    {% endif %}
-							
-									    {% if is_granted('ROLE_ADMIN') %}
-										Vous êtes ADMIN
-									    {% endif %} #}
-			</div>
-		</div>
-		<img src="{{asset('public/images/eyes-colors.png')}}" title="eyes-colors" alt="eyes multicolor">
+		<img src="{{asset('images/eyes_colors.png')}}" title="eyes-colors" alt="eyes multicolor">
 
 		<div class=" row ">
 			<div class="col">
