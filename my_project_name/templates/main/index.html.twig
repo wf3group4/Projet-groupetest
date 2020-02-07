@@ -30,16 +30,7 @@
 		    {% endif %}
         </div>   
     </div>
-{# ici c'est une autre façon de se connecter aux pages offres et demandes - genre mini nav - qui sera aussi sur le haut de ces pages là #}
-        <div class="col">
-        <h3>Recherche d'articles</h3>
-            <button type="button" class="btn btn-info">offres</button>
-            <button type="button" class="btn btn-warning">Demandes</button>
-        </div>
-        <div class="col">
-        
-{# par_€ ---- flavicon ici € triangles vers le bas et vers le haut, qui range les articles sur la page demandée par ordre croissant ou décroissant #}
-{# parDate ---- flavicon ici triangles vers le bas et vers le haut #}
+
         </div>
 
     <article class=" row my-5 border">
@@ -51,22 +42,13 @@
     	<div class="row">
             <div class="col">
                 <h2 {{ displayOffres() }}>Liste des 5 dernières offres :</h2>	
-                <h2 {{ displayDemandes() }}>Liste des 5 dernières demandes :</h2>
+            </div>
+
+            <div class="col">
+                <h2 class="text-warning">Bienvenue aux nouveaux !</h2>	
+                <h3 {{displayProfiles () }}>Liste des 5 dernières demandes :</h3>
             </div>
         </div>
 </main>
-
-<aside>
-    <div class="row my-5 border">
-        <div class="col">  
-            <h1>Votre équipe de développeurs</h1>
-                <img src="" alt="">
-            <h3>Donnez-nous une bonne note pour notre projet !</h3>
-                <p>Etudiant en centre de formation Web Force 3 Strasbourg</p>
-                <a href="https://www.wf3.fr/centre/webforce-3-strasbourg">WF3</a>
-        </div>
-    </div>
-  
-    
-</aside>
+>
 {% block body %}
