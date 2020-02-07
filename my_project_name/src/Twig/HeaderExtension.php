@@ -5,14 +5,17 @@ namespace App\Twig;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use App\Repository\UsersRepository;
 
 class HeaderExtension extends AbstractExtension
 {
     private $twig;
+    private $usersRepo;
 
-    public function __construct(Environment $twig)
+    public function __construct(Environment $twig, UsersRepository $usersRepo)
     {
         $this->twig = $twig;
+        $this->usersRepo = $usersRepo;
     }
 
     public function getFunctions(): array
