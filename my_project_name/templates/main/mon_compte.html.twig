@@ -3,7 +3,6 @@
 {% block title %}{{app.user.name}}{% endblock %}
 
 {% block body %}
-
     
     <div class="container">
         <h1 class="text-center py-5">Mon profil</h1>  
@@ -14,7 +13,7 @@
             <div class="col-8">
                     <h2>{{app.user.name}} {{app.user.lastname}}</p> 
                 <h2>Ma description</h2>
-                <p>Je suis un type trop cool et trop musclé en plus wesh!</p>
+                <p>{{app.user.description}}</p>
                 <a href="{{path('modif_compte',{name: app.user.name})}}" class="btn btn-outline-primary">Modifier mon profil</a>
             </div>
         </div>
@@ -53,30 +52,23 @@
         <div>
             <h2>Mes annonces:</h2>
             <a href="#" class="btn btn-outline-primary">Ajouter une annonce</a>
+            {% for annonce in annonces %}
+           
             <article class="border rounded my-3 p-2 bg-light">
+                <p><i>Annonce créée le par {{annonce.user.name}} {{annonce.user.lastname}}</i></p>
                 <div class="row">
-                    <h3 class="ml-3">Recherche musicien pour BO Jeu vidéo</h3>
+                   <a href="{{path("annonce", {id: annonce.id})}}"><h3 class="ml-3">{{annonce.titre}}</h3></a>
                     <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
                 </div>
                 
-                <p class="  ml-3">Je suis à la recherche d'un d'un musicien pour faire la BO de mon jeu vidéo qui est un RTS orienté...</p>
+                <p class="  ml-3">{{annonce.description}}</p>
                 <hr>
                 <div class="row">
                     Jean mimi - Suzette93 - Mouloud sont interesser
                 </div>
             </article>
-            <article class="border rounded my-3 p-2 bg-light">
-                <div class="row">
-                    <h3 class="ml-3">Recherche musicien pour BO Jeu vidéo</h3>
-                    <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
-                </div>
-                
-                <p class="ml-3">Je suis à la recherche d'un d'un musicien pour faire la BO de mon jeu vidéo qui est un RTS orienté...</p>
-                <hr>
-                <div class="row">
-                    Jean mimi - Suzette93 - Mouloud sont interesser
-                </div>
-            </article>
+           
+            {% endfor %}
         </div>
     </div>
 
