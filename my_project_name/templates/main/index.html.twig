@@ -1,9 +1,80 @@
 {% extends 'base.html.twig' %}
+{% block title %}Bienvenue sur l'accueil-mainController
 
-{% block title %}Hello MainController!{% endblock %}
+{% endblock %}
 
 {% block body %}
 
-    <h1 class="text-center py-5">Page accueil</h1>
+<main>
+	<div class="row my-2 ">
+		<div class="col">
+			<h1>{#{{ 'accueil.titre' }} #}Entrées des Artistes</h1>
+			<h3>{#{{ 'accueil.soustitre' }} #}</h3>
+		</div>
+	</div>
 
+	<div class=" row my-2 ">
+		<div class="col">
+			<p>
+				un petit message disant quel ROLE le logué a
+			</p>
+			{#  {% if app.user and app.user.hasRole('ROLE_ADMIN') %}
+						Vous êtes STAFF
+					    {% elseif app.user and app.user.hasRole('ROLE_PUBLISHER') %}
+						Vous êtes PUBLISHER
+					    {% else %}
+						Vous n'êtes pas connectés
+					    {% endif %}
+			
+					    {% if is_granted('ROLE_ADMIN') %}
+						Vous êtes ADMIN
+					    {% endif %} #}
+		</div>
+	</div>
+
+
+
+<div class=" row my-2">
+	<div class="col">
+	<h2 class="mb-2">Pourquoi et Comment ?</h2>
+	<h3>Voici un site destiné aux artistes.</h3>
+	<p>Parfois on a tous besoin d'un coup  de main, de matos ou un peu d'exposition. Voici l'endroit pour vous !
+		<br>
+		Que ce soit pour offrir vos services (car on sait tous que les artistes crèves de fin ) ou que vous soyez à la recherche d'aide pour votre business.
+	</p>
+</div> </div><hr>
+		<div class="row">
+			<div class="col">
+				<h2 class="text-warning">Bienvenue aux nouveaux !</h2>
+				<h3 {# {{displayProfiles ()/* ou autre nom de fonction, pour retourner les 5 dernièrs profiles */}} #}>
+				Voici les 5 derniers arrivés</h3>
+			</div>
+			<div class="row"><div class="col"><div class="card-body">
+			<h5 class="card-title">{# {{ profile.title }}#}</h5>
+			<p class="card-text">{# {{ profile.text|raw|slice(0,5) }}#}...</p>
+			<a href="{# {{ path('profile', { id: profile.id }) }}#}" class=" text-info">Liste des 5 dernières inscriptions</a>
+		</div></div></div>
+		</div>
+		<hr>
+	<div class="row">
+		<div class="col">
+			<h2 {# {{ displayAnnonces /* ou autre nom de fonction dev par Mattieu, ici pour afficher les 5 dernières annonce  */() }} #}>Liste des 5 dernières annonces :</h2>
+		{# {% for annonce in annonces %} {# pas sur de ce 'for'block #}
+		{# {% include 'liste/annonce.html.twig' with { annonce: annonce } %} 
+				    {#{% endfor %}#}
+	</div>
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">{# {{ annonce.title }} #}</h5>
+				<p class="card-text">{# {{ annonce.text|raw|slice(0,5) }} #}...</p>
+				<a href="{# {{ path('annonce', { id: annonce.id }) }} #}" class="btn btn-primary bg-info">Lire l'article</a>
+			</div>
+		</div>
+
+		
+		
+
+	</div>
+</main>
 {% endblock %}
+
