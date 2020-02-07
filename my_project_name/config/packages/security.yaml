@@ -47,4 +47,4 @@ security:
          - { path: ^/a/, roles: ROLE_PUBLISHER }
     
     role_hierarchy:
-        ROLE_GOD: [ROLE_PUBLISHER, ROLE_ALLOWES_TO_SWITCH]
+        ROLE_GOD: [ROLE_PUBLISHER, ROLE_ALLOWED_TO_SWITCH]
