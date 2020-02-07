@@ -36,7 +36,7 @@
 				<div class="col">
 					<div class="card-body">
 						<h5 class="card-title">{# {{ profile.title }}#}</h5>
-						<p class="card-text">{# {{ profile.text|raw|slice(0,5) }}#}...</p>
+						<p class="card-text"> {{ profiles.text|raw|slice(0,5) }}...</p>
 						<a href="{# {{ path('profile', { id: profile.id }) }}#}" class=" text-info">Liste des 5 dernières inscriptions</a>
 					</div>
 				</div>
