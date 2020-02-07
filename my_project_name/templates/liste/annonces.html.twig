@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des annonces{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Liste des annonces</h1>
+
+    {% for annonce in annonces %}
+
+    <div class="container bg-light border my-5">
+
+        <h2>{{annonce.titre}} </h2>
+
+           <p> {{annonce.description}}</p>
+
+           <a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary">Lire l'annonce</a>
+        </div>
+
+    {% endfor %}
+</div>
+{% endblock %}

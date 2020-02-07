@@ -37,6 +37,8 @@ class SecurityController extends AbstractController
             );
             $now = new \DateTime();
             $user
+                ->setCreatedAt($now)
+                ->setUpdatedAt($now)
                 -> setToken($this->generateToken())
                 -> setActive(0)
             ;

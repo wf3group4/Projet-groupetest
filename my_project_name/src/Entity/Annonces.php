@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Users;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AnnoncesRepository")
@@ -43,7 +46,7 @@ class Annonces
     private $active;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="annonces")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="annonces")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
