@@ -8,14 +8,14 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#"><i class="fas fa-home"></i> Annonces <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#"> Annonces <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-home"></i> Les profiles <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ path('listes-profils')}}">Les profils <i class="fas fa-address-book"></i><span class="sr-only">(current)</span></a>
                 </li>
             </ul>
 
-            <a class="navbar-brand  justify-content-between" href="#">Logo</a>
+            <a class="navbar-brand  justify-content-between" href="{{ path('accueil') }}">Logo</a>
 
 
             <ul class="navbar-nav ml-auto">
@@ -23,14 +23,16 @@
                 <li class="nav-item dropdown">
 
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-users"></i> Espace utilisateur <i class="fas fa-caret-down"></i>
+                        <i class="fas fa-user"></i> Espace utilisateur <i class="fas fa-caret-down"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Se connecter <i class="fas fa-sign-in-alt"></i></a>
-                        <a class="dropdown-item" href="#">S'inscrire <i class="fas fa-user-plus"></i></a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Mon compte <i class="fas fa-user"></i></a>
-                        <a class="dropdown-item" href="#">Se déconnecter <i class="fas fa-sign-out-alt"></i></a>
+                        {% if not app.user %}
+                            <a class="dropdown-item" href="{{ path('app_login') }}">Se connecter <i class="fas fa-sign-in-alt"></i></a>
+                            <a class="dropdown-item" href="{{ path('app_register')}}">S'inscrire <i class="fas fa-user-plus"></i></a>
+                        {% else %}
+                            <a class="dropdown-item" href="#">Mon compte <i class="fas fa-user"></i></a>
+                            <a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter <i class="fas fa-sign-out-alt"></i></a>
+                        {% endif %}
                     </div>
                 </li>
             </ul>

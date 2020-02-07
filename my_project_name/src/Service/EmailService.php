@@ -16,7 +16,7 @@ class EmailService{
         MailerInterface $mailer
     ){
         $this->mailer = $mailer;
-        $this->mon_email = 'demo.wf3.victor@gmail.com';
+        $this->mon_email = 'batuneuro@gmail.com';
         $this->data = array(
             'from' => false,
             'to' => false,

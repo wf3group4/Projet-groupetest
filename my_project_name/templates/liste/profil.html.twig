@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ profil.name }}{% endblock %}
+
+{% block body %}
+
+    <div class="mb-3">
+        <a href="{{ path('listes-profils') }}" class="small"><i class="far fa-arrow-alt-circle-left"></i> Retour aux profiles</a>
+    </div>
+
+    <img src="{{ asset('images/imageDefault.jpg') }}" class="img-fluid">
+    <h1>{{ profil.name }} {{ profil.lastname }}</h1>
+    <p>{{ profil.email }}</p>
+
+    <div>
+        <p>{{ profil.description }}</p>
+        <a href="#" class="btn btn-primary">Me contacter</a>
+    </div>
+
+{% endblock %}

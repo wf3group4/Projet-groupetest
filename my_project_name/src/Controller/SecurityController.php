@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
 
             $emailService->register($user);
 
-           $this->addFlash('success', "Inscription bien prise en compte. Clique sur le lien wesh envoyé à l'email ".$user->getEmail());
+           $this->addFlash('success', "Inscription bien prise en compte. Clique sur le lien envoyé à l'email ".$user->getEmail());
            return $this->redirectToRoute('app_login');
 
             // return $guardHandler->authenticateUserAndHandleSuccess(
