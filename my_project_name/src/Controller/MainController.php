@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
-use App\Controller\ListeController;
 
 class MainController extends AbstractController
 {
@@ -14,16 +13,11 @@ class MainController extends AbstractController
      * @Route("/", name="accueil")
      */
     public function index()
-    {   
-        //requête pour recup données en base de données
-            $profils = Profils();
-
+    {
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
         ]);
     }
-
-
 
     /**
      * @Route("/mon-compte", name="mon_compte")
