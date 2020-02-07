@@ -27,4 +27,15 @@ class MainController extends AbstractController
             'controller_name' => 'MainController',
         ]);
     }
+
+     
+    /**
+     * @Route("/modification-compte", name="modif_compte")
+     */
+    public function modif_compte()
+    {
+        return $this->render('main/modif_compte.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
 }
