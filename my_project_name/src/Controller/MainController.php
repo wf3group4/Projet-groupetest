@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use App\Repository\UsersRepository;
 
 class MainController extends AbstractController
 {
@@ -30,10 +32,13 @@ class MainController extends AbstractController
 
      
     /**
-     * @Route("/modification-compte", name="modif_compte")
+     * @Route("/modification-compte/{name}", name="modif_compte")
      */
-    public function modif_compte()
+    public function modif_compte($name, Request $request, UsersRepository $usersRepo )
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $usersRepo->find($name); 
+       
         return $this->render('main/modif_compte.html.twig', [
             'controller_name' => 'MainController',
         ]);

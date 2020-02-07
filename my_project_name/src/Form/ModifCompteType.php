@@ -12,17 +12,18 @@ class ModifCompteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email')
-            ->add('roles')
-            ->add('password')
-            ->add('Name')
-            ->add('Lastname')
-            ->add('token')
-            ->add('active')
-            ->add('description')
-            ->add('avatar')
-            ->add('created_at')
-            ->add('updated_at')
+            ->add('Name', TextType::class, [
+                'label' => 'Prénom'
+            ])
+            ->add('Lastname', TextType::class, [
+                'label' => 'Nom'
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'attr' => [
+                    'rows' => 10
+                ]
+            ])
         ;
     }
 

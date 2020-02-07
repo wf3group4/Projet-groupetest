@@ -15,7 +15,7 @@
                     <h2>{{app.user.name}} {{app.user.lastname}}</p> 
                 <h2>Ma description</h2>
                 <p>Je suis un type trop cool et trop musclé en plus wesh!</p>
-                <a href="#" class="btn btn-outline-primary">Modifier mon profil</a>
+                <a href="{{path('modif_compte',{name: app.user.name})}}" class="btn btn-outline-primary">Modifier mon profil</a>
             </div>
         </div>
         <hr>
