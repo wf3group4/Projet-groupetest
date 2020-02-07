@@ -66,21 +66,21 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
     }
         */
 
-    public function getLastProfiles($nbProfiles = 5)
+    public function getLastProfil($profil = 5)
     {
         return $this->findBy(
             array(),
             array('id' => 'DESC'),
-            $nbProfiles
+            $profil
         );
     }
 
 
-    public function lastAnnonces($nbAnnonces = 5){
+    public function lastAnnonces($Annonces = 5){
         return $this->findBy(
             array(),
             array('id' => 'DESC'),
-            $nbAnnonces
+            $Annonces
         );
     }
 }
