@@ -16,6 +16,9 @@ class MainController extends AbstractController
      */
     public function index()
     {
+
+
+
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
         ]);
@@ -23,12 +26,14 @@ class MainController extends AbstractController
 
     
     /**
-     * @Route("/mon-compte", name="mon_compte")
+     * @Route("/mon-compte/", name="mon_compte")
      */
-    public function mon_compte()
+    public function mon_compte( AnnoncesRepository $annoncesRepo)
     {
+        $annonces = $annoncesRepo->getUserAnnonces($this->getUser());
+     
         return $this->render('main/mon_compte.html.twig', [
-            'controller_name' => 'MainController',
+            'annonces' => $annonces
         ]);
     }
 
