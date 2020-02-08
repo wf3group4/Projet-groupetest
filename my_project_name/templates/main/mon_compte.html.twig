@@ -53,6 +53,7 @@
             <h2>Mes annonces:</h2>
             <a href="#" class="btn btn-outline-primary">Ajouter une annonce</a>
             {% for annonce in annonces %}
+           
             <article class="border rounded my-3 p-2 bg-light">
                 <p><i>Annonce créée le par {{annonce.user.name}} {{annonce.user.lastname}}</i></p>
                 <div class="row">
