@@ -31,7 +31,7 @@
                 <h2>Ma description</h2>
 
                 <p>{{ app.user.description }}</p>
-                <p>Profil mis à jour le : </p>
+                <p>Profil mis à jour le : {{ app.user.getUpdatedAt|date('Y-m-d') }}</p>
                 <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
             </div>
         </div>

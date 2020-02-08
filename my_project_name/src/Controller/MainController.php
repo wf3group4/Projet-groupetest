@@ -51,6 +51,7 @@ class MainController extends AbstractController
                         $form->get('password')->getData()
                     )
                 )
+                ->setUpdatedAt(new \DateTime())
             ;
 
                 $file = $form['avatar']->getData();

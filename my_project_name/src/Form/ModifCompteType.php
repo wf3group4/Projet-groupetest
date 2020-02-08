@@ -21,17 +21,24 @@ class ModifCompteType extends AbstractType
         $builder
             ->add('Name', TextType::class, [
                 'label' => 'Prénom',
+                'mapped' => false,
             ])
             ->add('Lastname', TextType::class, [
                 'label' => 'Nom',
+                'mapped' => false,
             ])
             ->add('Email', EmailType::class, [
                 'label' => 'Email',
+                'mapped' => false,
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+                'required' => false,
                 'attr' => [
                     'rows' => 10
+                ],
+                'row_attr' => [
+                    'mapped' => false,
                 ]
             ])
             ->add('password', RepeatedType::class, [
