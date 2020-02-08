@@ -32,7 +32,6 @@ class MainController extends AbstractController
     public function mon_compte( AnnoncesRepository $annoncesRepo)
     {
         $annonces = $annoncesRepo->getUserAnnonces($this->getUser());
-     
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces
         ]);
