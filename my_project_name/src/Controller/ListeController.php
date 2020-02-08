@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annonces;
 use App\Entity\Users;
+use App\Entity\Avis;
 use App\Repository\AnnoncesRepository;
 
 
@@ -29,12 +30,11 @@ class ListeController extends AbstractController
     /**
      * @Route("/profil/{id}", name="profil")
      */
-    public function Profil($id)
+    public function Profil($id, Request $request)
     {
         // On récupère User repository
         $em = $this->getDoctrine()->getManager();
         $usersRepo = $em->getRepository(Users::class);
-
         // requête pour récupérer tous les profil
         $profil = $usersRepo->find($id);
 
@@ -42,6 +42,51 @@ class ListeController extends AbstractController
             $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
             return $this->redirectToRoute('accueil');
         }
+
+        //Ajoute un commentaire
+
+        if($request->isMethod('POST'))
+        {
+            $data = $request->request->all();
+
+            $avis = (new Avis())
+                ->setEmail($data['email'])
+                ->setContenu($data['contenu'])
+                ->setRgpd(1)
+                ->setCreateAt(new \DateTime())
+                ->setUsers($profil)
+                ;
+
+            $em->persist($avis);
+            $em->flush();
+
+            $this->addFlash('success', 'Avis Ajouté !');
+            return $this->redirectToRoute('profil', ['id' => $profil->getId()] );
+
+        }
+
+        // Supprimer un avis
+
+        $action = $request->query->get('action');
+        if($action && $action == 'delete')
+        {
+            $id_avis = $request->query->get('id_avis');
+
+            if($id_avis)
+            {
+                $avisRepo = $em->getRepository(Avis::class);
+                $avis = $avisRepo->find($id_avis);
+
+                $em->remove($avis);
+                $em->flush();
+
+                $this->addFlash('success', 'Vous venez de supprimer un avis !');
+                return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
+            }
+        }
+
+
+
 
         return $this->render('liste/profil.html.twig', [
             'profil' => $profil,

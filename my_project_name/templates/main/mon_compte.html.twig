@@ -5,16 +5,34 @@
 {% block body %}
 
     <div class="container">
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <h1 class="text-center py-5">Mon profil</h1>  
         <div class="row">
             <div class="col-4">
-                <img src="images/{{ app.user.avatar }}" alt="image profile" class="img-thumbnail">
+                {% if app.user.avatar %}
+                        <img src="images/{{ app.user.avatar }}" alt="avatar" class="w-50">
+                {% else %}
+                        <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar" class="img-thumbnail" >
+                {% endif %}
             </div>
             <div class="col-8">
                     <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
                 <h2>Ma description</h2>
+
                 <p>{{ app.user.description }}</p>
-                <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a> <!-- MODIFIER LE LIEN -->
+                <p>Profil mis à jour le : </p>
+                <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
             </div>
         </div>
         <hr>

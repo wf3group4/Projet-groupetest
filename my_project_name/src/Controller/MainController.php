@@ -40,7 +40,6 @@ class MainController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $user = $usersRepo->find($id);
-
         $form = $this->createForm(ModifCompteType::class, $user);
         $form->handleRequest($request);
 
@@ -51,7 +50,8 @@ class MainController extends AbstractController
                         $user,
                         $form->get('password')->getData()
                     )
-                );
+                )
+            ;
 
                 $file = $form['avatar']->getData();
                     if($file){
