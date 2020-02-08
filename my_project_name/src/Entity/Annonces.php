@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Users;
 
@@ -50,6 +52,16 @@ class Annonces
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Users", inversedBy="annonces_postule")
+     */
+    private $user_postulant;
+
+    public function __construct()
+    {
+        $this->user_postulant = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -124,6 +136,32 @@ class Annonces
     public function setUser(?users $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Users[]
+     */
+    public function getUserPostulant(): Collection
+    {
+        return $this->user_postulant;
+    }
+
+    public function addUserPostulant(Users $userPostulant): self
+    {
+        if (!$this->user_postulant->contains($userPostulant)) {
+            $this->user_postulant[] = $userPostulant;
+        }
+
+        return $this;
+    }
+
+    public function removeUserPostulant(Users $userPostulant): self
+    {
+        if ($this->user_postulant->contains($userPostulant)) {
+            $this->user_postulant->removeElement($userPostulant);
+        }
 
         return $this;
     }
