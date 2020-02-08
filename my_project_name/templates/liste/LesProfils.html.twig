@@ -45,7 +45,9 @@
                         <div class="row">
                             <div class="col-12">
                                 <h2>{{ profil.name }} {{ profil.lastname }}</h2>
+                                {% if not profil.description == null %}
                                 <p>{{ profil.description|raw|slice(0,60) }}...</p>
+                                {% endif %}
                                 <div class="row">
                                     <div class="col-4">
                                         <p>{{ profil.email }}</p>
