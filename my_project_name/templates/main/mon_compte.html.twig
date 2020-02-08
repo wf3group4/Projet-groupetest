@@ -3,11 +3,6 @@
 {% block title %}{{app.user.name}}{% endblock %}
 
 {% block body %}
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> origin/marc
     <div class="container">
 
         {% for label, messages in app.flashes %}
@@ -33,15 +28,10 @@
             <div class="col-8">
                     <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
                 <h2>Ma description</h2>
-<<<<<<< HEAD
 
                 <p>{{ app.user.description }}</p>
                 <p>Profil mis à jour le : </p>
                 <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
-=======
-                <p>{{app.user.description}}</p>
-                <a href="{{path('modif_compte',{name: app.user.name})}}" class="btn btn-outline-primary">Modifier mon profil</a>
->>>>>>> origin/marc
             </div>
         </div>
         <hr>
