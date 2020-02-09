@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Form\ModifCompteType;
+use App\Form\PortfolioType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
 use App\Repository\AnnoncesRepository;
+use App\Repository\PortfolioRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends AbstractController
@@ -18,8 +20,6 @@ class MainController extends AbstractController
     public function index()
     {
 
-
-
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
         ]);
@@ -29,11 +29,51 @@ class MainController extends AbstractController
     /**
      * @Route("/mon-compte/", name="mon_compte")
      */
-    public function mon_compte( AnnoncesRepository $annoncesRepo)
+    public function mon_compte( 
+        AnnoncesRepository $annoncesRepo, 
+        PortfolioRepository $portfolioRepo,
+        Request $request)
     {
-        $annonces = $annoncesRepo->getUserAnnonces($this->getUser());
+        $user = $this->getUser();
+        $annonces = $annoncesRepo->getUserAnnonces($user);
+        // $portfolios = $portfolioRepo->getUserPortfolios($this->getUser());
+
+        //Ajout de liens/images au portfolio
+        $em = $this->getDoctrine()->getManager();
+        $portfolios = $portfolioRepo->getUserPortfolios($user);
+
+        $form = $this->createForm(PortfolioType::class, $portfolios);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $portfolios = $form->getData()
+                ->setUser($user)
+            ;
+
+                $file = $form['img_url']->getData();
+                    if($file){
+                       $repertoire = $this->getParameter('images');
+                       $nameOfPicture = 'portfolio-'.uniqid().'.'.$file->guessExtension();
+                       $file->move($repertoire, $nameOfPicture);
+                       $user->setImgUrl($nameOfPicture);
+                    }
+
+    
+            $em->persist($portfolios);
+            $em->flush();
+
+            $this->addFlash('success', "Les réalisations on bien été modifiées");
+
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $user->getId()
+            ]);
+        }
+
+       
         return $this->render('main/mon_compte.html.twig', [
-            'annonces' => $annonces
+            'annonces' => $annonces,
+            'portfolios' =>$portfolios, 
+            'form' => $form->createView(),
         ]);
     }
 

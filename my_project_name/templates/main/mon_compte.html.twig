@@ -16,20 +16,21 @@
             {% endfor %}
         {% endfor %}
 
-        <h1 class="text-center py-5">Mon profil</h1>  
+        <h1 class="text-center py-5" id="titre">Mon profil</h1>  
         <div class="row">
             <div class="col-md-4">
                 {% if app.user.avatar %}
-                        <img src="images/{{ app.user.avatar }}" alt="avatar" class="w-50 d-flex mx-auto">
+                        <img src="{{ asset('images/'~app.user.avatar)}}" alt="avatar" class="w-75 d-flex mx-auto rounded-circle">
                 {% else %}
                         <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar" class="img-thumbnail" >
                 {% endif %}
+                <h2 class="text-center">{{app.user.name}} {{ app.user.lastname }} </h2>
             </div>
             <div class="col-md-8">
-                    <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
+                   
                 <h2>Ma description</h2>
 
-                <p>{{ app.user.description }}</p>
+                <p>{{ app.user.description | nl2br }}</p>
                 <p>Profil mis à jour le : </p>
                 <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
             </div>
@@ -37,54 +38,38 @@
         <hr>
         <div>
             <h2>Mes réalisations</h2>
-            <a href="#" class="btn btn-outline-primary">Ajouter une image</a>
+            <h3>Ajouter une réalisations</h3>
+            {{form(form)}}
             <div class="row d-flex flex-wrap">
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                {% for portfolio in portfolios %}
+                <a href="#"  id="img_portfolio" >
+                    <div class="card p-3 m-3" style="width: 18rem;">
+                        <img class="card-img-top" src="{{ asset('images/'~portfolio.imgUrl)}}" alt="Card image cap">
                     </div>
-                </div>
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>  
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>    
-            </div>
+                </a>    
+                {% endfor %}        
+            </div><!--fin card-->   
         </div>
         <hr>
+
         <div>
             <h2>Mes annonces:</h2>
             <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
             
             {% for annonce in annonces %}
-            <article class="border rounded my-3 p-2 bg-light">
-                <p><i>Annonce créée le par {{annonce.user.name}} {{annonce.user.lastname}}</i></p>
-                <div class="row">
-                   <a href="{{path("annonce", {id: annonce.id})}}"><h3 class="ml-3">{{annonce.titre}}</h3></a>
-                    <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
-                </div>
-                
-                <p class="  ml-3">{{annonce.description}}</p>
-                <hr>
-                <div class="row">
-                    Jean mimi - Suzette93 - Mouloud sont interesser
-                </div>
-            </article>
-           
+                <article class="border rounded my-3 p-2 bg-light">
+                    <p><i>Annonce créée le {{annonce.user.createdAt | date('d M Y')}} par {{annonce.user.name}} {{annonce.user.lastname}}</i></p>
+                    <div class="row">
+                       <a href="{{path("annonce", {id: annonce.id})}}"><h3 class="ml-3">{{annonce.titre}}</h3></a>
+                        <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
+                    </div>
+
+                    <p class="  ml-3">{{annonce.description}}</p>
+                    <hr class="mb-0">
+                    <div class="row">
+                       <p class="mb-0"> X personnes sont intéressés par cette offre</p>
+                    </div>
+                </article>
             {% endfor %}
         </div>
     </div>

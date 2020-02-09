@@ -19,22 +19,19 @@ class PortfolioRepository extends ServiceEntityRepository
         parent::__construct($registry, Portfolio::class);
     }
 
-    // /**
-    //  * @return Portfolio[] Returns an array of Portfolio objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Portfolio[] Returns an array of Portfolio objects
+      */
+    
+    public function getUserPortfolios($user)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        return $this->findBy(
+            array('user' => $user)
+        )
+        
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Portfolio

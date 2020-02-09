@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : Dim 09 fév. 2020 à 00:14
+-- Généré le : Dim 09 fév. 2020 à 19:21
 -- Version du serveur :  10.4.11-MariaDB
 -- Version de PHP : 7.2.27
 
@@ -59,6 +59,15 @@ CREATE TABLE `annonces_users` (
   `users_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `annonces_users`
+--
+
+INSERT INTO `annonces_users` (`annonces_id`, `users_id`) VALUES
+(1, 2),
+(1, 5),
+(3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -97,7 +106,8 @@ INSERT INTO `migration_versions` (`version`, `executed_at`) VALUES
 ('20200206145248', '2020-02-08 21:22:56'),
 ('20200206145401', '2020-02-08 21:22:57'),
 ('20200206145613', '2020-02-08 21:22:58'),
-('20200206173543', '2020-02-08 21:22:58');
+('20200206173543', '2020-02-08 21:22:58'),
+('20200209162114', '2020-02-09 16:21:27');
 
 -- --------------------------------------------------------
 
@@ -108,8 +118,19 @@ INSERT INTO `migration_versions` (`version`, `executed_at`) VALUES
 CREATE TABLE `portfolio` (
   `id` int(11) NOT NULL,
   `img_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `liens` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `portfolio`
+--
+
+INSERT INTO `portfolio` (`id`, `img_url`, `user_id`, `liens`) VALUES
+(1, 'voleur.jpg', 1, NULL),
+(2, 'bucheron.jpg', 1, NULL),
+(5, 'chevalier.jpg', 3, NULL),
+(6, 'foxy2.jpg', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -210,7 +231,7 @@ ALTER TABLE `avis`
 -- AUTO_INCREMENT pour la table `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `users`
