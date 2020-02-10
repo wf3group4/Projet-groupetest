@@ -156,7 +156,7 @@ class ListeController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         if ($id == 0) {
-            if ($this->getUser()->hasRoles('ROLE_GOD')) {
+            if ($this->getUser()->hasRoles('ROLE_ADMIN')) {
                 throw new Exception('Access denied');
             }
 
@@ -171,7 +171,7 @@ class ListeController extends AbstractController
             }
 
             // On vérifie si l'utilisateur à écrit l'annonce
-            if (!$this->getUser()->hasRoles('ROLE_GOD')) {
+            if (!$this->getUser()->hasRoles('ROLE_ADMIN')) {
                 if ($annonce->getUser() != $this->getUser()) {
                     throw new Exception("C'est pas ton annonce");
                 }
@@ -208,7 +208,7 @@ class ListeController extends AbstractController
             $em->persist($annonce);
             $em->flush();
 
-            $this->addFlash('success', "L'article a bien été " . ($nouveau ? 'créé' : 'modifié') . ".");
+            $this->addFlash('success', "L'annonce a bien été " . ($nouveau ? 'créé' : 'modifié') . ".");
             return $this->redirectToRoute('mon_compte');
         }
 
