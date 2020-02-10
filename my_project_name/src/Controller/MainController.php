@@ -15,13 +15,13 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function index()
+    public function accueil(UsersRepository $usersRepo)
     {
+        $personnes = $usersRepo->getLastUser();
+        //dump($titre); die();
 
-
-
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+        return $this->render('main/accueil.html.twig', [
+            'personnes'=> $personnes
         ]);
     }
 

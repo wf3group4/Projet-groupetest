@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Bienvenue sur l'accueil-mainController
+{% block title %}Bienvenue sur l'accueil
 
 {% endblock %}
 
@@ -9,46 +9,58 @@
 		<div class="row text-center py-5 ">
 			<div class="col">
 				<img src="" alt="">
-				<h1>{#{{ 'accueil.titre' }} #}Entrées des Artistes</h1>
+				<h1>{#{{ 'accueil.titre' }} #}</h1>
 				
 			</div>
 		</div>
 
 		<img src="{{asset('images/eyes_colors.png')}}" title="eyes-colors" alt="eyes multicolor">
 
-		<div class=" row ">
-			<div class="col">
-				<h2 class="text-center py-5">Pourquoi et Comment ?</h2>
-				<h3>Voici un site destiné aux artistes.</h3>
-				<p>Parfois on a tous besoin d'un coup  de main, de matos ou un peu d'exposition. Voici l'endroit pour vous !
-					<br>
-					Que ce soit pour offrir vos services (car on sait tous que les artistes crèves de fin ) ou que vous soyez à la recherche d'aide pour votre business.
-				</p>
+	<div class="row jumbotron index-jumbotron">
+		<div class="container">
+			::before
+			<h1 class="index-jumbotron-title">Entrées des Artistes</h1>	
+			<p class="index-jumbotron-text">Parfois on a tous besoin d'un coup  de main, de matos ou un peu d'exposition. Voici l'endroit pour vous !
+			<br>
+			Que ce soit pour offrir vos services (car on sait tous que les artistes crèves de fin ) ou que vous soyez à la recherche d'aide pour votre business.
+			</p>
+			<h3>Voici un site destiné aux artistes.</h3>
+			::after
+			</div>
+		</div>
+	
+			
+				
+			
 			</div>
 		</div><hr>
-		<div class="row">
+		
+	
+
 			<div class="col">
 				<h2 class="text-warning text-center py-5">Bienvenue aux nouveaux !</h2>
-				{# {{displayProfiles ()/* ou autre nom de fonction, pour retourner les 5 dernièrs profiles */}} #}
-
+				
 			</div>
 			<div class="row">
 				<div class="col">
 					<div class="card-body">
-						<h5 class="card-title">{# {{ profile.title }}#}</h5>
-						<p class="card-text"> {{ profil.text|raw|slice(0,5) }}...</p>
-						<a href="{# {{ path('profile', { id: profile.id }) }}#}" class=" text-info">Liste des 5 dernières inscriptions</a>
+						<h5 class="card-title">{# {{ profile.title|date }}#}</h5>
+						{%for personne in personnes %}
+						{# retourner les 5 dernièrs profiles #}
+						<p class="card-text">...</p>
+						<a href="{# {{ path('profile', { id: profile.id }) }}#}" class=" text-info"></a>
 					</div>
 				</div>
 			</div>
 		</div>
+						{% endfor %}
 		<hr>
 		<div class="row">
 			<div class="col">
-				<h2 {# {{ displayAnnonces /* ou autre nom de fonction dev par Mattieu, ici pour afficher les 5 dernières annonce */() }} #}>Liste des 5 dernières annonces :</h2>
-				{# {% for annonce in annonces %} {# pas sur de ce 'for'block #}
+				<h2 {# {{ displayAnnonces /* afficher les 5 dernières annonce */ }} #}>Liste des 5 dernières annonces :</h2>
+				{#{% for annonce in annonces %} 
 				{# {% include 'liste/annonce.html.twig' with { annonce: annonce } %} 
-								    {#{% endfor %}#}
+				{% endfor %}#}
 			</div>
 			<div class="card">
 				<div class="card-body">
