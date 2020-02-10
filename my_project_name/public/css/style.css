@@ -6,24 +6,21 @@
     background-color: #b1ff33;
 }
 
-.container{
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
 
 *:before, *:after {
     box-sizing: border-box;
 }
 
+.container:before{
+    clear: both;
+}
 .container:after{
     clear: both;
 }
 
 body{
     font-family: Lato, Arial, Helvetica, sans-serif;
-    font-size: 14px;
+
     line-height: 1.5;
     color:rgb(14, 46, 38) ;
 }
@@ -44,11 +41,9 @@ index-jumbotron h1{
     color: inherit;
     max-width: 526px;
 }
-h1, h2, h3, h4 {
-    margin-top: 15px;
-    margin-bottom: 8px;
-}
+
 .indexojumbotron p{
     margin-bottom: 20px;
     font-weight: 200;
 }
+

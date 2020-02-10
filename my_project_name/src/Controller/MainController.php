@@ -20,7 +20,7 @@ class MainController extends AbstractController
         $personnes = $usersRepo->getLastUser();
         //dump($titre); die();
 
-        return $this->render('main/accueil.html.twig', [
+        return $this->render('main/index.html.twig', [
             'personnes'=> $personnes
         ]);
     }
