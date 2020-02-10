@@ -29,11 +29,11 @@
                     {% endfor %}
                 {% endfor %}
             </div>
-            
-            <div class="container">
-                {% block body %}
-                {% endblock %}
-            </div>
+
+            {% set currentPage = app.request.attributes.get('_route') %}
+            {{ currentPage != 'accueil' ? '<div class="container">' }}
+                 {% block body %}{% endblock %}
+            {{ currentPage != 'accueil' ? '</div">' }} 
 
         </main>
 

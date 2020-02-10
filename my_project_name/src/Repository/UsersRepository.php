@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method Users[]    findAll()
  * @method Users[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
 class UsersRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
@@ -36,10 +37,19 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
+     /**
+      * @return User[] Returns an array of User objects
+     */
+    public function getLastUser($user = 5)
+    {
+        return $this->findBy(
+            array(),
+            array('id' => 'DESC'),
+            $user
+        );
+    }
+
+/*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('u')
@@ -63,5 +73,16 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
             ->getOneOrNullResult()
         ;
     }
-    */
+        */
+
+  
+
+
+    public function lastAnnonces($Annonces = 5){
+        return $this->findBy(
+            array(),
+            array('id' => 'DESC'),
+            $Annonces
+        );
+    }
 }

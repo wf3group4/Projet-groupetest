@@ -3,3 +3,54 @@
 }
 
 /* ------------PAGE MON COMPTE------------- */
+
+
+
+/* ------------PAGE ACCUEIL------------- */
+
+
+#Profiles:nth-of-type(4){
+    background-color: #b1ff33;
+}
+
+
+*:before, *:after {
+    box-sizing: border-box;
+}
+
+.container:before{
+    clear: both;
+}
+.container:after{
+    clear: both;
+}
+
+body{
+    font-family: Lato, Arial, Helvetica, sans-serif;
+
+    line-height: 1.5;
+    color:rgb(14, 46, 38) ;
+}
+
+index-jumbotron h1{
+    font-size: 42;
+    margin-bottom: 20px;
+}
+
+.jumbotron h1, .jumbotron .h1 {
+    color: inherit;
+}
+.index-jumbotron-title{
+    text-transform: uppercase;
+}
+
+.index-jumbotron-title, .index-jumbotron-text{
+    color: inherit;
+    max-width: 526px;
+}
+
+.indexojumbotron p{
+    margin-bottom: 20px;
+    font-weight: 200;
+}
+
