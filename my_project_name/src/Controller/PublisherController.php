@@ -12,8 +12,8 @@ class PublisherController extends AbstractController
      */
     public function publisher_admin()
     {
-        if ($this->getUser()->hasRoles('ROLE_GOD')){
-            return $this->redirectToRoute('god');
+        if ($this->getUser()->hasRoles('ROLE_ADMIN')){
+            return $this->redirectToRoute('admin');
         }
         return $this->render('publisher/publisher_admin.html.twig', [
             'controller_name' => 'PublisherController',

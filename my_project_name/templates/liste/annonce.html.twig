@@ -11,7 +11,7 @@
 
 <div class="row">
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-body">
                 <h2 class="card-title">Information sur celui qui a posté l'annonce</h2>
@@ -35,7 +35,7 @@
     </div>
     <!-- fin de la col card -->
 
-    <div class="col-md-9">
+    <div class="col-md-8">
         <div class="row d-flex flex-column">
             <div class="col">
                 <div class="">{{annonce.description}}</div>
@@ -46,7 +46,7 @@
 
             {% if annonce in app.user.annoncesPostule %}
             <div class="col">
-                <a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-primary my-5">Ca ne
+                <a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-info my-5">Ca ne
                     m'intéresse plus</a>
             </div>
             {% else %}
