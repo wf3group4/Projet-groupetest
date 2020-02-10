@@ -37,7 +37,7 @@ class ListeController extends AbstractController
         $usersRepo = $em->getRepository(Users::class);
         // requête pour récupérer tous les profil
         $profil = $usersRepo->find($id);
-
+        dump($profil);die;
         if (!$profil) {
             $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
             return $this->redirectToRoute('accueil');
@@ -80,7 +80,7 @@ class ListeController extends AbstractController
             }
         }
 
-
+        // dump($profil);die;
 
 
         return $this->render('liste/profil.html.twig', [

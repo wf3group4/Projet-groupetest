@@ -10,7 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
 use App\Repository\AnnoncesRepository;
 use App\Repository\PortfolioRepository;
+use App\Repository\AvisRepository;
 use App\Entity\Portfolio;
+use App\Entity\Avis;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends AbstractController
@@ -36,12 +38,14 @@ class MainController extends AbstractController
         AnnoncesRepository $annoncesRepo, 
         PortfolioRepository $portfolioRepo,
         UsersRepository $userRepo,
+        AvisRepository $avisRepo,
         Request $request)
     {
         $user = $userRepo->getUser($id);
         // dump($user);die;
         $annonces = $annoncesRepo->getUserAnnonces($id);
         $liens = $portfolioRepo->getUserLiens($id);
+        $avis = $avisRepo->getUserAvis($id);
 
         //Ajout de liens/images au portfolio
         $em = $this->getDoctrine()->getManager();
@@ -98,9 +102,47 @@ class MainController extends AbstractController
                  ]);
          }
 
+        //Ajoute un commentaire
+
+        if ($request->isMethod('POST')) {
+            $data = $request->request->all();
+
+            $avis = (new Avis())
+                ->setEmail($data['email'])
+                ->setContenu($data['contenu'])
+                ->setRgpd(1)
+                ->setCreateAt(new \DateTime())
+                ->setUsers($user);
+
+            $em->persist($avis);
+            $em->flush();
+
+            $this->addFlash('success', 'Avis Ajouté !');
+            return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
+        }
+
+        // Supprimer un avis
+
+        $action = $request->query->get('action');
+        if ($action && $action == 'delete') {
+            $id_avis = $request->query->get('id_avis');
+
+            if ($id_avis) {
+                $avisRepo = $em->getRepository(Avis::class);
+                $avis = $avisRepo->find($id_avis);
+
+                $em->remove($avis);
+                $em->flush();
+
+                $this->addFlash('success', 'Vous venez de supprimer un avis !');
+                return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
+            }
+        } 
+
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces,
             'portfolios' => $portfolios, 
+            'avis' => $avis,
             'liens' => $liens,
             'id' => $id,
             'user' => $user,

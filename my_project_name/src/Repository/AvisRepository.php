@@ -19,6 +19,16 @@ class AvisRepository extends ServiceEntityRepository
         parent::__construct($registry, Avis::class);
     }
 
+    public function getUserAvis($user)
+    {
+        return $this->createQueryBuilder('avis')
+        ->andWhere('avis.users = :user')
+            ->setParameter('user', $user)
+        ->andWhere('avis.rgpd = 1')
+        ->getQuery()
+        ->getResult()
+        ;
+    }
     // /**
     //  * @return Avis[] Returns an array of Avis objects
     //  */
