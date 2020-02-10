@@ -44,29 +44,6 @@
             </div><!--fin card-->   
         </div>
         <hr>
-
-        <div>
-            <h2>Mes annonces:</h2>
-            <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
-            
-            {% for annonce in annonces %}
-                <article class="border rounded my-3 p-2 bg-light">
-                    <p><i>Annonce créée le {{annonce.user.createdAt | date('d M Y')}} par {{annonce.user.name}} {{annonce.user.lastname}}</i></p>
-                    <div class="row">
-                       <a href="{{path("annonce", {id: annonce.id})}}"><h3 class="ml-3">{{annonce.titre}}</h3></a>
-                        <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
-                    </div>
-
-                    <p class="  ml-3">{{annonce.description}}</p>
-                    <hr class="mb-0">
-                    <div class="row">
-                       <p class="mb-0"> X personnes sont intéressés par cette offre</p>
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
-    </div>
-    <hr>
     <div>
         <h2>Mes annonces:</h2>
         <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
@@ -75,9 +52,7 @@
         <article class="border rounded my-3 p-2 bg-light">
             <div class="row">
                 <div class="col-md-7">
-                    <i>Annonce créée le par
-                        {{annonce.user.name}}
-                        {{annonce.user.lastname}}</i>
+                    <i>Annonce créée le {{annonce.user.createdAt | date('d M Y')}} à  {{annonce.user.createdAt | date('H:i')}}  par {{annonce.user.name}} {{annonce.user.lastname}}</i>
                 </div>
                 <div class="col-md-3">
                     <a href="{{path('annonce_crud', { id: annonce.id})}} "
@@ -92,42 +67,26 @@
                 <a href="{{path("annonce", {id: annonce.id})}}">
                     <h3 class="ml-3">{{annonce.titre}}</h3>
                 </a>
-
             </div>
-
             <p class="  ml-3">{{annonce.description}}</p>
             <hr>
-
             {% if not annonce.UserPostulant.isEmpty %}
                 {% for user in annonce.UserPostulant %}
-
                     <h4>Utilisateur intéressé par cette annonce :</h4>
-
                     <div>
                         <ul>
-
                             <div class="row">
-                                <li>
-                                    {{user.name}}
-                                    {{user.lastname}}
-                                </li>
+                                <li>{{user.name}} {{user.lastname}}</li>
                                 <a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('profil', {id: user.id})}} ">Voir son profil</a>
                             </div>
-
                         </ul>
                     </div>
                 {% endfor %}
             {% else %}
               <h4> Aucun artiste n'a postulé à cette annonce pour le moment</h4>
             {% endif %}
-
-
-            
-
         </article>
-
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}
