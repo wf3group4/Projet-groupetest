@@ -33,6 +33,19 @@ class AnnoncesRepository extends ServiceEntityRepository
         )
         ;
     }
+    /**
+      * @return LastAnnonces[] Returns an array of the last Annonces 
+      */
+
+    public function getLastAnnonces($annonces){
+        return $this->findBy(
+            array(
+                'annonce' => $annonces, 
+                'active' => 1
+            )
+        )
+        ;
+    }
     
 
     /*

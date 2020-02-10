@@ -42,7 +42,12 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
      */
     public function getLastUser()
     {
-        return $this->findAll()
+        return $this->findBy(
+            array(
+                'user' => $user, 
+                'active' => 1
+            )
+        )
         ;
         
     }

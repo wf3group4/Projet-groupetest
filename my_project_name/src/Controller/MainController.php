@@ -18,14 +18,21 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function accueil(UsersRepository $usersRepo)
+    public function accueil(UsersRepository $usersRepo, AnnoncesRepository $annonces)
     {
         $personnes = $usersRepo->getLastUser();
         //dump($titre); die();
+        $annonces = $annoncesRepo->getLastAnnonces();
+        $last_week = new \DateTime("last_week");
 
         return $this->render('main/index.html.twig', [
-            'personnes'=> $personnes
+            'personnes'=> $personnes,
+            'annonces'=> $annonces 
         ]);
+        //return $this->findBy(
+         //   array('active' => 1),
+           // array('date_creation' => 'DESC')
+      //  );
     }
 
     /**
