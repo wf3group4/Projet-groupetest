@@ -3,19 +3,35 @@
 {% block title %}{{app.user.name}}{% endblock %}
 
 {% block body %}
-
-    
     <div class="container">
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <h1 class="text-center py-5">Mon profil</h1>  
         <div class="row">
-            <div class="col-4">
-                <img src="http://2.bp.blogspot.com/_PMp_xOvYITA/TL94F65CnSI/AAAAAAAAAC4/tMztAHhKdsA/s1600/van.bmp" alt="image profile" class="h-75">
+            <div class="col-md-4">
+                {% if app.user.avatar %}
+                        <img src="images/{{ app.user.avatar }}" alt="avatar" class="w-50 d-flex mx-auto">
+                {% else %}
+                        <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar" class="img-thumbnail" >
+                {% endif %}
             </div>
-            <div class="col-8">
-                    <h2>{{app.user.name}} {{app.user.lastname}}</p> 
+            <div class="col-md-8">
+                    <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
                 <h2>Ma description</h2>
-                <p>Je suis un type trop cool et trop musclé en plus wesh!</p>
-                <a href="{{path('modif_compte',{name: app.user.name})}}" class="btn btn-outline-primary">Modifier mon profil</a>
+
+                <p>{{ app.user.description }}</p>
+                <p>Profil mis à jour le : </p>
+                <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
             </div>
         </div>
         <hr>
@@ -52,31 +68,24 @@
         <hr>
         <div>
             <h2>Mes annonces:</h2>
-            <a href="#" class="btn btn-outline-primary">Ajouter une annonce</a>
+            <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
+            
+            {% for annonce in annonces %}
             <article class="border rounded my-3 p-2 bg-light">
+                <p><i>Annonce créée le par {{annonce.user.name}} {{annonce.user.lastname}}</i></p>
                 <div class="row">
-                    <h3 class="ml-3">Recherche musicien pour BO Jeu vidéo</h3>
+                   <a href="{{path("annonce", {id: annonce.id})}}"><h3 class="ml-3">{{annonce.titre}}</h3></a>
                     <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
                 </div>
                 
-                <p class="  ml-3">Je suis à la recherche d'un d'un musicien pour faire la BO de mon jeu vidéo qui est un RTS orienté...</p>
+                <p class="  ml-3">{{annonce.description}}</p>
                 <hr>
                 <div class="row">
                     Jean mimi - Suzette93 - Mouloud sont interesser
                 </div>
             </article>
-            <article class="border rounded my-3 p-2 bg-light">
-                <div class="row">
-                    <h3 class="ml-3">Recherche musicien pour BO Jeu vidéo</h3>
-                    <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
-                </div>
-                
-                <p class="ml-3">Je suis à la recherche d'un d'un musicien pour faire la BO de mon jeu vidéo qui est un RTS orienté...</p>
-                <hr>
-                <div class="row">
-                    Jean mimi - Suzette93 - Mouloud sont interesser
-                </div>
-            </article>
+           
+            {% endfor %}
         </div>
     </div>
 

@@ -88,11 +88,23 @@ class Users implements UserInterface
      */
     private $annonces;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="users")
+     */
+    private $avis;
+    
+    /** 
+     * @ORM\ManyToMany(targetEntity="App\Entity\Annonces", mappedBy="user_postulant")
+     */
+    private $annonces_postule;
+
 
     public function __construct()
     {
         $this->portfolios = new ArrayCollection();
         $this->annonces = new ArrayCollection();
+        $this->avis = new ArrayCollection();
+        $this->annonces_postule = new ArrayCollection();
     }
 
 
@@ -116,7 +128,6 @@ class Users implements UserInterface
 
     /**
      * A visual identifier that represents this user.
-     *
      * @see UserInterface
      */
     public function getUsername(): string
@@ -339,6 +350,63 @@ class Users implements UserInterface
             if ($annonce->getUser() === $this) {
                 $annonce->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
+
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setUsers($this);
+        }
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->contains($avi)) {
+            $this->avis->removeElement($avi);
+            // set the owning side to null (unless already changed)
+            if ($avi->getUsers() === $this) {
+                $avi->setUsers(null);
+            }
+        }
+        return $this;
+    }
+
+     /**       
+     * @return Collection|Annonces[]
+     */
+    public function getAnnoncesPostule(): Collection
+    {
+        return $this->annonces_postule;
+    }
+
+    public function addAnnoncesPostule(Annonces $annoncesPostule): self
+    {
+        if (!$this->annonces_postule->contains($annoncesPostule)) {
+            $this->annonces_postule[] = $annoncesPostule;
+            $annoncesPostule->addUserPostulant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesPostule(Annonces $annoncesPostule): self
+    {
+        if ($this->annonces_postule->contains($annoncesPostule)) {
+            $this->annonces_postule->removeElement($annoncesPostule);
+            $annoncesPostule->removeUserPostulant($this);
         }
 
         return $this;
