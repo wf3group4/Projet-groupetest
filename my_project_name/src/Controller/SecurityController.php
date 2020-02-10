@@ -39,9 +39,9 @@ class SecurityController extends AbstractController
             $user
                 ->setCreatedAt($now)
                 ->setUpdatedAt($now)
-                -> setToken($this->generateToken())
-                -> setActive(0)
-                -> setRoles(["ROLE_PUBLISHER"])
+                ->setToken($this->generateToken())
+                ->setActive(0)
+                ->setRoles(["ROLE_PUBLISHER"])
 
             ;
             $entityManager = $this->getDoctrine()->getManager();

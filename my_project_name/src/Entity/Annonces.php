@@ -58,9 +58,15 @@ class Annonces
      */
     private $user_postulant;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tags", inversedBy="annonces")
+     */
+    private $tag;
+
     public function __construct()
     {
         $this->user_postulant = new ArrayCollection();
+        $this->tag = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +167,32 @@ class Annonces
     {
         if ($this->user_postulant->contains($userPostulant)) {
             $this->user_postulant->removeElement($userPostulant);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getTag(): Collection
+    {
+        return $this->tag;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        if ($this->tag->contains($tag)) {
+            $this->tag->removeElement($tag);
         }
 
         return $this;
