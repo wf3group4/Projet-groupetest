@@ -40,13 +40,11 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
      /**
       * @return User[] Returns an array of User objects
      */
-    public function getLastUser($user = 5)
+    public function getLastUser()
     {
-        return $this->findBy(
-            array(),
-            array('id' => 'DESC'),
-            $user
-        );
+        return $this->findAll()
+        ;
+        
     }
 
 /*
@@ -74,9 +72,6 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         ;
     }
         */
-
-  
-
 
     public function lastAnnonces($Annonces = 5){
         return $this->findBy(
