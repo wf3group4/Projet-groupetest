@@ -30,14 +30,14 @@ class MainController extends AbstractController
     /**
      * @Route("/mon-compte/", name="mon_compte")
      */
-    public function mon_compte( 
+    public function mon_compte(
         AnnoncesRepository $annoncesRepo, 
         PortfolioRepository $portfolioRepo,
         Request $request)
     {
         $user = $this->getUser();
         $annonces = $annoncesRepo->getUserAnnonces($user);
-        // $portfolios = $portfolioRepo->getUserPortfolios($this->getUser());
+        $liens = $portfolioRepo->getUserLiens($user);
 
         //Ajout de liens/images au portfolio
         $em = $this->getDoctrine()->getManager();
@@ -56,25 +56,49 @@ class MainController extends AbstractController
                        $repertoire = $this->getParameter('images');
                        $nameOfPicture = 'portfolio-'.uniqid().'.'.$file->guessExtension();
                        $file->move($repertoire, $nameOfPicture);
-                       $user->setImgUrl($nameOfPicture);
+                       $portfolios->setImgUrl($nameOfPicture);
                     }
-
-    
             $em->persist($portfolios);
             $em->flush();
             
-
             $this->addFlash('success', "Les réalisations on bien été modifiées");
 
             return $this->redirectToRoute('mon_compte', [
-                'id' => $user->getId()
+                'id' => $user
             ]);
         }
 
-       
+        //Supprimer l'image
+        $action = $request->query->get('action');
+        if($action && $action == 'delete-img'){
+            $id_img = $request->query->get('id_img');
+            $portfolios= $portfolioRepo->find($id_img);
+            $portfolios->setImgUrl(NULL);
+            $em->flush();
+            $this->addFlash('danger', "L'image a bien été supprimé.");
+            return $this->redirectToRoute('mon_compte',[
+                    'id' => $user
+                ]);
+        }
+
+        //Supprimer le lien
+         $action = $request->query->get('action');
+         if($action && $action == 'delete-lien'){
+             $id_lien = $request->query->get('id_lien');
+             $liens= $portfolioRepo->find($id_lien);
+             $liens->setLiens(NULL);
+             $em->flush();
+             $this->addFlash('danger', "Le lien a bien été supprimé.");
+             return $this->redirectToRoute('mon_compte',[
+                     'id' => $user
+                 ]);
+         }
+
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces,
-            'portfolios' =>$portfolios, 
+            'portfolios' => $portfolios, 
+            'liens' => $liens,
+            'id' => $user,
             'form' => $form->createView(),
         ]);
     }

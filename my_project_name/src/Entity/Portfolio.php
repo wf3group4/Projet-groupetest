@@ -43,7 +43,7 @@ class Portfolio
         return $this->img_url;
     }
 
-    public function setImgUrl(string $img_url): self
+    public function setImgUrl($img_url)
     {
         $this->img_url = $img_url;
 
@@ -67,7 +67,7 @@ class Portfolio
         return $this->liens;
     }
 
-    public function setLiens(?string $liens): self
+    public function setLiens($liens)
     {
         $this->liens = $liens;
 

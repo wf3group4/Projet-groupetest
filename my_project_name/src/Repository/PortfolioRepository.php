@@ -33,6 +33,16 @@ class PortfolioRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function getUserLiens($user){
+        return $this->createQueryBuilder('portfolio')
+        ->andWhere('portfolio.user = :user')
+        ->setParameter('user', $user)
+        ->andWhere('portfolio.liens IS NOT NULL')
+        ->getQuery()
+        ->getResult()
+        ;
+    }
     
 
     /*
