@@ -25,10 +25,12 @@ class PortfolioRepository extends ServiceEntityRepository
     
     public function getUserPortfolios($user)
     {
-        return $this->findBy(
-            array('user' => $user)
-        )
-        
+        return $this->createQueryBuilder('portfolio')
+            ->andWhere('portfolio.user = :user')
+                ->setParameter('user', $user)
+            ->andWhere('portfolio.img_url IS NOT NULL')
+            ->getQuery()
+            ->getResult()
         ;
     }
     

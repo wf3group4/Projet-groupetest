@@ -38,8 +38,10 @@
         <hr>
         <div>
             <h2>Mes réalisations</h2>
-            <h3>Ajouter une réalisations</h3>
-            {{form(form)}}
+            <div class="rounded shadow bg-light p-3">
+                <h3>Ajouter une réalisations</h3>
+                {{form(form)}}    
+            </div>
             <div class="row d-flex flex-wrap">
                 {% for portfolio in portfolios %}
                 <a href="#"  id="img_portfolio" >

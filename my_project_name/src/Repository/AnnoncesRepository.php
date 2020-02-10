@@ -26,7 +26,10 @@ class AnnoncesRepository extends ServiceEntityRepository
     public function getUserAnnonces($user)
     {
         return $this->findBy(
-            array('user' => $user)
+            array(
+                'user' => $user, 
+                'active' => 1
+            )
         )
         ;
     }

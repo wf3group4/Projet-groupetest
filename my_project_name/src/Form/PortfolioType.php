@@ -15,17 +15,19 @@ class PortfolioType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('img_url', FileType::class, [
+            ->add('img_url', FileType::class,  [
                 'label' => 'Ajouter une image', 
                 'required' => false, 
+                'mapped' => false,
                 'constraints' => [
                     new File([
                         'maxSize' =>'2000k', 
                         'mimeTypes' => [
                             'image/png',
-                            'jpeg'
+                            'jpeg',
+                            'application/pdf'
                         ],
-                        'mimeTypesMessage' => 'Le fichier doit être au format png ou jpeg',
+                        'mimeTypesMessage' => 'Le fichier doit être au format png,jpeg ou pdf',
                     ])
                 ]
             ])

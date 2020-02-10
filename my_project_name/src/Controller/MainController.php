@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
 use App\Repository\AnnoncesRepository;
 use App\Repository\PortfolioRepository;
+use App\Entity\Portfolio;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends AbstractController
@@ -41,10 +42,10 @@ class MainController extends AbstractController
         //Ajout de liens/images au portfolio
         $em = $this->getDoctrine()->getManager();
         $portfolios = $portfolioRepo->getUserPortfolios($user);
-
-        $form = $this->createForm(PortfolioType::class, $portfolios);
+        
+        $new_image = new Portfolio();
+        $form = $this->createForm(PortfolioType::class, $new_image );
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $portfolios = $form->getData()
                 ->setUser($user)
@@ -61,6 +62,7 @@ class MainController extends AbstractController
     
             $em->persist($portfolios);
             $em->flush();
+            
 
             $this->addFlash('success', "Les réalisations on bien été modifiées");
 

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublisherController extends AbstractController
 {
     /**
-     * @Route("/a/", name="publisher_admin")
+     * @Route("/quoi-de-neuf", name="publisher_admin")
      */
     public function publisher_admin()
     {
