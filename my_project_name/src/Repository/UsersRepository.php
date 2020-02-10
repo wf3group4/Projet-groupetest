@@ -37,10 +37,19 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
+     /**
+      * @return User[] Returns an array of User objects
+     */
+    public function getLastUser($user = 5)
+    {
+        return $this->findBy(
+            array(),
+            array('id' => 'DESC'),
+            $user
+        );
+    }
+
+/*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('u')
@@ -66,14 +75,7 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
     }
         */
 
-    public function getLastProfil($profil = 5)
-    {
-        return $this->findBy(
-            array(),
-            array('id' => 'DESC'),
-            $profil
-        );
-    }
+  
 
 
     public function lastAnnonces($Annonces = 5){
