@@ -17,7 +17,7 @@ class Portfolio
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $img_url;
 
@@ -38,7 +38,7 @@ class Portfolio
         return $this->id;
     }
 
-    public function getImgUrl(): ?string
+    public function getImgUrl()
     {
         return $this->img_url;
     }
@@ -62,7 +62,7 @@ class Portfolio
         return $this;
     }
 
-    public function getLiens(): ?string
+    public function getLiens()
     {
         return $this->liens;
     }

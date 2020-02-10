@@ -37,6 +37,7 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->_em->flush();
     }
 
+
      /**
       * @return User[] Returns an array of User objects
      */
@@ -48,6 +49,17 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
             $user
         );
     }
+
+    /**
+     * Retourne un utilisateur particulier
+     */
+    public function getUser($user)
+    {
+        return $this->findBy(
+            array('id' => $user)
+        );
+    }
+
 
 /*
     public function findByExampleField($value)

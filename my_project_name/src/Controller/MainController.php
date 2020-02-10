@@ -29,27 +29,30 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/mon-compte/", name="mon_compte")
+     * @Route("/mon-compte/{id}", name="mon_compte")
      */
     public function mon_compte(
+        $id,
         AnnoncesRepository $annoncesRepo, 
         PortfolioRepository $portfolioRepo,
+        UsersRepository $userRepo,
         Request $request)
     {
-        $user = $this->getUser();
-        $annonces = $annoncesRepo->getUserAnnonces($user);
-        $liens = $portfolioRepo->getUserLiens($user);
+        $user = $userRepo->getUser($id);
+        // dump($user);die;
+        $annonces = $annoncesRepo->getUserAnnonces($id);
+        $liens = $portfolioRepo->getUserLiens($id);
 
         //Ajout de liens/images au portfolio
         $em = $this->getDoctrine()->getManager();
-        $portfolios = $portfolioRepo->getUserPortfolios($user);
+        $portfolios = $portfolioRepo->getUserPortfolios($id);
         
         $new_image = new Portfolio();
         $form = $this->createForm(PortfolioType::class, $new_image );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $portfolios = $form->getData()
-                ->setUser($user)
+                ->setUser($id)
             ;
 
                 $file = $form['img_url']->getData();
@@ -65,7 +68,7 @@ class MainController extends AbstractController
             $this->addFlash('success', "Les réalisations on bien été modifiées");
 
             return $this->redirectToRoute('mon_compte', [
-                'id' => $user
+                'id' => $id
             ]);
         }
 
@@ -78,7 +81,7 @@ class MainController extends AbstractController
             $em->flush();
             $this->addFlash('danger', "L'image a bien été supprimé.");
             return $this->redirectToRoute('mon_compte',[
-                    'id' => $user
+                    'id' => $id
                 ]);
         }
 
@@ -91,7 +94,7 @@ class MainController extends AbstractController
              $em->flush();
              $this->addFlash('danger', "Le lien a bien été supprimé.");
              return $this->redirectToRoute('mon_compte',[
-                     'id' => $user
+                     'id' => $id
                  ]);
          }
 
@@ -99,7 +102,8 @@ class MainController extends AbstractController
             'annonces' => $annonces,
             'portfolios' => $portfolios, 
             'liens' => $liens,
-            'id' => $user,
+            'id' => $id,
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
