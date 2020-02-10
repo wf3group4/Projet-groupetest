@@ -33,7 +33,7 @@
 
 
     <div class="mt-3 ">
-        {% for avis in profil.avis%}
+        {% for avis in profil.avis %}
             <div class="border rounded p-3 mb-3">
                 <p class="h6">Commentaire publiée par {{ avis.email }}</p>
                 <div class="text-justify">{{ avis.contenu|nl2br }}</div>

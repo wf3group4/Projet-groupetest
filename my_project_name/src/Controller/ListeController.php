@@ -45,8 +45,7 @@ class ListeController extends AbstractController
 
         //Ajoute un commentaire
 
-        if($request->isMethod('POST'))
-        {
+        if ($request->isMethod('POST')) {
             $data = $request->request->all();
 
             $avis = (new Avis())
@@ -54,26 +53,22 @@ class ListeController extends AbstractController
                 ->setContenu($data['contenu'])
                 ->setRgpd(1)
                 ->setCreateAt(new \DateTime())
-                ->setUsers($profil)
-                ;
+                ->setUsers($profil);
 
             $em->persist($avis);
             $em->flush();
 
             $this->addFlash('success', 'Avis Ajouté !');
-            return $this->redirectToRoute('profil', ['id' => $profil->getId()] );
-
+            return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
         }
 
         // Supprimer un avis
 
         $action = $request->query->get('action');
-        if($action && $action == 'delete')
-        {
+        if ($action && $action == 'delete') {
             $id_avis = $request->query->get('id_avis');
 
-            if($id_avis)
-            {
+            if ($id_avis) {
                 $avisRepo = $em->getRepository(Avis::class);
                 $avis = $avisRepo->find($id_avis);
 
@@ -110,7 +105,7 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
-    public function annonce($id)
+    public function annonce($id, Request $request)
     {
 
         // On récupère l' AnnoncesRepository
@@ -120,11 +115,28 @@ class ListeController extends AbstractController
         // On récupère l'annonce, en fonction de l'ID qui est dans l'URL
         $annonce = $annoncesRepo->find($id);
 
-
-
         if (!$annonce) {
             $this->addFlash('danger', "L'article demandé n'a pas été trouvé.");
             return $this->redirectToRoute('annonces');
+        }
+
+        // Traitement du bouton ça m'interesse, on ajoute un utilisateur intéressé
+        $action = $request->query->get('action');
+        if ($action == 'add') {
+            $annonce->addUserPostulant($this->getUser());
+            $em->flush();
+
+            $this->addFlash('success', "Votre intérêt a bien été enregistré");
+            return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
+
+        // On retire l'utilisateur qui n'est plus intéressé par l'annonce lorsqu'il clique sur "ça ne m'interesse plus"
+        } elseif ($action == 'remove') {
+            $annonce->removeUserPostulant($this->getUser());
+            $em->flush();
+
+            $this->addFlash('success', "Votre retrait de l'annonce a bien été enregistré");
+            return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
+
         }
 
 
@@ -150,30 +162,32 @@ class ListeController extends AbstractController
 
             $annonce = new Annonces();
             $nouveau = true;
+
         } else {
             $annonce = $annoncesRepo->find($id);
             if (!$annonce) {
                 $this->addFlash('danger', "Cet annonce n'a pas été trouvé.");
-                return $this->redirectToRoute('annonces');
+                return $this->redirectToRoute('mon_compte');
             }
 
-            // On vérifie si l'utilisateur à écrit l'article
+            // On vérifie si l'utilisateur à écrit l'annonce
             if (!$this->getUser()->hasRoles('ROLE_GOD')) {
                 if ($annonce->getUser() != $this->getUser()) {
-                    throw new Exception("C'est pas ton article");
+                    throw new Exception("C'est pas ton annonce");
                 }
             }
             $nouveau = false;
         }
 
-        // Supprimer un article
+
+        // Supprimer un annonce
         $action = $request->query->get('action');
         if ($action == 'delete') {
-            $em->remove($annonce);
+            $annonce->setActive(0);
             $em->flush();
 
-            $this->addFlash('warning', "L'article a bien été supprimé.");
-            return $this->redirectToRoute('annonces');
+            $this->addFlash('danger', "L'annonce a bien été supprimé.");
+            return $this->redirectToRoute('mon_compte');
         }
 
 
@@ -195,7 +209,7 @@ class ListeController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', "L'article a bien été " . ($nouveau ? 'créé' : 'modifié') . ".");
-            return $this->redirectToRoute('annonce_crud', ['id' => $annonce->getId()]);
+            return $this->redirectToRoute('mon_compte');
         }
 
         return $this->render('liste/annonce_crud.html.twig', [
