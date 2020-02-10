@@ -31,9 +31,13 @@
         <div class="row d-flex flex-column">
             <div class="col"><div class="">{{annonce.description}}</div>
             </div> <!-- fin de la col description -->
+            {% if annonce in app.user.annoncesPostule %}
+            <div class="col"><a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-primary my-5">Ca ne m'intéresse plus</a></div>
+            {% else %}
+            <div class="col"><a href="{{path('annonce', {id: annonce.id, action: 'add'})}}" class="btn btn-success my-5">Ca m'intéresse</a></div>
+            {% endif %}
 
-            <div class="col"><a href="#" class="btn btn-success my-5">Ca m'intéresse</a></div>
-        </div>
+</div>
     </div> <!-- fin de la col description -->
 
 </div> <!-- fin de la row -->

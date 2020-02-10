@@ -27,6 +27,11 @@ class Portfolio
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $liens;
+
 
     public function getId(): ?int
     {
@@ -53,6 +58,18 @@ class Portfolio
     public function setUser(?users $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLiens(): ?string
+    {
+        return $this->liens;
+    }
+
+    public function setLiens(?string $liens): self
+    {
+        $this->liens = $liens;
 
         return $this;
     }
