@@ -31,14 +31,18 @@ class MainController extends AbstractController
             'personnes'=> $personnes,
             'annonces'=> $annonces
            
-        ]);
-        //return $this->findBy(
-         //   array('active' => 1),
-           // array('date_creation' => 'DESC')
-      //  );
-
-     
+        ]);    
     }
+
+    /**
+     * @Route("/a_propos", name="a_propos")
+     */
+    public function a_propos()
+    {
+        return $this->render('main/a_propos.html.twig');    
+    }
+
+
 
     /**
      * @Route("/mon-compte/{id}", name="mon_compte")
@@ -208,4 +212,6 @@ class MainController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
 }
