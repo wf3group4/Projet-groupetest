@@ -40,16 +40,12 @@ class ListeController extends AbstractController
                     $this->addFlash('danger', 'Aucun résultat trouvé');
                     return $this->redirectToRoute('liste-profils');
                 }
-                else {
-                    $profil = $usersRepo->findOneBy(['Name' => $search, 'Lastname' => $search]);
+
+
                     $this->addFlash('success', 'Résultat trouvée !');
-
                     return $this->redirectToRoute('liste-profils',[
-                        'profiles' => $profil,
+                        'recherche' => $profil = $usersRepo->findOneBy(['Name' => $search]),
                     ]);
-
-                }
-
 
             }
 
@@ -58,6 +54,7 @@ class ListeController extends AbstractController
 
         return $this->render('liste/LesProfils.html.twig', [
             'profiles' => $profil,
+            'recherche' => 'recherche'
         ]);
     }
 
