@@ -40,15 +40,15 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
      /**
       * @return User[] Returns an array of User objects
      */
-    public function getLastUser()
+    public function getLastUser( ManagerRegistry $user)
     {
-        return $this->findBy(
+       /* return $this->findBy(
             array(
                 'user' => $user, 
                 'active' => 1
             )
         )
-        ;
+        ;*/
         
     }
 

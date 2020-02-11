@@ -18,7 +18,7 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function accueil(UsersRepository $usersRepo, AnnoncesRepository $annonces)
+    /*public function accueil(UsersRepository $usersRepo, AnnoncesRepository $annonces)
     {
         $personnes = $usersRepo->getLastUser();
         //dump($titre); die();
@@ -33,7 +33,7 @@ class MainController extends AbstractController
          //   array('active' => 1),
            // array('date_creation' => 'DESC')
       //  );
-    }
+    }*/
 
     /**
      * @Route("/mon-compte/", name="mon_compte")
