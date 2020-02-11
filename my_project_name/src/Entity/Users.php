@@ -76,7 +76,7 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar;
+    private $avatar = 'images/imageDefault.jpg';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Portfolio", mappedBy="user", orphanRemoval=true)

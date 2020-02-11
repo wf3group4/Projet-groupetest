@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
+use App\Repository\AnnoncesRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends AbstractController
@@ -49,6 +50,7 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
             $user = $form->getData()
                 ->setPassword(
                     $passwordEncoder->encodePassword(

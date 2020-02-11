@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <h1>Vous vous apprétez à contacter {{ profil.name }} {{ profil.lastname }}</h1>
+
+    {{ form_start(form) }}
+
+        <div class="row mt-5">
+            <div class="col-md-6">
+                {{ form_row(form.nom) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.prenom) }}
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col-md-6">
+                {{ form_row(form.sujet) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.email) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.message) }}
+            </div>
+        </div>
+    <div class="row mt-4 text-right">
+        <div class="col-md-12">
+            {{ form_row(form.Envoyer_le_message,{'attr': { 'class' : 'btn btn-primary'}} ) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}

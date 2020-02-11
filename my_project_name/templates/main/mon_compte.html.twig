@@ -19,11 +19,7 @@
         <h1 class="text-center py-5">Mon profil</h1>  
         <div class="row">
             <div class="col-4">
-                {% if app.user.avatar %}
-                        <img src="images/{{ app.user.avatar }}" alt="avatar" class="w-50">
-                {% else %}
-                        <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar" class="img-thumbnail" >
-                {% endif %}
+                <img src="{{ asset('images/'~app.user.avatar) }}" alt="{{ app.user.name }}" class="img-thumbnail">
             </div>
             <div class="col-8">
                     <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
