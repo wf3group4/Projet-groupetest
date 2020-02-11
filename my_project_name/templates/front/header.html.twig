@@ -8,27 +8,29 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{path('annonces')}} "><i class="fas fa-book"></i> Annonces</a>
+                    <a class="nav-link text-primary" href="{{path('annonces')}} "><i class="fas fa-book"></i> Annonces</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{path('liste-profils')}}"><i class="fas fa-address-book"></i> Les profiles</a>
+                    <a class="nav-link text-primary" href="{{path('liste-profils')}}"><i class="fas fa-address-book"></i> Les profiles</a>
                 </li>
             </ul>
 
-            <a class="navbar-brand  justify-content-between" href="{{path('accueil')}}">Logo</a>
+            <a class="navbar-brand  justify-content-between" href="{{path('accueil')}}">
+            <img src="{{asset('images/ananse_logo_trans.png')}}" title="anase" alt="ananse logo">
+            </a>
 
 
             <ul class="navbar-nav ml-auto">
 
                 <li class="nav-item dropdown">
 
-                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user"></i>  {% if app.user %}{{app.user.name}}{% else %}Espace utilisateur{% endif %} <i class="fas fa-caret-down"></i>
+                <a class="nav-link  text-primary" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-users"></i>  {% if app.user %}{{app.user.name}}{% else %}Espace utilisateur{% endif %} <i class="fas fa-caret-down"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                        
                         {% if app.user %}
-                        <a class="dropdown-item" href="{{path('mon_compte')}}">Mon compte <i class="fas fa-user"></i></a>
+                        <a class="dropdown-item" href="{{path('mon_compte', {id: app.user.id})}}">Mon compte <i class="fas fa-user"></i></a>
                         <a class="dropdown-item" href="{{path('app_logout')}}">Déconnexion <i class="fas fa-sign-out-alt"></i></a>
                         {% else %} 
                         <a class="dropdown-item" href="{{path('app_login')}}">Connexion <i class="fas fa-sign-in-alt"></i></a>

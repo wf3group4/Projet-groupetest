@@ -1,88 +1,166 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{app.user.name}}{% endblock %}
+{% block title %}{{user.name}} {{user.lastname}}{% endblock %}
 
 {% block body %}
-    <div class="container">
-
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-                    <i class="fas fa-check-circle"></i> {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-        {% endfor %}
-
-        <h1 class="text-center py-5">Mon profil</h1>  
+    <div>
+        <h1 class="text-center py-5" id="titre">{{user.name}} {{user.lastname}}</h1>  
         <div class="row">
-            <div class="col-4">
-                <img src="{{ asset('images/'~app.user.avatar) }}" alt="{{ app.user.name }}" class="img-thumbnail">
+            <div class="col-md-4">
+                {% if user.avatar %}
+                        <img src="{{ asset('images/'~user.avatar)}}" alt="avatar"class="w-75 d-flex mx-auto rounded-circle">
+                {% else %}
+                        <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar"class="img-thumbnail" >
+                {% endif %}
             </div>
-            <div class="col-8">
-                    <h2>{{app.user.name}} {{ app.user.lastname }} </h2>
-                <h2>Ma description</h2>
-
-                <p>{{ app.user.description }}</p>
-                <p>Profil mis à jour le : {{ app.user.getUpdatedAt|date('Y-m-d') }}</p>
+            <div class="col-md-8">
+                {# description #}
+                <p>{{ user.description | nl2br }}</p>
+                {% if liens|length %}
+                    <p class="mb-0">Liens utiles:</p>
+                    {% for lien in liens %}
+                            <a href="{{lien.liens}}" target="blank">{{lien.liens}}</a><br>
+                                {% if app.user and app.user.id == user.id %}
+                                    <a href="{{path('mon_compte', { id: app.user.id, id_lien: lien.id, action: 'delete-lien' })}}" class="text-danger">Supprimer</a><br>
+                                {% endif %}
+                    {% endfor %}
+                {% endif %}  
+                    <p class="mt-3"><i>Profil mis à jour le {{user.updatedAt | date('d M Y')}} à {{user.updatedAt | date('H:i')}}</i></p>
+                    {% if app.user and app.user.id == user.id %}
                 <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
+                    {% endif %}
             </div>
         </div>
         <hr>
         <div>
-            <h2>Mes réalisations</h2>
-            <a href="#" class="btn btn-outline-primary">Ajouter une image</a>
-            <div class="row d-flex flex-wrap">
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>  
-                <div class="card p-3 m-3" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>    
-            </div>
+            {% if app.user and app.user.id == user.id %}
+                <div class="rounded shadow bg-light p-3">
+                    <h3>Ajouter une réalisations</h3>
+            {# ajouter realisation #}
+                    {{form(form)}}    
+                </div> 
+            {% endif %}
+            {# liste realisation #}
+            <h2 class="mt-5">Mes réalisations:</h2>
+            {% if portfolios|length %}
+                <div class="row d-flex flex-wrap">
+                    {% for portfolio in portfolios %}
+                        <div class="card p-3 m-3" style="width: 18rem;">
+                        
+                                {% if app.user and app.user.id == user.id %}    
+                                        <a href="{{path('mon_compte', { id: app.user.id, id_img: portfolio.id, action: 'delete-img' })}} "
+                            class="ml-auto mr-3 text-danger">Supprimer</a>
+                                {% endif %}
+                         
+                            <img class="card-img-top" src="{{ asset('images/'~portfolio.imgUrl)}}" alt="Card image cap">
+                        </div>
+                    {% endfor %}        
+                </div><!--fin card-->
+            {% else %}
+                <p>Je n'ai pas encore de portfolio j'y travaille 😎</p>
+            {% endif %}   
+            <hr>
         </div>
-        <hr>
         <div>
-            <h2>Mes annonces:</h2>
-            <a href="#" class="btn btn-outline-primary">Ajouter une annonce</a>
-            {% for annonce in annonces %}
-           
-            <article class="border rounded my-3 p-2 bg-light">
-                <p><i>Annonce créée le par {{annonce.user.name}} {{annonce.user.lastname}}</i></p>
-                <div class="row">
-                   <a href="{{path("annonce", {id: annonce.id})}}"><h3 class="ml-3">{{annonce.titre}}</h3></a>
-                    <a href="#" class="d-flex ml-auto mr-3 text-danger ">Supprimer</a>   
-                </div>
-                
-                <p class="  ml-3">{{annonce.description}}</p>
-                <hr>
-                <div class="row">
-                    Jean mimi - Suzette93 - Mouloud sont interesser
-                </div>
-            </article>
-           
-            {% endfor %}
+            <h2 class="mt-5">Mes annonces:</h2>
+                {% if app.user and app.user.id == user.id %}    
+            {# creation annonce #}
+                    <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
+                {% endif %}
+
+            {# liste annonces #}
+            {% if annonces|length %}
+                {% for annonce in annonces %}
+                    <article class="border rounded shadow my-3 p-2 bg-light">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <i>Annonce créée le {{annonce.dateCreation | date('d M Y')}} à  {{annonce.dateCreation | date('H:i')}}  par {{annonce.user.name}} {{annonce.user.lastname}}</i>
+                            </div>
+                                {% if app.user and app.user.id == user.id %}    
+                                    <div class="col-md-3">
+                                        <a href="{{path('annonce_crud', { id: annonce.id})}} "
+                                            class="ml-auto mr-3 text-primary">Editer mon annonce</a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="{{path('annonce_crud', { id: annonce.id, action: 'delete' })}} "
+                                            class="ml-auto mr-3 text-danger">Supprimer</a>
+                                    </div>
+                                {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <a href="{{path("annonce", {id: annonce.id})}}">
+                                <h3 class="ml-3">{{annonce.titre}}</h3>
+                            </a>
+                        </div>
+                        <p class="  ml-3">{{annonce.description}}</p>
+                        <hr>
+                        {% if not annonce.UserPostulant.isEmpty %}
+                            {% for user in annonce.UserPostulant %}
+                                <h4>Utilisateur intéressé par cette annonce :</h4>
+                                <div>
+                                    <ul>
+                                        <div class="row">
+                                            <li>{{user.name}} {{user.lastname}}</li>
+                                            <a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
+                                        </div>
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                          <h4> Aucun artiste n'a postulé à cette annonce pour le moment</h4>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p> Je n'ai pas encore d'annonce, mais j'y réfléchis 🤔</p>
+            {% endif %}
+            <hr>
+            <h2 class="mt-5">Les avis:</h2>
+            {# liste avis #}
+            <div class="mt-3 ">
+                {% if avis|length %}
+                    {% for avi in avis %}
+                        <div class="border rounded p-3 mb-3">
+                            <p class="h6">Commentaire publiée par {{ avi.email }}</p>
+                            <div class="text-justify">{{ avi.contenu|nl2br }}</div>
+                            <div class="text-right mt-1">
+                                    {% if app.user and app.user.id == user.id %}    
+                                        <a href="#" class="btn btn-outline-danger">Supprimer</a>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Je n'ai pas encore d'avis. Laisse moi en un  😘</p>
+                {% endif %}
+            </div>
+            {# soumission avis #}
+                {% if app.user and app.user.id != user.id %}    
+                    <div class="mt-4">
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="email">email</label>
+                                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+                            </div>
+                            <div class="form-group">
+                                <label for="contenu">avis</label>
+                                <textarea class="form-control" id="contenu" name="contenu" rows="10"></textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="rgpd" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <label for="rgpd">J'accepte que mes informations soient stockées dans la base de données pour la gestion des commentaires. J'ai     bien noté qu'en aucun cas ces données ne seront cédées à des tiers.</label>
+                            </div>
+                            <div class="text-right mt-4">
+                                <button type="submit" class="btn btn-primary">Envoyer l'avis</button>
+                            </div>
+                        </form>
+                    </div><!--fin form avis-->
+                {% endif %}
         </div>
     </div>
-
 {% endblock %}

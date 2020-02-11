@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Users;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -50,6 +53,29 @@ class Annonces
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Users", inversedBy="annonces_postule")
+     */
+    private $user_postulant;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tags", inversedBy="annonces")
+     */
+    private $tag;
+
+    /**
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     */
+    private $prix;
+
+
+
+    public function __construct()
+    {
+        $this->user_postulant = new ArrayCollection();
+        $this->tag = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,4 +153,70 @@ class Annonces
 
         return $this;
     }
+
+    /**
+     * @return Collection|Users[]
+     */
+    public function getUserPostulant(): Collection
+    {
+        return $this->user_postulant;
+    }
+
+    public function addUserPostulant(Users $userPostulant): self
+    {
+        if (!$this->user_postulant->contains($userPostulant)) {
+            $this->user_postulant[] = $userPostulant;
+        }
+
+        return $this;
+    }
+
+    public function removeUserPostulant(Users $userPostulant): self
+    {
+        if ($this->user_postulant->contains($userPostulant)) {
+            $this->user_postulant->removeElement($userPostulant);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getTag(): Collection
+    {
+        return $this->tag;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        if ($this->tag->contains($tag)) {
+            $this->tag->removeElement($tag);
+        }
+
+        return $this;
+    }
+
+    public function getPrix(): ?string
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(string $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+
 }

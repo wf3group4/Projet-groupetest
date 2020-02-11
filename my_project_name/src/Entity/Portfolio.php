@@ -17,7 +17,7 @@ class Portfolio
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $img_url;
 
@@ -27,18 +27,23 @@ class Portfolio
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $liens;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getImgUrl(): ?string
+    public function getImgUrl()
     {
         return $this->img_url;
     }
 
-    public function setImgUrl(string $img_url): self
+    public function setImgUrl($img_url)
     {
         $this->img_url = $img_url;
 
@@ -53,6 +58,18 @@ class Portfolio
     public function setUser(?users $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getLiens()
+    {
+        return $this->liens;
+    }
+
+    public function setLiens($liens)
+    {
+        $this->liens = $liens;
 
         return $this;
     }

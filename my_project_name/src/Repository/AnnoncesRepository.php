@@ -26,7 +26,26 @@ class AnnoncesRepository extends ServiceEntityRepository
     public function getUserAnnonces($user)
     {
         return $this->findBy(
-            array('user' => $user)
+            array(
+                'user' => $user, 
+                'active' => 1
+            )
+        )
+        ;
+    }
+    /**
+      * @return LastAnnonces[] Returns an array of the last Annonces 
+      */
+
+    public function getLastAnnonces($max){
+        return $this->findBy(
+            array(
+                'active' => 1
+            ),
+            array(
+                'date_creation' => 'DESC'
+            ),
+            $max
         )
         ;
     }

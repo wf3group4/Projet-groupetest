@@ -39,8 +39,9 @@ class SecurityController extends AbstractController
             $user
                 ->setCreatedAt($now)
                 ->setUpdatedAt($now)
-                -> setToken($this->generateToken())
-                -> setActive(0)
+                ->setToken($this->generateToken())
+                ->setActive(0)
+                ->setRoles(["ROLE_PUBLISHER"])
 
             ;
             $entityManager = $this->getDoctrine()->getManager();
@@ -71,7 +72,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('accueil');
+            return $this->redirectToRoute('mon_compte');
         }
 
         // get the login error if there is one

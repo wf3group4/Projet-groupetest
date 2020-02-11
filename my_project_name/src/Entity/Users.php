@@ -92,6 +92,11 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="users")
      */
     private $avis;
+    
+    /** 
+     * @ORM\ManyToMany(targetEntity="App\Entity\Annonces", mappedBy="user_postulant")
+     */
+    private $annonces_postule;
 
 
     public function __construct()
@@ -99,6 +104,7 @@ class Users implements UserInterface
         $this->portfolios = new ArrayCollection();
         $this->annonces = new ArrayCollection();
         $this->avis = new ArrayCollection();
+        $this->annonces_postule = new ArrayCollection();
     }
 
 
@@ -122,7 +128,6 @@ class Users implements UserInterface
 
     /**
      * A visual identifier that represents this user.
-     *
      * @see UserInterface
      */
     public function getUsername(): string
@@ -364,7 +369,6 @@ class Users implements UserInterface
             $this->avis[] = $avi;
             $avi->setUsers($this);
         }
-
         return $this;
     }
 
@@ -376,6 +380,33 @@ class Users implements UserInterface
             if ($avi->getUsers() === $this) {
                 $avi->setUsers(null);
             }
+        }
+        return $this;
+    }
+
+     /**       
+     * @return Collection|Annonces[]
+     */
+    public function getAnnoncesPostule(): Collection
+    {
+        return $this->annonces_postule;
+    }
+
+    public function addAnnoncesPostule(Annonces $annoncesPostule): self
+    {
+        if (!$this->annonces_postule->contains($annoncesPostule)) {
+            $this->annonces_postule[] = $annoncesPostule;
+            $annoncesPostule->addUserPostulant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesPostule(Annonces $annoncesPostule): self
+    {
+        if ($this->annonces_postule->contains($annoncesPostule)) {
+            $this->annonces_postule->removeElement($annoncesPostule);
+            $annoncesPostule->removeUserPostulant($this);
         }
 
         return $this;

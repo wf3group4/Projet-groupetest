@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ nouveau ? 'Créer une nouvelle annonce' : annonce.titre }}{% endblock %}
+
+{% block body %}
+
+	{% if nouveau %}
+		<h1>Créer une nouvelle annonce</h1>
+	{% else %}
+		<h1>{{ annonce.titre }}</h1>
+	{% endif %}
+
+	{{ form(form) }}
+
+{% endblock %}
