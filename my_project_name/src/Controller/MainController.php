@@ -152,6 +152,8 @@ class MainController extends AbstractController
             }
         } 
 
+        
+
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces,
             'portfolios' => $portfolios, 

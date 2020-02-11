@@ -69,6 +69,11 @@ class Annonces
      */
     private $prix;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $artiste_choisi;
+
 
 
     public function __construct()
@@ -214,6 +219,18 @@ class Annonces
     public function setPrix(string $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getArtisteChoisi(): ?string
+    {
+        return $this->artiste_choisi;
+    }
+
+    public function setArtisteChoisi(?string $artiste_choisi): self
+    {
+        $this->artiste_choisi = $artiste_choisi;
 
         return $this;
     }
