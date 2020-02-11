@@ -7,10 +7,14 @@ use App\Entity\Users;
 use App\Entity\Avis;
 use App\Form\CreerAnnonceType;
 use App\Repository\AnnoncesRepository;
+use App\Form\ContactProType;
 
+
+use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+
 
 use App\Repository\UsersRepository;
 use Exception;
@@ -18,14 +22,46 @@ use Exception;
 class ListeController extends AbstractController
 {
     /**
-     * @Route("/listes_profils", name="listes-profils")
+     * @Route("/liste-profils", name="liste-profils")
      */
-    public function Profils(UsersRepository $usersRepo)
+    public function Profils(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $usersRepo = $em->getRepository(Users::class);
+        $profil = $usersRepo->findAll();
+
+
+        $search = $request->query->get('name');
+            if ($search)
+            {
+                $profil = $usersRepo->SearchByName($search);
+
+                if(!$profil)
+                {
+                    $this->addFlash('danger', 'Aucun résultat trouvé');
+                    return $this->redirectToRoute('liste-profils');
+                }
+                else {
+                    $profil = $usersRepo->findOneBy(['Name' => $search, 'Lastname' => $search]);
+                    $this->addFlash('success', 'Résultat trouvée !');
+
+                    return $this->redirectToRoute('liste-profils',[
+                        'profiles' => $profil,
+                    ]);
+
+                }
+
+
+            }
+
+
+
+
         return $this->render('liste/LesProfils.html.twig', [
-            'profiles' => $usersRepo->findAll(),
+            'profiles' => $profil,
         ]);
     }
+
 
     /**
      * @Route("/profil/{id}", name="profil")
@@ -80,13 +116,43 @@ class ListeController extends AbstractController
             }
         }
 
-        // dump($profil);die;
-
-
         return $this->render('liste/profil.html.twig', [
             'profil' => $profil,
         ]);
     }
+
+    /**
+     * @Route("/contact-profil/{id}", name="contact-profil")
+    */
+    public function contactProfil($id, EmailService $emailService, Request $request)
+    {
+        // On récupère User repository
+        $em = $this->getDoctrine()->getManager();
+        $usersRepo = $em->getRepository(Users::class);
+        // requête pour récupérer tous les profil
+        $profil = $usersRepo->find($id);
+
+
+        $form = $this->createForm(ContactProType::class);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $params = $request->request->all();
+
+
+            $emailService->send($params['form']);
+
+            $this->addFlash('success', 'Votre message à bien été envoyé !');
+
+            return $this->redirectToRoute('liste-profils');
+        }
+
+        return $this->render('liste/contactProfil.html.twig',[
+            'profil' => $profil,
+            'form' => $form->createView(),
+        ]);
+    }
+
 
     /**
      * @Route("/annonces", name="annonces")

@@ -175,6 +175,7 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
             $user = $form->getData()
                 ->setPassword(
                     $passwordEncoder->encodePassword(
@@ -182,6 +183,7 @@ class MainController extends AbstractController
                         $form->get('password')->getData()
                     )
                 )
+                ->setUpdatedAt(new \DateTime())
             ;
 
                 $file = $form['avatar']->getData();

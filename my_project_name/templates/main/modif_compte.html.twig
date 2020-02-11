@@ -4,13 +4,45 @@
 
 {% block body %}
 
-    <div class="mb-3">
-        <a href="{{ path('mon_compte', {id: app.user.id} ) }}" class="small"><i class="far fa-arrow-alt-circle-left"></i> Annuler la modification</a>
+    <!--Retour en arrière-->
+    <div class="row my-3">
+        <div class="col-12">
+            <a href="{{ path('mon_compte', {id: app.user.id} ) }}" class="small"><i class="far fa-arrow-alt-circle-left"></i> Annuler la modification</a>
+        </div>
     </div>
 
-    <div class="mt-4">
-        {{ form(form) }}
+    <!-- Modification du compte-->
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.Name) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.Lastname) }}
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-md-6">
+            {{ form_row(form.Email) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.avatar) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.password.first) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.password.second) }}
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-md-12">
+            {{ form_row(form.description) }}
+        </div>
     </div>
 
+    {{ form_end(form) }}
 
 {% endblock %}
