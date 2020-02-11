@@ -16,6 +16,7 @@
 
 					<div class="col-8">
 
+						<!-- Affichage des tags -->
 	                {% for tags in annonce.Tag %}
 	                {% if tags %}
 	                	<div class="badge badge-pill badge-info">
@@ -27,13 +28,16 @@
 
 			   </div> <!-- fin row bandeau titre annonce-->
 			   
-			   <p class="font-italic">{{annonce.DateCreation | format_datetime(pattern="'le' dd MMMM 'à' H'h'mm", locale='fr')}} - {{annonce.prix | format_currency('EUR')}} </p>
-
+			   <p class="font-italic">{{annonce.DateCreation | format_datetime(pattern="'le' dd MMMM 'à' H'h'mm", locale='fr')}} - 
+				 
+				{{annonce.prix}}€
+			   </p>
 				<p>
 				{{annonce.description | slice(0, 200)}}...
 				</p>
 				
 				<div>
+					<!-- On affiche la liste des postulants -->
 					{% if not annonce.UserPostulant.isEmpty %}
 					{% for user in annonce.UserPostulant %}
 		
