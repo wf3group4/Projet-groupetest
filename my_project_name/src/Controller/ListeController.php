@@ -93,7 +93,6 @@ class ListeController extends AbstractController
      */
     public function annonces(AnnoncesRepository $annoncesRepo)
     {
-
         // Requete pour récupérer toutes les annonces
         $annonces = $annoncesRepo->findAll();
 

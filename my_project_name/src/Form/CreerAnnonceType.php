@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,6 +28,10 @@ class CreerAnnonceType extends AbstractType
                     'rows' => 10,
                 ],
                 ])
+            ->add('prix', MoneyType::class, [
+                'label' => 'Prix',
+                'invalid_message' => 'Vous devez entrer un nombre',
+            ])
             ->add('tag', EntityType::class, [
                 'class' => 'App:Tags',
                 'choice_label' => 'nom',
