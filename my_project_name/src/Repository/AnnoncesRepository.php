@@ -37,12 +37,15 @@ class AnnoncesRepository extends ServiceEntityRepository
       * @return LastAnnonces[] Returns an array of the last Annonces 
       */
 
-    public function getLastAnnonces($annonces){
+    public function getLastAnnonces($max){
         return $this->findBy(
             array(
-                'annonce' => $annonces, 
                 'active' => 1
-            )
+            ),
+            array(
+                'date_creation' => 'DESC'
+            ),
+            $max
         )
         ;
     }
