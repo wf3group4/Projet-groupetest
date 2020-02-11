@@ -2,6 +2,13 @@
     background-color: #ff5733;
 }
 
+/* ------------PAGE MON COMPTE------------- */
+
+
+
+/* ------------PAGE ACCUEIL------------- */
+
+
 #Profiles:nth-of-type(4){
     background-color: #b1ff33;
 }
@@ -47,3 +54,6 @@ index-jumbotron h1{
     font-weight: 200;
 }
 
+#email {
+    display:none;
+}
