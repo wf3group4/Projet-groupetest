@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200210191330 extends AbstractMigration
+final class Version20200211115604 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -26,7 +26,7 @@ final class Version20200210191330 extends AbstractMigration
         $this->addSql('CREATE TABLE tags (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE annonces_tags ADD CONSTRAINT FK_557AEAEF4C2885D7 FOREIGN KEY (annonces_id) REFERENCES annonces (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE annonces_tags ADD CONSTRAINT FK_557AEAEF8D7B4FB4 FOREIGN KEY (tags_id) REFERENCES tags (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE portfolio CHANGE img_url img_url VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE annonces ADD prix NUMERIC(7, 2) NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -37,6 +37,6 @@ final class Version20200210191330 extends AbstractMigration
         $this->addSql('ALTER TABLE annonces_tags DROP FOREIGN KEY FK_557AEAEF8D7B4FB4');
         $this->addSql('DROP TABLE annonces_tags');
         $this->addSql('DROP TABLE tags');
-        $this->addSql('ALTER TABLE portfolio CHANGE img_url img_url VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_unicode_ci`');
+        $this->addSql('ALTER TABLE annonces DROP prix');
     }
 }

@@ -1,74 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {% for profil in user %}{{profil.name}} {{profil.lastname}}{% endfor %}
-{% endblock %}
+{% block title %}{{user.name}} {{user.lastname}}{% endblock %}
 
 {% block body %}
     <div>
-        <h1 class="text-center py-5" id="titre">{% for profil in user %}{{profil.name}} {{profil.lastname}}{% endfor %}</h1>  
+        <h1 class="text-center py-5" id="titre">{{user.name}} {{user.lastname}}</h1>  
         <div class="row">
             <div class="col-md-4">
-                {% for profil in user %}
-                    {% if profil.avatar %}
-                            <img src="{{ asset('images/'~profil.avatar)}}" alt="avatar" class="w-75 d-flex mx-auto rounded-circle">
-                    {% else %}
-                            <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar" class="img-thumbnail" >
-                    {% endif %}
-                {% endfor  %}
+                {% if user.avatar %}
+                        <img src="{{ asset('images/'~user.avatar)}}" alt="avatar"class="w-75 d-flex mx-auto rounded-circle">
+                {% else %}
+                        <img src="{{ asset('images/imageDefault.jpg')}}" alt="avatar"class="img-thumbnail" >
+                {% endif %}
             </div>
             <div class="col-md-8">
                 {# description #}
-                {% for profil in user %}
-                    <p>{{ profil.description | nl2br }}</p>
-                {% endfor %}
-
+                <p>{{ user.description | nl2br }}</p>
                 {% if liens|length %}
                     <p class="mb-0">Liens utiles:</p>
                     {% for lien in liens %}
-                        {% for profil in user %}
                             <a href="{{lien.liens}}" target="blank">{{lien.liens}}</a><br>
-                                {% if app.user and app.user.id == profil.id %}
+                                {% if app.user and app.user.id == user.id %}
                                     <a href="{{path('mon_compte', { id: app.user.id, id_lien: lien.id, action: 'delete-lien' })}}" class="text-danger">Supprimer</a><br>
                                 {% endif %}
-                        {% endfor %} 
                     {% endfor %}
                 {% endif %}  
-
-                {% for profil in user %}
-                    <p class="mt-3"><i>Profil mis à jour le {{profil.updatedAt | date('d M Y')}} à {{profil.updatedAt | date('H:i')}}</i></p>
-                {% endfor %}
-                {% for profil in user %}
-                    {% if app.user and app.user.id == profil.id %}
+                    <p class="mt-3"><i>Profil mis à jour le {{user.updatedAt | date('d M Y')}} à {{user.updatedAt | date('H:i')}}</i></p>
+                    {% if app.user and app.user.id == user.id %}
                 <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
                     {% endif %}
-                {% endfor %}
             </div>
         </div>
         <hr>
         <div>
-            {% for profil in user %}
-                {% if app.user and app.user.id == profil.id %}
-                    <div class="rounded shadow bg-light p-3">
-                        <h3>Ajouter une réalisations</h3>
+            {% if app.user and app.user.id == user.id %}
+                <div class="rounded shadow bg-light p-3">
+                    <h3>Ajouter une réalisations</h3>
             {# ajouter realisation #}
-                        {{form(form)}}    
-                    </div> 
-                {% endif %}
-            {% endfor %}
-
+                    {{form(form)}}    
+                </div> 
+            {% endif %}
             {# liste realisation #}
             <h2 class="mt-5">Mes réalisations:</h2>
             {% if portfolios|length %}
                 <div class="row d-flex flex-wrap">
                     {% for portfolio in portfolios %}
                         <div class="card p-3 m-3" style="width: 18rem;">
-                            {% for profil in user %}
-                                {% if app.user and app.user.id == profil.id %}    
+                        
+                                {% if app.user and app.user.id == user.id %}    
                                         <a href="{{path('mon_compte', { id: app.user.id, id_img: portfolio.id, action: 'delete-img' })}} "
                             class="ml-auto mr-3 text-danger">Supprimer</a>
                                 {% endif %}
-                            {% endfor %}    
+                         
                             <img class="card-img-top" src="{{ asset('images/'~portfolio.imgUrl)}}" alt="Card image cap">
                         </div>
                     {% endfor %}        
@@ -80,12 +63,10 @@
         </div>
         <div>
             <h2 class="mt-5">Mes annonces:</h2>
-            {% for profil in user %}
-                {% if app.user and app.user.id == profil.id %}    
+                {% if app.user and app.user.id == user.id %}    
             {# creation annonce #}
                     <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
                 {% endif %}
-            {% endfor %}
 
             {# liste annonces #}
             {% if annonces|length %}
@@ -95,8 +76,7 @@
                             <div class="col-md-7">
                                 <i>Annonce créée le {{annonce.dateCreation | date('d M Y')}} à  {{annonce.dateCreation | date('H:i')}}  par {{annonce.user.name}} {{annonce.user.lastname}}</i>
                             </div>
-                            {% for profil in user %}
-                                {% if app.user and app.user.id == profil.id %}    
+                                {% if app.user and app.user.id == user.id %}    
                                     <div class="col-md-3">
                                         <a href="{{path('annonce_crud', { id: annonce.id})}} "
                                             class="ml-auto mr-3 text-primary">Editer mon annonce</a>
@@ -106,7 +86,6 @@
                                             class="ml-auto mr-3 text-danger">Supprimer</a>
                                     </div>
                                 {% endif %}
-                            {% endfor %}
                         </div>
 
                         <div class="row">
@@ -146,11 +125,9 @@
                             <p class="h6">Commentaire publiée par {{ avi.email }}</p>
                             <div class="text-justify">{{ avi.contenu|nl2br }}</div>
                             <div class="text-right mt-1">
-                                {% for profil in user %}
-                                    {% if app.user and app.user.id == profil.id %}    
+                                    {% if app.user and app.user.id == user.id %}    
                                         <a href="#" class="btn btn-outline-danger">Supprimer</a>
                                     {% endif %}
-                                {% endfor %}
                             </div>
                         </div>
                     {% endfor %}
@@ -159,8 +136,7 @@
                 {% endif %}
             </div>
             {# soumission avis #}
-            {% for profil in user %}
-                {% if app.user and app.user.id != profil.id %}    
+                {% if app.user and app.user.id != user.id %}    
                     <div class="mt-4">
                         <form method="post">
                             <div class="form-group">
@@ -185,7 +161,6 @@
                         </form>
                     </div><!--fin form avis-->
                 {% endif %}
-            {% endfor %}
         </div>
     </div>
 {% endblock %}
