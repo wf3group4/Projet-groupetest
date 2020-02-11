@@ -37,19 +37,44 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         $this->_em->flush();
     }
 
+
      /**
       * @return User[] Returns an array of User objects
      */
-    public function getLastUser($user = 5)
+    public function getLastUser($max = 5)
     {
-        return $this->findBy(
-            array(),
-            array('id' => 'DESC'),
-            $user
-        );
+       return $this->findBy(
+            array(
+                'active' => 1
+            ),
+            array(
+                'id' => 'DESC'
+            ),
+            $max 
+        )
+        ;
+        
     }
 
+
 /*
+    public function SearchByName($search)
+    {
+        return $this->createQueryBuilder('u')
+            ->orWhere("u.Name LIKE :search")
+            ->orWhere("u.Lastname LIKE :search")
+            ->setParameter('search', "%$search%")
+
+
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // /**
+    //  * @return User[] Returns an array of User objects
+    //  */
+    /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('u')
@@ -75,14 +100,17 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
     }
         */
 
-  
-
-
-    public function lastAnnonces($Annonces = 5){
+    public function lastAnnonces($max = 5){
         return $this->findBy(
-            array(),
+            array(
+                'active' => 1
+            ),
             array('id' => 'DESC'),
-            $Annonces
+            $max
         );
     }
 }
+
+   
+
+ 

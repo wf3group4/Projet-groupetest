@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Users;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -62,6 +63,13 @@ class Annonces
      * @ORM\ManyToMany(targetEntity="App\Entity\Tags", inversedBy="annonces")
      */
     private $tag;
+
+    /**
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     */
+    private $prix;
+
+
 
     public function __construct()
     {
@@ -197,4 +205,18 @@ class Annonces
 
         return $this;
     }
+
+    public function getPrix(): ?string
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(string $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+
 }

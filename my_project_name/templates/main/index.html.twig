@@ -5,16 +5,18 @@
 
 {% block body %}
 
-	<div class="container-fluid" style="background-image: url(/images/woman_banner.jpg); width: 100%; height: 500px;">
+	<div class="container-fluid" style="background-image: url(/images/woman-xl_left.jpg); width: 100%; height: 500px;">
 		<div class="row text-center  ">
 			<div class="col-12">
-				<div >
-					<h1 class="display-5 text-white centered ">Entrées des Artistes</h1>
-					<h2 class="display-5 mtop-2 text-white centered ">Voici un site destiné aux artistes.</h2>
-					<h3 class="text-right text-white p-5">Parfois on a tous besoin d'un coup  de main, <br>de matos ou un peu d'exposition. Voici l'endroit pour vous !
-					<br>
-					Que ce soit pour offrir vos services (car on sait tous que les artistes crèves de fin )<br> ou que vous soyez à la recherche d'aide pour votre business.
-				</h3>
+				<div>
+					<h1 class="display-5 my-5 text-white text-center ">Entrées des Artistes</h1>
+					<h2 class="display-5 my-5 text-white text-center">Voici un site destiné aux artistes.</h2>
+					<h3 class="display-5 text-right mt-3 text-white text-center">Parfois on a tous besoin d'un coup  de main,
+						<br>de matos ou un peu d'exposition. Voici l'endroit pour vous !
+						<br>
+						Que ce soit pour offrir vos services (car on sait tous que les artistes crèves de fin )<br>
+						ou que vous soyez à la recherche d'aide pour votre business.
+					</h3>
 				</div>
 			</div>
 		</div>
@@ -24,44 +26,55 @@
 		<div class="container">
 			<div class="row  centered ">
 
-				<div class="col">
-					<h2 class="text-warning text-center py-5">Bienvenue aux nouveaux !</h2>
-
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="card-body">
-							<h5 class="card-title">{# {{ profile.title|date }}#}</h5>
-							{%for personne in personnes %}
-								{# retourner les 5 dernièrs profiles #}
-								<p class="card-text">...</p>
-								<a href="{# {{ path('profile', { id: profile.id }) }}#}" class=" text-info"></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-		<hr>
-			<div class="row container-fluid jumbotron index-jumbotron m-2 py-5 ">
-			<div class="col">
-				<h2 {# {{ displayAnnonces /* afficher les 5 dernières annonce */ }} #}>Liste des 5 dernières annonces :</h2>
-				{#{% for annonce in annonces %} 
-								{# {% include 'liste/annonce.html.twig' with { annonce: annonce } %} 
-								{% endfor %}
-				#}
-			</div>
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title">{# {{ annonce.title }} #}</h5>
-					<p class="card-text">{# {{ annonce.text|raw|slice(0,5) }} #}...</p>
-					<a href="{# {{ path('annonce', { id: annonce.id }) }} #}" class="btn btn-primary bg-info">Lire l'article</a>
+				<div class="col-12">
+					<h2 class="display-5 text-warning text-center py-5">Bienvenue aux nouveaux !</h2>
 				</div>
 			</div>
 
 
+			<hr>
+			<div class="row">
+				<div
+					class="col-3">
+					{# 4 derniers profils créés #}
+					{% for personne in personnes  %}
+						<h5 class="card-titre">{{ personne.name }}
+						</h5>
+						<p class="card">
+							{{ personne.description|raw|slice(0,5) }}
+							...</p>
+						<a href=" {{ path('mon_compte', { id: personne.id }) }} " class="btn btn-info">Voir Profile</a>
+					{% endfor %}
+				</div>
 			</div>
-		</div>	
-	</main>
-{% endblock %}
+			<hr>
+
+			<div class="row container-fluid m-2 py-3 ">
+				<div class="col-12">
+					<h2 class="text-center text-success">les dernières annonces</h2>
+					{#<a href=" {{ path('annonce', { annonce }) }} " class="btn btn-dark">Tout Voir</a>#}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					{% for annonce in annonces %}
+						<h5 class="">{{ annonce.titre }}
+						</h5>
+				</div>
+
+				<div class="col-12">
+					<p>
+						{{ annonce.description|raw|slice(0,20) }}
+								...
+					</p>
+				</div>
+				
+				<div class="col-12">
+					<a href=" {{ path('annonce', { id: annonce.id }) }} " class="btn btn-dark">Lire l'article</a>
+					<hr>
+					{% endfor %}
+				</div>
+			</div>
+		</main>
+	{% endblock %}
 

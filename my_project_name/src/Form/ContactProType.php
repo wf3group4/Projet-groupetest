@@ -2,8 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\ContactPro;
+use App\Controller\ListeController;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,23 +17,33 @@ class ContactProType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-            'label' => 'Nom'
+                'mapped' => false,
+                'label' => 'Nom'
             ])
             ->add('prenom', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'mapped' => false,
             ])
             ->add('sujet', TextType::class, [
-                'label' => 'Objet', 
-                'data' => 'Demande d\'information'
+                'label' => 'Objet',
+                'mapped' => false,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse email'
+                'label' => 'Adresse email',
+                'mapped' => false,
             ] )
             ->add('message', TextareaType::class, [
                 'label' => 'Message',
+                'mapped' => false,
                 'attr' => [
                     'rows' => 10]
             ])
+            ->add('Envoyer_le_message', SubmitType::class,
+                [
+                    'attr' => [
+                        'class' => 'text-right',
+                    ],
+                ])
           
         ;
     }
@@ -40,7 +51,7 @@ class ContactProType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ContactPro::class,
+            'data_class' => ListeController::class,
         ]);
     }
 }

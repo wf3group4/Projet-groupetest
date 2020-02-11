@@ -42,7 +42,7 @@
             </div>
             <!-- fin de la col description -->
             
-            {% if annonce.user.id != app.user.id %}
+            {% if app.user and annonce.user.id != app.user.id %}
 
             {% if annonce in app.user.annoncesPostule %}
             <div class="col">

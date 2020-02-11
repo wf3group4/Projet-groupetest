@@ -21,31 +21,49 @@ class ModifCompteType extends AbstractType
         $builder
             ->add('Name', TextType::class, [
                 'label' => 'Prénom',
+                'attr' => ['placeholder' => 'Prénom',],
             ])
             ->add('Lastname', TextType::class, [
                 'label' => 'Nom',
+                'attr' => ['placeholder' => 'Nom',],
             ])
             ->add('Email', EmailType::class, [
-                'label' => 'Email',
+                'attr' => ['placeholder' => 'Email',],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+                'attr' => ['placeholder' => 'Prénom',],
+                'required' => false,
                 'attr' => [
                     'rows' => 10
-                ]
+                ],
+                'row_attr' => [
+                    'mapped' => false,
+                ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passes ne correspond pas.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'attr' => [
+                        'placeholder' => 'mot de passe',
+                    ] ,
+                ],
+                'second_options' => [
+                    'label' => 'Répéter le mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Répéter le mot de passe',
+                    ],
+                    ],
             ])
             ->add('avatar',FileType::class,[
-                'label' => 'Modifier son avatar',
-                'required' => false,
+                'label' => 'L\'avatar',
                 'mapped' => false,
+                'required' => false,
+                'block_name' => 'avatar',
             ])
             ->add('save', SubmitType::class,[
                 'label' => 'Envoyer',

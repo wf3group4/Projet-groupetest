@@ -54,3 +54,6 @@ index-jumbotron h1{
     font-weight: 200;
 }
 
+#email {
+    display:none;
+}

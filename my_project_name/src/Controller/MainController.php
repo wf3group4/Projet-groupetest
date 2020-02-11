@@ -10,7 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UsersRepository;
 use App\Repository\AnnoncesRepository;
 use App\Repository\PortfolioRepository;
+use App\Repository\AvisRepository;
 use App\Entity\Portfolio;
+use App\Entity\Avis;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class MainController extends AbstractController
@@ -18,38 +20,53 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="accueil")
      */
-    public function accueil(UsersRepository $usersRepo)
+    public function accueil(UsersRepository $usersRepo, AnnoncesRepository $annoncesRepo)
     {
         $personnes = $usersRepo->getLastUser();
         //dump($titre); die();
+        $annonces = $annoncesRepo->getLastAnnonces(3);
+       
 
         return $this->render('main/index.html.twig', [
-            'personnes'=> $personnes
+            'personnes'=> $personnes,
+            'annonces'=> $annonces
+           
         ]);
+        //return $this->findBy(
+         //   array('active' => 1),
+           // array('date_creation' => 'DESC')
+      //  );
+
+     
     }
 
     /**
-     * @Route("/mon-compte/", name="mon_compte")
+     * @Route("/mon-compte/{id}", name="mon_compte")
      */
     public function mon_compte(
+        $id,
         AnnoncesRepository $annoncesRepo, 
         PortfolioRepository $portfolioRepo,
+        UsersRepository $userRepo,
+        AvisRepository $avisRepo,
         Request $request)
     {
-        $user = $this->getUser();
-        $annonces = $annoncesRepo->getUserAnnonces($user);
-        $liens = $portfolioRepo->getUserLiens($user);
+        $user = $userRepo->find($id);
+        // dump($user);die;
+        $annonces = $annoncesRepo->getUserAnnonces($id);
+        $liens = $portfolioRepo->getUserLiens($id);
+        $avis = $avisRepo->getUserAvis($id);
 
         //Ajout de liens/images au portfolio
         $em = $this->getDoctrine()->getManager();
-        $portfolios = $portfolioRepo->getUserPortfolios($user);
+        $portfolios = $portfolioRepo->getUserPortfolios($id);
         
         $new_image = new Portfolio();
         $form = $this->createForm(PortfolioType::class, $new_image );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $portfolios = $form->getData()
-                ->setUser($user)
+                ->setUser($id)
             ;
 
                 $file = $form['img_url']->getData();
@@ -65,7 +82,7 @@ class MainController extends AbstractController
             $this->addFlash('success', "Les réalisations on bien été modifiées");
 
             return $this->redirectToRoute('mon_compte', [
-                'id' => $user
+                'id' => $id
             ]);
         }
 
@@ -78,7 +95,7 @@ class MainController extends AbstractController
             $em->flush();
             $this->addFlash('danger', "L'image a bien été supprimé.");
             return $this->redirectToRoute('mon_compte',[
-                    'id' => $user
+                    'id' => $id
                 ]);
         }
 
@@ -91,15 +108,57 @@ class MainController extends AbstractController
              $em->flush();
              $this->addFlash('danger', "Le lien a bien été supprimé.");
              return $this->redirectToRoute('mon_compte',[
-                     'id' => $user
+                     'id' => $id
                  ]);
          }
+
+        //Ajoute un commentaire
+        if ($request->isMethod('POST')) {
+            $data = $request->request->all();
+
+            $avis = (new Avis())
+                ->setEmail($data['email'])
+                ->setContenu($data['contenu'])
+                ->setRgpd(1)
+                ->setCreateAt(new \DateTime())
+                ->setUsers($user);
+
+            $em->persist($avis);
+            $em->flush();
+
+            $this->addFlash('success', 'Avis Ajouté !');
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $id
+                ]);
+        }
+
+        // Supprimer un avis
+
+        $action = $request->query->get('action');
+        if ($action && $action == 'delete') {
+            $id_avis = $request->query->get('id_avis');
+
+            if ($id_avis) {
+                $avisRepo = $em->getRepository(Avis::class);
+                $avis = $avisRepo->find($id_avis);
+
+                $em->remove($avis);
+                $em->flush();
+
+                $this->addFlash('success', 'Vous venez de supprimer un avis !');
+                return $this->redirectToRoute('profil', [
+                    'id' => $id 
+                ]);
+            }
+        } 
 
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces,
             'portfolios' => $portfolios, 
+            'avis' => $avis,
             'liens' => $liens,
-            'id' => $user,
+            'id' => $id,
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
@@ -116,6 +175,7 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+
             $user = $form->getData()
                 ->setPassword(
                     $passwordEncoder->encodePassword(
@@ -123,6 +183,7 @@ class MainController extends AbstractController
                         $form->get('password')->getData()
                     )
                 )
+                ->setUpdatedAt(new \DateTime())
             ;
 
                 $file = $form['avatar']->getData();
