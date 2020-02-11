@@ -27,6 +27,11 @@ class ListeController extends AbstractController
         ]);
     }
 
+    public function Equipe('Admin' $admin){
+
+    }
+
+
     /**
      * @Route("/profil/{id}", name="profil")
      */
@@ -79,9 +84,6 @@ class ListeController extends AbstractController
                 return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
             }
         }
-
-
-
 
         return $this->render('liste/profil.html.twig', [
             'profil' => $profil,

@@ -41,7 +41,7 @@
 						<h5 class="card-titre">{{ personne.name }}
 						</h5>
 						<p class="card">
-							{{ personne.description|raw|slice(0,5) }}
+							{{ personne.description|raw|slice(0,20) }}
 							...</p>
 						<a href=" {{ path('mon_compte', { id: personne.id }) }} " class="btn btn-info">Voir Profile</a>
 					{% endfor %}

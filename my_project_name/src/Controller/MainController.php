@@ -21,7 +21,7 @@ class MainController extends AbstractController
     public function accueil(UsersRepository $usersRepo, AnnoncesRepository $annoncesRepo)
     {
         $personnes = $usersRepo->getLastUser();
-        //dump($titre); die();
+    
         $annonces = $annoncesRepo->getLastAnnonces(3);
        
 
