@@ -23,10 +23,12 @@ class MainController extends AbstractController
         $personnes = $usersRepo->getLastUser();
         //dump($titre); die();
         $annonces = $annoncesRepo->getLastAnnonces(3);
+       
 
         return $this->render('main/index.html.twig', [
             'personnes'=> $personnes,
-            'annonces'=> $annonces 
+            'annonces'=> $annonces
+           
         ]);
         //return $this->findBy(
          //   array('active' => 1),
