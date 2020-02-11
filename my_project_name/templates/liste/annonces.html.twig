@@ -1,22 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des annonces{% endblock %}
+{% block title %}Liste des annonces
+{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1>Liste des annonces</h1>
+	<div class="container">
+		<u><h1 class="my-5 text-center">Liste des annonces</h1></u>
 
-    {% for annonce in annonces %}
+		{% for annonce in annonces %}
 
-    <div class="container border-bottom border-danger my-5">
+			<div class="container border-bottom border-danger my-5">
 
-        <h2>{{annonce.titre}} </h2>
+               <div class="row">
+					<div class="col-4"><h2>{{annonce.titre}}</h2></div>
 
-           <p> {{annonce.description}}</p>
+					<div class="col-8">
 
-           <a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary mb-3">Lire l'annonce</a>
-        </div>
+	                {% for tags in annonce.Tag %}
+	                {% if tags %}
+	                	<div class="badge badge-pill badge-info">
+		                        {{ tags.nom }}
+						</div>
+					{% endif %}
+					{% endfor %}
+				</div> <!-- fin col tags -->
 
-    {% endfor %}
-</div>
+			   </div> <!-- fin row bandeau titre annonce-->
+			   
+			   <p class="font-italic">{{annonce.DateCreation | format_datetime(pattern="'le' dd MMMM 'à' H'h'mm", locale='fr')}} - {{annonce.prix | format_currency('EUR')}} </p>
+
+				<p>
+				{{annonce.description | slice(0, 200)}}...
+				</p>
+				
+				<div>
+					{% if not annonce.UserPostulant.isEmpty %}
+					{% for user in annonce.UserPostulant %}
+		
+						<div>
+							<ul>
+	
+								<div class="row">
+									<li>
+										{{user.name}}
+										{{user.lastname}}
+									</li>
+									<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('profil', {id: user.id})}} ">Voir son profil</a>
+								</div>
+	
+							</ul>
+						</div>
+					{% endfor %}
+				{% else %}
+				  <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
+				{% endif %}
+				</div>
+
+				<a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary mb-3">Lire l'annonce</a>
+			</div>
+
+		{% endfor %}
+	</div>
 {% endblock %}

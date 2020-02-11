@@ -63,6 +63,12 @@ class Annonces
      */
     private $tag;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    private $prix;
+
+
     public function __construct()
     {
         $this->user_postulant = new ArrayCollection();
@@ -197,4 +203,17 @@ class Annonces
 
         return $this;
     }
+
+    public function getPrix(): ?string
+    {
+        return $this->prix;
+    }
+
+    public function setPrix(string $prix): self
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
 }
