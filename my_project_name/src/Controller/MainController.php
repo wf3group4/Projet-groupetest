@@ -41,7 +41,7 @@ class MainController extends AbstractController
         AvisRepository $avisRepo,
         Request $request)
     {
-        $user = $userRepo->getUser($id);
+        $user = $userRepo->find($id);
         // dump($user);die;
         $annonces = $annoncesRepo->getUserAnnonces($id);
         $liens = $portfolioRepo->getUserLiens($id);
@@ -103,7 +103,6 @@ class MainController extends AbstractController
          }
 
         //Ajoute un commentaire
-
         if ($request->isMethod('POST')) {
             $data = $request->request->all();
 
@@ -118,7 +117,9 @@ class MainController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Avis Ajouté !');
-            return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $id
+                ]);
         }
 
         // Supprimer un avis
@@ -135,7 +136,9 @@ class MainController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('success', 'Vous venez de supprimer un avis !');
-                return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
+                return $this->redirectToRoute('profil', [
+                    'id' => $id 
+                ]);
             }
         } 
 

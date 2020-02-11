@@ -50,16 +50,6 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         );
     }
 
-    /**
-     * Retourne un utilisateur particulier
-     */
-    public function getUser($user)
-    {
-        return $this->findBy(
-            array('id' => $user)
-        );
-    }
-
 
 /*
     public function findByExampleField($value)
