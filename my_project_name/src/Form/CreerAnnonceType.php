@@ -29,7 +29,7 @@ class CreerAnnonceType extends AbstractType
                 ],
                 ])
             ->add('prix', MoneyType::class, [
-                'label' => 'Prix minimum',
+                'label' => 'Prix',
                 'invalid_message' => 'Vous devez entrer un nombre',
             ])
             ->add('tag', EntityType::class, [
