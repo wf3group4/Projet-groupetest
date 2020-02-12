@@ -98,6 +98,11 @@ class Users implements UserInterface
      */
     private $annonces_postule;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Vues;
+
 
     public function __construct()
     {
@@ -408,6 +413,18 @@ class Users implements UserInterface
             $this->annonces_postule->removeElement($annoncesPostule);
             $annoncesPostule->removeUserPostulant($this);
         }
+
+        return $this;
+    }
+
+    public function getVues(): ?int
+    {
+        return $this->Vues;
+    }
+
+    public function setVues(int $Vues): self
+    {
+        $this->Vues = $Vues;
 
         return $this;
     }

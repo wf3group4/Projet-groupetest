@@ -115,7 +115,6 @@ class MainController extends AbstractController
         //Ajoute un commentaire
         if ($request->isMethod('POST')) {
             $data = $request->request->all();
-
             $avis = (new Avis())
                 ->setEmail($data['email'])
                 ->setContenu($data['contenu'])

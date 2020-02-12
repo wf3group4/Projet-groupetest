@@ -31,7 +31,7 @@ class ListeController extends AbstractController
         $profil = $usersRepo->findAll();
 
 
-        $search = $request->query->get('name');
+        $search = $request->query->get('search');
             if ($search)
             {
                 $profil = $usersRepo->SearchByName($search);
@@ -44,9 +44,6 @@ class ListeController extends AbstractController
 
 
                     $this->addFlash('success', 'Résultat trouvée !');
-                    return $this->redirectToRoute('liste-profils',[
-                        'recherche' => $profil = $usersRepo->findOneBy(['Name' => $search]),
-                    ]);
 
             }
 
@@ -55,7 +52,7 @@ class ListeController extends AbstractController
 
         return $this->render('liste/LesProfils.html.twig', [
             'profiles' => $profil,
-            'recherche' => 'recherche'
+            'recherche' => $search,
         ]);
     }
 
@@ -70,7 +67,6 @@ class ListeController extends AbstractController
         $usersRepo = $em->getRepository(Users::class);
         // requête pour récupérer tous les profil
         $profil = $usersRepo->find($id);
-        dump($profil);die;
         if (!$profil) {
             $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
             return $this->redirectToRoute('accueil');

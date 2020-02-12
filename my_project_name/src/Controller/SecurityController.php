@@ -42,6 +42,7 @@ class SecurityController extends AbstractController
                 ->setToken($this->generateToken())
                 ->setActive(0)
                 ->setRoles(["ROLE_PUBLISHER"])
+                ->setAvatar("images/imageDefault.jpg")
 
             ;
             $entityManager = $this->getDoctrine()->getManager();

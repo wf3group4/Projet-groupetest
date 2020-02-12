@@ -1,4 +1,4 @@
-#Profiles:nth-of-type(2){
+#Profiles:nth-of-type(2n){
     background-color: #ff5733;
 }
 
