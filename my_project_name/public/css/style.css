@@ -1,5 +1,5 @@
 #Profiles:nth-of-type(2){
-    background-color: #ff5733;
+    background-color: #a7fbe9;
 }
 
 /* ------------PAGE MON COMPTE------------- */
@@ -10,7 +10,7 @@
 
 
 #Profiles:nth-of-type(4){
-    background-color: #b1ff33;
+    background-color: #f8d69f;
 }
 
 
@@ -49,10 +49,12 @@ index-jumbotron h1{
     max-width: 526px;
 }
 
-.indexojumbotron p{
+.index-jumbotron p{
     margin-bottom: 20px;
     font-weight: 200;
 }
+
+
 
 #email {
     display:none;

@@ -51,13 +51,11 @@
 
 					{% if annonce in app.user.annoncesPostule %}
 						<div class="col">
-							<a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-info my-5">Ca ne
-								                    m'intéresse plus</a>
+							<a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-info my-5">Ca ne m'intéresse plus</a>
 						</div>
 					{% else %}
 						<div class="col">
-							<a href="{{path('annonce', {id: annonce.id, action: 'add'})}}" class="btn btn-success my-5">Ca
-								                    m'intéresse</a>
+							<a href="{{path('annonce', {id: annonce.id, action: 'add'})}}" class="btn btn-success my-5">Ca m'intéresse</a>
 						</div>
 					{% endif %}
 

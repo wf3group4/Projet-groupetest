@@ -15,35 +15,22 @@
    
 </div>
 
-<!-- On affiche la liste des postulants -->
+<!-- On affiche la liste des postulants not the postulant -->
+{#{% if not annonce.UserPostulant.isEmpty %}{% endif %}
+	{% for user in annonce.UserPostulant %}{% endfor %}#}
 {% for annonce in app.user.annonces %}
     {% for postulant in annonce.userPostulant %}
      <p>{{postulant.name}}&nbsp;à postulé sur l'annonce : {{ annonce.titre }}</p>
     {% endfor %} 
-{% endfor %}
 
-
-
-{#  
-
- 	{% if not annonce.UserPostulant.isEmpty %}
-	{% for user in annonce.UserPostulant %}
-		
-	<div>
-        <ul>
+ <!-- On efface les messages quand on les a lu -->   
+ <div class="col-md-2">
+    <a href="{{path('annonce', { id: annonce.id, action: 'delete' })}} "
+     class="ml-auto mr-3 text-danger">Supprimer</a>
+</div>
 	
-		    <div class="row">
-				<li>
-					{{user.name}}
-					{{user.lastname}}
-				</li>
-			<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
-			</div>
-		</ul>
-	        </div>
-	{% endfor %}
 	{% else %}
 	    <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
-	{% endif %}  "#}
+	  {% endfor %}
 	</div>
 {% endblock %}
