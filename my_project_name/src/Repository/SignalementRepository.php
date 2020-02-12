@@ -19,22 +19,16 @@ class SignalementRepository extends ServiceEntityRepository
         parent::__construct($registry, Signalement::class);
     }
 
-    // /**
-    //  * @return Signalement[] Returns an array of Signalement objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Signalement[] Returns an array of Signalement objects
+    */
+
+    public function getSignalement()
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        return $this->findAll()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Signalement

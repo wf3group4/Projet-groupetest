@@ -7,6 +7,12 @@
 <div class="example-wrapper">
     <h1 class="text-center py-5">Hello {{app.user.name}}</h1>
     <h2 class="py-3">Les signalements:</h2>
+        {% for signalement in signalements %}
+        <pre>
+            {{ dump(signalement) }}
+        </pre>
+            <p>{{signalement.message}}</p>
+        {% endfor %}
     <h2 class="py-3">Le coin des stats:</h2>
     <h3>Argent générer ce mois:</h3>
     <h3>Nouveau profil:</h3>
