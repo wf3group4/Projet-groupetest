@@ -103,6 +103,11 @@ class Users implements UserInterface
      */
     private $Vues;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $commission;
+
 
     public function __construct()
     {
@@ -425,6 +430,18 @@ class Users implements UserInterface
     public function setVues(int $Vues): self
     {
         $this->Vues = $Vues;
+
+        return $this;
+    }
+
+    public function getCommission(): ?float
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?float $commission): self
+    {
+        $this->commission = $commission;
 
         return $this;
     }

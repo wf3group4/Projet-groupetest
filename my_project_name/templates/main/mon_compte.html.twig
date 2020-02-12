@@ -4,7 +4,14 @@
 
 {% block body %}
     <div>
-        <h1 class="text-center py-5" id="titre">{{user.name}} {{user.lastname}}</h1>  
+        <h1 class="text-center py-5" id="titre">{{user.name}} {{user.lastname}} -
+            {% if user.commission >= 40 %}
+                <span class="badge badge-pill badge-success">2</span>
+            {% elseif user.commission >= 20 %}
+                <span class="badge badge-pill badge-warning">1</span>
+            {% else %}
+                <span class="badge badge-pill badge-primary">0</span>
+            {% endif %}</h1>
         <div class="row">
             <div class="col-md-4">
                 {% if user.avatar %}
