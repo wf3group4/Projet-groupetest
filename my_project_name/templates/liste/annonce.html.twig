@@ -7,21 +7,19 @@
 {% block body %}
 
 
-	<h1 class="text-center my-5">{{annonce.titre}}</h1>
-        {#<div class="input-group mb-3">
+	<h1 class="text-center my-5">{{annonce.titre}}</h1> 
+        <div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<div class="input-group-text">
-					<input type="checkbox" aria-label="Checkbox for following text input">&nbsp;Je suis intéressé
-				</div>
+			
 			</div>
-		</div>#}
+		</div>
 	<div class="row">
 
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-body">
 					<h2 class="card-title">Information sur celui qui a posté l'annonce</h2>
-                     <a class="btn btn-outline-primary" href="{{ path('contact-profil', {id: profil.id}) }}">Me contacter <i class="fas fa-envelope"></i></a>
+                    
 					<p>
 						<a href="#">Voir son profil</a>
 					</p>

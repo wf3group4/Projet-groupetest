@@ -15,6 +15,7 @@ use App\Entity\Portfolio;
 use App\Entity\Avis;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
 class MainController extends AbstractController
 {
     /**
@@ -41,8 +42,6 @@ class MainController extends AbstractController
     {
         return $this->render('main/a_propos.html.twig');    
     }
-
-
 
     /**
      * @Route("/mon-compte/{id}", name="mon_compte")

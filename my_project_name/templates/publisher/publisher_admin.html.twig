@@ -9,10 +9,34 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{app.user.name}}</h1>
-    <h2>Les dernières nouvelles</h2>
-    <p>{{ message}}</p>
-    <p>gens interessés {{ user.name or profil? }}</p>
+    <h1 class="text-center text-warning">Hello {{app.user.name}}</h1>
+    <h2 class="text-center" >Les dernières nouvelles</h2>
+    
    
 </div>
+
+
+<!-- On affiche la liste des postulants -->
+{# <h3>{{annonce.UserPostulant}}à postulé sur l'annonce : {{ annonce.titre }}</h3> #}
+
+{# 	{% if not annonce.UserPostulant.isEmpty %}
+	{% for user in annonce.UserPostulant %}
+		
+	<div>
+        <ul>
+	
+		    <div class="row">
+				<li>
+					{{user.name}}
+					{{user.lastname}}
+				</li>
+			<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
+			</div>
+		</ul>
+	        </div>
+	{% endfor %}
+	{% else %}
+	    <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
+	{% endif %}  "#}
+	</div>
 {% endblock %}
