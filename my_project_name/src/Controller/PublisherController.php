@@ -20,11 +20,11 @@ class PublisherController extends AbstractController
         if ($this->getUser()->hasRoles('ROLE_ADMIN')) {
             return $this->redirectToRoute('admin');
         }
-        $id = $this->getUser()->getId();
-        $annonce = $annoncesRepo->find($id);
-        
+        // $id = $this->getUser()->getId();
+        // $annonce = $annoncesRepo->find($id);
+
         return $this->render('publisher/publisher_admin.html.twig', [
-            'annonce' => $annonce
+            // 'annonce' => $annonce
         ]);
     }
 

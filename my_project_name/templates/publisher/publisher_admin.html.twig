@@ -15,11 +15,17 @@
    
 </div>
 
+{% for annonce in app.user.annonces %}
+    {% for postulant in annonce.userPostulant %}
+      
+    {% endfor %}
+{% endfor %}
+
 
 <!-- On affiche la liste des postulants -->
-{# <h3>{{annonce.UserPostulant}}à postulé sur l'annonce : {{ annonce.titre }}</h3> #}
+{# <h3>{{name}}à postulé sur l'annonce : {{ annonce.titre }}</h3> 
 
-{# 	{% if not annonce.UserPostulant.isEmpty %}
+ 	{% if not annonce.UserPostulant.isEmpty %}
 	{% for user in annonce.UserPostulant %}
 		
 	<div>
