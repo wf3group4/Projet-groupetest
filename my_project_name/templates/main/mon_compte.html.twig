@@ -33,6 +33,9 @@
                     <a href="{{ path('contact-profil', {id: user.id}) }}"     class="btn btn-primary" >Me contacter</a>
                 {% endif %}
             </div>
+            {% if app.user and app.user.id != user.id %}
+                <a href="{{ path('signalement', { id: user.id, cible: 'user'}) }}" class="text-danger ml-auto">Signaler cette utilisateur</a>
+            {% endif %}
         </div>
         <hr>
         <div>
@@ -46,7 +49,7 @@
             {# liste realisation #}
             <h2 class="mt-5">Mes réalisations:</h2>
             {% if portfolios|length %}
-                <div class="row d-flex flex-wrap">
+                <div class="row d-flex flex-wrap ml-5">
                     {% for portfolio in portfolios %}
                         <div class="card p-3 m-3" style="width: 18rem;">
                         

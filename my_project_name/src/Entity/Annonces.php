@@ -74,12 +74,18 @@ class Annonces
      */
     private $artiste_choisi;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="annonce")
+     */
+    private $signalements;
+
 
 
     public function __construct()
     {
         $this->user_postulant = new ArrayCollection();
         $this->tag = new ArrayCollection();
+        $this->signalements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +237,37 @@ class Annonces
     public function setArtisteChoisi(?string $artiste_choisi): self
     {
         $this->artiste_choisi = $artiste_choisi;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Signalement[]
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): self
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements[] = $signalement;
+            $signalement->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->contains($signalement)) {
+            $this->signalements->removeElement($signalement);
+            // set the owning side to null (unless already changed)
+            if ($signalement->getAnnonce() === $this) {
+                $signalement->setAnnonce(null);
+            }
+        }
 
         return $this;
     }

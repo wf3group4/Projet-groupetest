@@ -98,6 +98,11 @@ class Users implements UserInterface
      */
     private $annonces_postule;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="user")
+     */
+    private $signalements;
+
 
     public function __construct()
     {
@@ -105,6 +110,7 @@ class Users implements UserInterface
         $this->annonces = new ArrayCollection();
         $this->avis = new ArrayCollection();
         $this->annonces_postule = new ArrayCollection();
+        $this->signalements = new ArrayCollection();
     }
 
 
@@ -407,6 +413,37 @@ class Users implements UserInterface
         if ($this->annonces_postule->contains($annoncesPostule)) {
             $this->annonces_postule->removeElement($annoncesPostule);
             $annoncesPostule->removeUserPostulant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Signalement[]
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): self
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements[] = $signalement;
+            $signalement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->contains($signalement)) {
+            $this->signalements->removeElement($signalement);
+            // set the owning side to null (unless already changed)
+            if ($signalement->getUser() === $this) {
+                $signalement->setUser(null);
+            }
         }
 
         return $this;

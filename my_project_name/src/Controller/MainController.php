@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ModifCompteType;
 use App\Form\PortfolioType;
+use App\Form\SignalementType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,7 +70,7 @@ class MainController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $portfolios = $form->getData()
-                ->setUser($id)
+                ->setUser($user)
             ;
 
                 $file = $form['img_url']->getData();
@@ -215,7 +216,7 @@ class MainController extends AbstractController
     }
 
      /**
-     * @Route("/portfolio={id}", name="portfolio")
+     * @Route("/portfolio/{id}", name="portfolio")
      */
     public function portfolio(
         $id, 
@@ -231,5 +232,36 @@ class MainController extends AbstractController
             'portfolios' => $portfolios
         ]);
      
+    }
+
+     /**
+     * @Route("/signalement/{id}", name="signalement")
+     */
+    public function signalement(
+        $id, 
+        UsersRepository $userRepo,
+        AnnoncesRepository $annonceRepo,
+        Request $request)
+    {
+        $cible = $request->query->get('cible');
+        $user = $userRepo->find($id);
+        $annonce = $annonceRepo->find($id);
+
+        $form = $this->createForm(SignalementType::class);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $params = $request->request->all();
+
+            $this->addFlash('success', 'Votre message à bien été envoyé !');
+        }
+        return $this->render('main/form_signalement.html.twig', [
+            'id' => $id,
+            'user' => $user,
+            'annonce' =>$annonce,
+            'cible' => $cible,
+            'form' => $form->createView(),
+        ]);
+
     }
 }

@@ -55,14 +55,13 @@
                     m'intéresse</a>
             </div>
             {% endif %}
-
             {% endif %}
-
-
         </div>
     </div>
     <!-- fin de la col description -->
-
+    {% if app.user and annonce.user.id != app.user.id %}
+        <a href="{{ path('signalement', { id: annonce.id, cible: 'annonce'}) }}" class="text-danger ml-auto">Signaler cette annonce</a>
+    {% endif %}
 </div>
 <!-- fin de la row -->
 

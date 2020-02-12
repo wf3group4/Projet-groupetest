@@ -3,12 +3,13 @@
 {% block title %}Hello AdminController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
 <div class="example-wrapper">
-    <h1>Hello Admin</h1>
+    <h1 class="text-center py-5">Hello {{app.user.name}}</h1>
+    <h2 class="py-3">Les signalements:</h2>
+    <h2 class="py-3">Le coin des stats:</h2>
+    <h3>Argent générer ce mois:</h3>
+    <h3>Nouveau profil:</h3>
+    <h3>Nouvelle annonce:</h3>
 </div>
 {% endblock %}

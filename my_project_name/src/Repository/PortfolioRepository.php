@@ -39,6 +39,7 @@ class PortfolioRepository extends ServiceEntityRepository
             ->andWhere('portfolio.user = :user')
                 ->setParameter('user', $user)
             ->andWhere('portfolio.img_url IS NOT NULL')
+            ->orderBy('portfolio.id', 'DESC')
             ->setMaxResults(6)
             ->getQuery()
             ->getResult()
