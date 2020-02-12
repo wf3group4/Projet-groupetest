@@ -150,13 +150,34 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonces", name="annonces")
      */
-    public function annonces(AnnoncesRepository $annoncesRepo)
+    public function annonces(AnnoncesRepository $annoncesRepo,Request $request)
     {
         // Requete pour récupérer toutes les annonces
         $annonces = $annoncesRepo->findAll();
 
+        $search = $request->query->get('search');
+        $prix = $request->query->get('prix');
+
+        if ($search && $prix)
+        {
+
+            $annonces = $annoncesRepo->searchByAnnonce($search, $prix);
+
+            if(!$annonces)
+            {
+                $this->addFlash('danger', 'Aucun résultat trouvé');
+                return $this->redirectToRoute('annonces');
+            }
+
+
+            $this->addFlash('success', 'Résultat trouvée !');
+
+        }
+
+
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
+            'recherche' => $search && $prix,
         ]);
     }
 
@@ -169,9 +190,12 @@ class ListeController extends AbstractController
         // On récupère l' AnnoncesRepository
         $em = $this->getDoctrine()->getManager();
         $annoncesRepo = $em->getRepository(Annonces::class);
-
         // On récupère l'annonce, en fonction de l'ID qui est dans l'URL
         $annonce = $annoncesRepo->find($id);
+
+        $annonce->setVues($annonce->getVues()+1);
+
+        $em->flush();
 
         if (!$annonce) {
             $this->addFlash('danger', "L'article demandé n'a pas été trouvé.");

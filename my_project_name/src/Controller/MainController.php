@@ -52,13 +52,17 @@ class MainController extends AbstractController
         Request $request)
     {
         $user = $userRepo->find($id);
-        // dump($user);die;
         $annonces = $annoncesRepo->getUserAnnonces($id);
         $liens = $portfolioRepo->getUserLiens($id);
         $avis = $avisRepo->getUserAvis($id);
 
+
+            $em = $this->getDoctrine()->getManager();
+            $user->setVues($user->getVues()+1);
+
+            $em->flush();
+
         //Ajout de liens/images au portfolio
-        $em = $this->getDoctrine()->getManager();
         $portfolios = $portfolioRepo->getUserPortfolios($id);
         
         $new_image = new Portfolio();

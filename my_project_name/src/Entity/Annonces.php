@@ -69,6 +69,11 @@ class Annonces
      */
     private $prix;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $vues;
+
 
 
     public function __construct()
@@ -214,6 +219,18 @@ class Annonces
     public function setPrix(string $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getVues(): ?int
+    {
+        return $this->vues;
+    }
+
+    public function setVues(int $vues): self
+    {
+        $this->vues = $vues;
 
         return $this;
     }
