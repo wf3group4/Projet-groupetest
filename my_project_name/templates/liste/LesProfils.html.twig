@@ -61,11 +61,7 @@
                                         <div class="row">
                                             <div class="col-4">
                                                 <p>{{ profil.email }}</p>
-                                                {% if not profil.vues %}
-                                                    <p>Je n'ai aucune vues</p>
-                                                {% else %}
-                                                    <p>{{ profil.vues }}</p>
-                                                {% endif %}
+                                                <p>{% if profil.vues == 0 %} Je n'ai pas de vues {% else %} Profil vue {{ profil.vues }} fois {% endif %}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -111,11 +107,7 @@
                                         <div class="row">
                                             <div class="col-4">
                                                 <p>{{ profil.email }}</p>
-                                                {% if not profil.vues %}
-                                                    <p>Je n'ai aucune vues</p>
-                                                {% else %}
-                                                    <p>{{ profil.vues }}</p>
-                                                {% endif %}
+                                                <p>{% if profil.vues == 0 %} Je n'ai pas de vues {% else %} Profil vue {{ profil.vues }} fois {% endif %}</p>
                                             </div>
                                         </div>
                                         <div class="row">

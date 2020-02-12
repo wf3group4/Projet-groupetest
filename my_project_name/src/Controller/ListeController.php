@@ -58,63 +58,6 @@ class ListeController extends AbstractController
 
 
     /**
-     * @Route("/profil/{id}", name="profil")
-     */
-    public function Profil($id, Request $request)
-    {
-        // On récupère User repository
-        $em = $this->getDoctrine()->getManager();
-        $usersRepo = $em->getRepository(Users::class);
-        // requête pour récupérer tous les profil
-        $profil = $usersRepo->find($id);
-        if (!$profil) {
-            $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
-            return $this->redirectToRoute('accueil');
-        }
-
-        //Ajoute un commentaire
-
-        if ($request->isMethod('POST')) {
-            $data = $request->request->all();
-
-            $avis = (new Avis())
-                ->setEmail($data['email'])
-                ->setContenu($data['contenu'])
-                ->setRgpd(1)
-                ->setCreateAt(new \DateTime())
-                ->setUsers($profil);
-
-            $em->persist($avis);
-            $em->flush();
-
-            $this->addFlash('success', 'Avis Ajouté !');
-            return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
-        }
-
-        // Supprimer un avis
-
-        $action = $request->query->get('action');
-        if ($action && $action == 'delete') {
-            $id_avis = $request->query->get('id_avis');
-
-            if ($id_avis) {
-                $avisRepo = $em->getRepository(Avis::class);
-                $avis = $avisRepo->find($id_avis);
-
-                $em->remove($avis);
-                $em->flush();
-
-                $this->addFlash('success', 'Vous venez de supprimer un avis !');
-                return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
-            }
-        }
-
-        return $this->render('liste/profil.html.twig', [
-            'profil' => $profil,
-        ]);
-    }
-
-    /**
      * @Route("/contact-profil/{id}", name="contact-profil")
     */
     public function contactProfil($id, EmailService $emailService, Request $request)

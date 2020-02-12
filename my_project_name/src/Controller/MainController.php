@@ -120,7 +120,8 @@ class MainController extends AbstractController
         if ($request->isMethod('POST')) {
             $data = $request->request->all();
             $avis = (new Avis())
-                ->setEmail($data['email'])
+                ->setNom($data['nom'])
+                ->setPrenom($data['prenom'])
                 ->setContenu($data['contenu'])
                 ->setRgpd(1)
                 ->setCreateAt(new \DateTime())
