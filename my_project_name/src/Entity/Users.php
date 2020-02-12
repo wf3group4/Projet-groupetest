@@ -98,6 +98,11 @@ class Users implements UserInterface
      */
     private $annonces_postule;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Annonces", mappedBy="prestataire")
+     */
+    private $annonces_prestataire;
+
 
     public function __construct()
     {
@@ -105,6 +110,7 @@ class Users implements UserInterface
         $this->annonces = new ArrayCollection();
         $this->avis = new ArrayCollection();
         $this->annonces_postule = new ArrayCollection();
+        $this->annonces_prestataire = new ArrayCollection();
     }
 
 
@@ -407,6 +413,37 @@ class Users implements UserInterface
         if ($this->annonces_postule->contains($annoncesPostule)) {
             $this->annonces_postule->removeElement($annoncesPostule);
             $annoncesPostule->removeUserPostulant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Annonces[]
+     */
+    public function getAnnoncesPrestataire(): Collection
+    {
+        return $this->annonces_prestataire;
+    }
+
+    public function addAnnoncesPrestataire(Annonces $annoncesPrestataire): self
+    {
+        if (!$this->annonces_prestataire->contains($annoncesPrestataire)) {
+            $this->annonces_prestataire[] = $annoncesPrestataire;
+            $annoncesPrestataire->setPrestataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesPrestataire(Annonces $annoncesPrestataire): self
+    {
+        if ($this->annonces_prestataire->contains($annoncesPrestataire)) {
+            $this->annonces_prestataire->removeElement($annoncesPrestataire);
+            // set the owning side to null (unless already changed)
+            if ($annoncesPrestataire->getPrestataire() === $this) {
+                $annoncesPrestataire->setPrestataire(null);
+            }
         }
 
         return $this;

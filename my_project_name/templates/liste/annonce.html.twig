@@ -7,63 +7,94 @@
 {% block body %}
 
 
-<h1 class="text-center my-5">{{annonce.titre}}</h1>
+	<h1 class="text-center my-5">{{annonce.titre}}</h1>
 
-<div class="row">
+	<div class="row">
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h2 class="card-title">Information sur celui qui a posté l'annonce</h2>
-                <p>
-                    <a href="#">Voir son profil</a>
-                </p>
-                <p class="card-text">Nom :
-                    {{annonce.user.name}}</p>
-                <p class="card-text">Prénom
-                    {{annonce.user.lastname}}</p>
-                <p class="card-text">Inscrit depuis le :
-                    {{annonce.user.createdAt | date("Y-m-d H:i:s") }}</p>
-                {% if annonce.dateLimite %}
-                <p class="card-text">Date limite de la recherche :
-                    {{annonce.dateLimite | date("Y-m-d H:i:s") }}</p>
-                {% else %}
-                <p class="card-text">Date limite de la recherche : L'annonceur n'a pas précisé de date limite</p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    <!-- fin de la col card -->
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body">
+					<h2 class="card-title">Information sur celui qui a posté l'annonce</h2>
+					<p>
+						<a href="#">Voir son profil</a>
+					</p>
+					<p class="card-text">Nom :
+						{{annonce.user.name}}</p>
+					<p class="card-text">Prénom
+						{{annonce.user.lastname}}</p>
+					<p class="card-text">Inscrit depuis le :
+						{{annonce.user.createdAt | date("Y-m-d H:i:s") }}</p>
+					{% if annonce.dateLimite %}
+						<p class="card-text">Date limite de la recherche :
+							{{annonce.dateLimite | date("Y-m-d H:i:s") }}</p>
+					{% else %}
+						<p class="card-text">Date limite de la recherche : L'annonceur n'a pas précisé de date limite</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		<!-- fin de la col card -->
 
-    <div class="col-md-8">
-        <div class="row d-flex flex-column">
-            <div class="col">
-                <div class="">{{annonce.description}}</div>
-            </div>
-            <!-- fin de la col description -->
-            
-            {% if app.user and annonce.user.id != app.user.id %}
+		<div class="col-md-8">
+			<div class="row d-flex flex-column">
+				<div class="col">
+					<div class="">{{annonce.description}}</div>
+				</div>
+				<!-- fin de la col description -->
 
-            {% if annonce in app.user.annoncesPostule %}
-            <div class="col">
-                <a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-info my-5">Ca ne
-                    m'intéresse plus</a>
-            </div>
-            {% else %}
-            <div class="col">
-                <a href="{{path('annonce', {id: annonce.id, action: 'add'})}}" class="btn btn-success my-5">Ca
-                    m'intéresse</a>
-            </div>
-            {% endif %}
+				<!-- Gestion du bouton ça m'intéresse -->
+				{% if app.user and annonce.user.id != app.user.id and not annonce.prestataire %}
 
-            {% endif %}
+					{% if annonce in app.user.annoncesPostule %}
+						<div class="col">
+							<a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-info my-5">Ca ne m'intéresse plus</a>
+						</div>
+					{% else %}
+						<div class="col">
+							<a href="{{path('annonce', {id: annonce.id, action: 'add'})}}" class="btn btn-success my-5">Ca m'intéresse</a>
+						</div>
+					{% endif %}
+				{% else %}
+					<div class="col">
+						<u><p class="my-5 font-weight-bold text-success">Cette annonce a été pourvu</p></u>
+					</div>
+				{% endif %}
+
+			</div>
+		</div>
+		<!-- fin de la col description -->
+
+	</div>
+	<!-- fin de la row -->
+
+	<div class="my-4">
+        {% if not annonce.UserPostulant.isEmpty %}
+        <h4>Utilisateur intéressé par cette annonce :</h4>
+
+			{% for user in annonce.UserPostulant %}
+				<div>
+					<ul>
+						<div class="row">
+							<li>{{user.name}}
+								{{user.lastname}}</li>
+							<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
+
+							<!-- Gestion du bouton choisir un artiste -->
+							{% if annonce.prestataire %}
+								<a href="{{path('annonce', {id: annonce.id, action: 'remove-prestataire'})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Changer d'artiste</a>
+							{% else %}
+								<a href="{{path('annonce', {id: annonce.id, action: 'add-prestataire', user_id: user.id})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Choisir cet artiste</a>
+							{% endif %}
 
 
-        </div>
-    </div>
-    <!-- fin de la col description -->
-
-</div>
-<!-- fin de la row -->
+						</div>
+					</ul>
+				</div>
+			{% endfor %}
+		{% else %}
+			<h4>
+				Aucun artiste n'a postulé à cette annonce pour le moment</h4>
+		{% endif %}
+	</div>
 
 {% endblock %}

@@ -106,4 +106,13 @@ class EmailService{
         );
         $this->send($data);
     }
+
+    public function choix_prestataire($user, $link) {
+        $data = array(
+            'subject' => 'Un annonceur vous a choisi',
+            'template' => 'emails/choix_prestataire.html.twig',
+            'context' => ['user' => $user, 'link' => $link]
+        );
+        $this->send($data);
+    }
 }

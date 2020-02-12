@@ -1,0 +1,94 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mes projets
+{% endblock %}
+
+
+{% block body %}
+
+	<h1 class="text-center my-5">Mes projets</h1>
+
+	<h2 class="my-5">Mes candidatures acceptées</h2>
+
+	<div>
+
+		{% for annonce in candidature_valide %}
+			{% if annonce.Active == 2 %}
+				<article class="border rounded shadow my-3 p-2 bg-light">
+					<div class="row">
+						<div class="col-md-7">
+							<i>Annonce créée le
+								{{annonce.dateCreation | date('d M Y')}}
+								à
+								{{annonce.dateCreation | date('H:i')}}
+								par
+								{{annonce.user.name}}
+								{{annonce.user.lastname}}</i>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col-9">
+							<a href="{{path('annonce', {id: annonce.id})}}">
+								<h3 class="ml-3">{{annonce.titre}}</h3>
+							</a>
+						</div>
+						<div class="col-3">
+							<a href="{{path('mes_candidatures', {id: user.id, annonce_id: annonce.id, action: 'projet_fini'})}} " class="btn btn-success">Déclarer le projet fini</a>
+						</div>
+					</div>
+
+					<p class="  my-3">{{annonce.description}}</p>
+				</article>
+			{% endif %}
+		{% endfor %}
+
+	</div>
+
+
+	<h2 class="my-5">Mes candidatures en attentes</h2>
+
+	<div>
+
+		{% for annonce in annonces_postule %}
+			{% if annonce.Active == 1 %}
+
+				<article class="border rounded shadow my-3 p-2 bg-light">
+					<div class="row">
+						<div class="col-md-7">
+							<i>Annonce créée le
+								{{annonce.dateCreation | date('d M Y')}}
+								à
+								{{annonce.dateCreation | date('H:i')}}
+								par
+								{{annonce.user.name}}
+								{{annonce.user.lastname}}</i>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col">
+							<a href="{{path("annonce", {id: annonce.id})}}">
+								<h3 class="ml-3">{{annonce.titre}}</h3>
+							</a>
+						</div>
+						<!-- Gestion du bouton ça m'intéresse -->
+
+						{% if annonce in app.user.annoncesPostule %}
+							<div class="col">
+								<a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-info">Ca ne m'intéresse plus</a>
+							</div>
+						{% endif %}
+
+					</div>
+					<p class="ml-3">{{annonce.description}}</p>
+				</article>
+			{% endif %}
+
+		{% endfor %}
+
+	</div>
+
+{% endblock %}

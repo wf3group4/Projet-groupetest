@@ -69,6 +69,11 @@ class Annonces
      */
     private $prix;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="annonces_prestataire")
+     */
+    private $prestataire;
+
 
 
     public function __construct()
@@ -214,6 +219,18 @@ class Annonces
     public function setPrix(string $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getPrestataire(): ?Users
+    {
+        return $this->prestataire;
+    }
+
+    public function setPrestataire(?Users $prestataire): self
+    {
+        $this->prestataire = $prestataire;
 
         return $this;
     }
