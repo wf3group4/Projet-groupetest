@@ -52,14 +52,17 @@ class MainController extends AbstractController
         Request $request)
     {
         $user = $userRepo->find($id);
-        // dump($user);die;
         $annonces = $annoncesRepo->getUserAnnonces($id);
         $liens = $portfolioRepo->getUserLiens($id);
         $avis = $avisRepo->getUserAvis($id);
 
+        if (!$user) {
+            $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
+            return $this->redirectToRoute('accueil');
+        }
         //Ajout de liens/images au portfolio
         $em = $this->getDoctrine()->getManager();
-        $portfolios = $portfolioRepo->getUserPortfolios($id);
+        $portfolios = $portfolioRepo->getUserLastPortfolio($id);
         
         $new_image = new Portfolio();
         $form = $this->createForm(PortfolioType::class, $new_image );
@@ -209,5 +212,24 @@ class MainController extends AbstractController
         return $this->render('main/modif_compte.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+     /**
+     * @Route("/portfolio={id}", name="portfolio")
+     */
+    public function portfolio(
+        $id, 
+        UsersRepository $userRepo,
+        PortfolioRepository $portfolioRepo)
+    {
+        $user = $userRepo->find($id);
+        $portfolios = $portfolioRepo->getUserPortfolios($id);
+
+        return $this->render('main/portfolio.html.twig', [
+            'id' => $id,
+            'user' => $user,
+            'portfolios' => $portfolios
+        ]);
+     
     }
 }

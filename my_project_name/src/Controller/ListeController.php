@@ -73,7 +73,6 @@ class ListeController extends AbstractController
         $usersRepo = $em->getRepository(Users::class);
         // requête pour récupérer tous les profil
         $profil = $usersRepo->find($id);
-        dump($profil);die;
         if (!$profil) {
             $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
             return $this->redirectToRoute('accueil');
@@ -172,7 +171,7 @@ class ListeController extends AbstractController
      */
     public function annonce($id, Request $request)
     {
-
+        
         // On récupère l' AnnoncesRepository
         $em = $this->getDoctrine()->getManager();
         $annoncesRepo = $em->getRepository(Annonces::class);
@@ -215,7 +214,7 @@ class ListeController extends AbstractController
      */
     public function annonce_crud($id, Request $request, AnnoncesRepository $annoncesRepo)
     {
-
+        $user_id = $this->getUser()->getId();
         $this->denyAccessUnlessGranted('ROLE_PUBLISHER');
 
         $em = $this->getDoctrine()->getManager();
@@ -232,7 +231,9 @@ class ListeController extends AbstractController
             $annonce = $annoncesRepo->find($id);
             if (!$annonce) {
                 $this->addFlash('danger', "Cet annonce n'a pas été trouvé.");
-                return $this->redirectToRoute('mon_compte');
+                return $this->redirectToRoute('mon_compte', [
+                    'id' =>  $user_id
+                ]);
             }
 
             // On vérifie si l'utilisateur à écrit l'annonce
@@ -252,7 +253,9 @@ class ListeController extends AbstractController
             $em->flush();
 
             $this->addFlash('danger', "L'annonce a bien été supprimé.");
-            return $this->redirectToRoute('mon_compte');
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $user_id
+            ]);
         }
 
 
@@ -274,7 +277,9 @@ class ListeController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', "L'annonce a bien été " . ($nouveau ? 'créé' : 'modifié') . ".");
-            return $this->redirectToRoute('mon_compte');
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $user_id
+            ]);
         }
 
         return $this->render('liste/annonce_crud.html.twig', [

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Portfolio | {{user.name}} {{user.lastname}}{% endblock %}
+{% block body %}
+
+<h1 class="text-center my-5"> Portfolio de {{user.name}} {{user.lastname}}</h1>
+
+<a href="{{ path('mon_compte', {id: user.id}) }}"> <-- retour au profil</a>
+{% if portfolios|length %}
+    <div class="card-columns mt-5">
+        {% for portfolio in portfolios %}
+            <div class="card">
+                <img class="card-img-top" src="{{ asset('images/'~portfolio.imgUrl)}}" >
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <h2 class="my-3 text-center">Désolé je n'ai pas de portfolio pour l'instant, mais voici pour toi de quoi te consoler!</h2>
+    <img class="d-flex mx-auto w-75" src="{{ asset('images/defaut-portfolio.jpg')}}">
+{% endif %}
+{% endblock %}
