@@ -29,6 +29,19 @@ class AvisRepository extends ServiceEntityRepository
         ->getResult()
         ;
     }
+
+//    public function moyenne()
+//    {
+//        $query = 'SELECT avis.users_id, SUM(avis.note)/COUNT(avis.note) FROM avis GROUP BY users_id';
+////        return $this->createNativeQuery($query)
+////            ->setParameter('note')
+////
+////            ->getResult()
+////            ;
+////        return $this->createQueryBuilder('u')
+////            ->select(['users_id, SUM(note)/COUNT(note)'])
+////            ;
+//    }
     // /**
     //  * @return Avis[] Returns an array of Avis objects
     //  */

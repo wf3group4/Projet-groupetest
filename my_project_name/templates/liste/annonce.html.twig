@@ -6,7 +6,6 @@
 
 {% block body %}
 
-
 	<h1 class="text-center my-5">{{annonce.titre}}</h1>
 
 	<div class="row">
@@ -30,6 +29,13 @@
 					{% else %}
 						<p class="card-text">Date limite de la recherche : L'annonceur n'a pas précisé de date limite</p>
 					{% endif %}
+					<p class="card-text">Nombre de vues :
+						{% if not annonce.vues %}
+							Je n'ai aucune vue
+						{% else %}
+							{{ annonce.vues }}
+						{% endif %}
+						 de fois</p>
 				</div>
 			</div>
 		</div>

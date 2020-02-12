@@ -64,8 +64,13 @@ class MainController extends AbstractController
             $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
             return $this->redirectToRoute('accueil');
         }
-        //Ajout de liens/images au portfolio
+
         $em = $this->getDoctrine()->getManager();
+        $user->setVues($user->getVues()+1);
+
+        $em->flush();
+
+        //Ajout de liens/images au portfolio
         $portfolios = $portfolioRepo->getUserLastPortfolio($id);
         
         $new_image = new Portfolio();
@@ -89,7 +94,7 @@ class MainController extends AbstractController
             $this->addFlash('success', "Les réalisations on bien été modifiées");
 
             return $this->redirectToRoute('mon_compte', [
-                'id' => $id
+                'id' => $id,
             ]);
         }
 
@@ -122,16 +127,19 @@ class MainController extends AbstractController
         //Ajoute un commentaire
         if ($request->isMethod('POST')) {
             $data = $request->request->all();
-
             $avis = (new Avis())
-                ->setEmail($data['email'])
+                ->setNom($data['nom'])
+                ->setPrenom($data['prenom'])
                 ->setContenu($data['contenu'])
                 ->setRgpd(1)
                 ->setCreateAt(new \DateTime())
+                ->setNote($data['note'])
                 ->setUsers($user);
 
             $em->persist($avis);
             $em->flush();
+
+
 
             $this->addFlash('success', 'Avis Ajouté !');
             return $this->redirectToRoute('mon_compte', [
@@ -161,6 +169,7 @@ class MainController extends AbstractController
 
         
 
+        $moyenne = $user->getMoyenne();
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces,
             'portfolios' => $portfolios,
@@ -169,6 +178,7 @@ class MainController extends AbstractController
             'id' => $id,
             'user' => $user,
             'form' => $form->createView(),
+            'moyenne' => $moyenne
         ]);
     }
 

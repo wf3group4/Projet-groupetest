@@ -6,57 +6,125 @@
 {% block body %}
 	<div class="container">
 		<u><h1 class="my-5 text-center">Liste des annonces</h1></u>
-		{% for annonce in annonces %}
-
-			<div class="container border-bottom border-danger my-5">
-
-               <div class="row">
-					<div class="col-md-8"><h2>{{annonce.titre}}</h2></div>
-
-					<div class="col-md-4">
-
-						<!-- Affichage des tags -->
-	                {% for tags in annonce.Tag %}
-	                {% if tags %}
-	                	<div class="badge badge-pill badge-info">
-		                        {{ tags.nom }}
+		<div class="row">
+			<div class="col-12">
+				<form class="form-inline my-2 my-lg-0">
+					<div class="form-group">
+						<input class="form-control mr-sm-2" name="search" type="text" placeholder="Rechercher une annonce">
+					</div>
+					<div class="form-group">
+						<select name="prix" class="form-control mr-sm-2" id="exampleSelect1">
+							<option value="">-- Prix --</option>
+							<option value="60">60</option>
+							<option value="120">120</option>
+							<option value="240">240</option>
+							<option value="300">300</option>
+						</select>
+					</div>
+					<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Rechercher</button>
+				</form>
+			</div>
+		</div>
+		{% if recherche %}
+			{% for annonce in annonces %}
+				<div class="container border-bottom border-danger my-5">
+				   <div class="row">
+						<div class="col-md-8">
+							<h2>{{annonce.titre}}</h2>
 						</div>
-					{% endif %}
-					{% endfor %}
-				</div> <!-- fin col tags -->
+						<div class="col-4">
+							<!-- Affichage des tags -->
+								{% for tags in annonce.Tag %}
+									{% if tags %}
+										<div class="badge badge-pill badge-info">
+											{{ tags.nom }}
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div> <!-- fin col tags -->
+						</div> <!-- fin row bandeau titre annonce-->
+						  
+				   		<p class="font-italic">{{annonce.DateCreation | format_datetime(pattern="'le' dd MMMM 'à' H'h'mm", locale='en')}} - {{annonce.prix}}€ -
+							{% if not annonce.vues %}
+						   	Je n'ai aucune vue
+					   		{% else %}
+						   	{{ annonce.vues }}
+					   		{% endif %}
+					   		de fois
+				   		</p>
+						<p>{{annonce.description | slice(0, 200)}}...</p>
+						<div>
 
-			   </div> <!-- fin row bandeau titre annonce-->
-			   
-			   <p class="font-italic">{{annonce.DateCreation |	format_datetime(pattern="'le' dd MMMM 'à' H'h'mm", locale='en')}} - 
-				 
-				{{annonce.prix}}€
-			   </p>
-				<p>
-				{{annonce.description | slice(0, 200)}}...
-				</p>
-				
-				<div>
-					<!-- On affiche la liste des postulants -->
-					{% if not annonce.UserPostulant.isEmpty %}
-					<u><p>Les artistes intéressés :</p></u>
-
+						<!-- On affiche la liste des postulants -->
+						{% if not annonce.UserPostulant.isEmpty %}
+							<u><p>Les artistes intéressés :</p></u>
 							<ul class="list-group list-group-horizontal">
 								{% for user in annonce.UserPostulant %}
-
 									<li id="listeAvatar" class="">
 										<a href="{{ path('mon_compte', {id: user.id}) }}"><img src="{{ asset('images/'~user.avatar)}}" alt="avatar" class="img-fluid rounded-circle mr-2 mb-3" style="width: 34px; height:34px;" data-toggle="tooltip" data-placement="top" title="{{user.name}} {{user.lastname}} "></a>
 									</li>
-									{% endfor %}
-
+								{% endfor %}
 							</ul>
-				{% else %}
-				  <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
-				{% endif %}
+						{% else %}
+				  			<p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
+						{% endif %}
+					</div>
+					<a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary mb-3">Lire l'annonce</a>
 				</div>
-
-				<a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary mb-3">Lire l'annonce</a>
-			</div>
-
-		{% endfor %}
+			{% endfor %}
+		{% else %}
+			{% for annonce in annonces %}
+				<div class="container border-bottom border-danger my-5">
+				   <div class="row">
+						<div class="col-md-8">
+							<h2>{{annonce.titre}}</h2>
+						</div>
+						<div class="col-4">
+							<!-- Affichage des tags -->
+							{% for tags in annonce.Tag %}
+								{% if tags %}
+									<div class="badge badge-pill badge-info">
+										{{ tags.nom }}
+									</div>
+								{% endif %}
+							{% endfor %}
+						</div> <!-- fin col tags -->
+					</div> <!-- fin row bandeau titre annonce-->  
+				   	<p class="font-italic">{{annonce.DateCreation | format_datetime(pattern="'le' dd MMMM 'à' H'h'mm", locale='en')}} - {{annonce.prix}}€ -
+						{% if not annonce.vues %}
+						Je n'ai aucune vue
+					   	{% else %}
+						{{ annonce.vues }}
+					   	{% endif %}
+					   	de fois
+				   	</p>
+					<p>{{annonce.description | slice(0, 200)}}...</p>
+					<div>
+						<!-- On affiche la liste des postulants -->
+						{% if not annonce.UserPostulant.isEmpty %}
+						<u><p>Les artistes intéressés :</p></u>
+						<ul class="list-group list-group-horizontal">
+							{% for user in annonce.UserPostulant|sort((a,b) => b.commission <=> a.commission) %}
+								<li id="listeAvatar" class="">
+									<a href="{{ path('mon_compte', {id: user.id}) }}"><img src="{{ asset('images/'~user.avatar)}}" alt="avatar" class="img-fluid rounded-circle mr-2 mb-3" style="width: 34px; height:34px;" data-toggle="tooltip" data-placement="top" title="{{user.name}} {{user.lastname}} "></a>
+									{% if user.commission >= 40 %}
+										<span class="badge badge-pill badge-success">2</span>
+									{% elseif user.commission >= 20 %}
+										<span class="badge badge-pill badge-warning">1</span>
+									{% else %}
+										<span class="badge badge-pill badge-primary">0</span>
+									{% endif %}
+								</li>
+								<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
+							{% endfor %}
+						</ul>	
+						{% else %}
+							<p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
+						{% endif %}
+					</div>
+					<a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary mb-3">Lire l'annonce</a>
+				</div>
+			{% endfor %}
+		{% endif %}
 	</div>
 {% endblock %}

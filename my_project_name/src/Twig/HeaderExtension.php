@@ -5,17 +5,18 @@ namespace App\Twig;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use App\Repository\UsersRepository;
+
+use App\Repository\TagsRepository;
 
 class HeaderExtension extends AbstractExtension
 {
     private $twig;
-    private $usersRepo;
+    private $tagRepo;
 
-    public function __construct(Environment $twig, UsersRepository $usersRepo)
+    public function __construct(Environment $twig, TagsRepository $tagRepo)
     {
         $this->twig = $twig;
-        $this->usersRepo = $usersRepo;
+        $this->tagRepo = $tagRepo;
     }
 
     public function getFunctions(): array
@@ -36,7 +37,7 @@ class HeaderExtension extends AbstractExtension
     public function displayFooter()
     {
         return $this->twig->render('front/footer.html.twig', [
-
+            'tags' => $this->tagRepo->findAll()
         ]);
     }
 }

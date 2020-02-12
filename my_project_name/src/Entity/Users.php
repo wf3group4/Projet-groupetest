@@ -107,6 +107,16 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Annonces", mappedBy="prestataire")
      */
     private $annonces_prestataire;
+    
+    /*
+     * @ORM\Column(type="integer")
+     */
+    private $Vues;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $commission;
 
 
     public function __construct()
@@ -118,6 +128,23 @@ class Users implements UserInterface
         $this->signalements = new ArrayCollection();
         $this->annonces_prestataire = new ArrayCollection();
     }
+
+    public function getMoyenne()
+    {
+        $moyenne = 0;
+        $note = 0;
+        $avis = $this->getAvis();
+        $nbAvis = count($avis);
+        if ($nbAvis) {
+            foreach ($avis as $avi) {
+                $note = $note + $avi->getNote();
+            }
+            $moyenne = $note / $nbAvis;
+        }
+
+        return $moyenne;
+    }
+
 
 
 
@@ -455,6 +482,16 @@ class Users implements UserInterface
             $this->annonces_prestataire[] = $annoncesPrestataire;
             $annoncesPrestataire->setPrestataire($this);
         }
+    }
+    
+    public function getVues(): ?int
+    {
+        return $this->Vues;
+    }
+
+    public function setVues(int $Vues): self
+    {
+        $this->Vues = $Vues;
 
         return $this;
     }
@@ -481,6 +518,16 @@ class Users implements UserInterface
                 $annoncesPrestataire->setPrestataire(null);
             }
         }
+    }
+    
+    public function getCommission(): ?float
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?float $commission): self
+    {
+        $this->commission = $commission;
 
         return $this;
     }

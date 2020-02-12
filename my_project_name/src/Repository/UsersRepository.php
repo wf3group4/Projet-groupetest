@@ -57,8 +57,8 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
     }
 
 
-/*
-    public function SearchByName($search)
+
+    public function SearchByName($search, $commission)
     {
         return $this->createQueryBuilder('u')
             ->orWhere("u.Name LIKE :search")

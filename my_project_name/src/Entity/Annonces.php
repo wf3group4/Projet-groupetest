@@ -84,6 +84,11 @@ class Annonces
      */
     private $prestataire;
 
+    /*
+    * @ORM\Column(type="integer")
+    */
+    private $vues;
+
 
 
     public function __construct()
@@ -283,6 +288,16 @@ class Annonces
     public function setPrestataire(?Users $prestataire): self
     {
         $this->prestataire = $prestataire;
+    }
+    
+    public function getVues(): ?int
+    {
+        return $this->vues;
+    }
+
+    public function setVues(int $vues): self
+    {
+        $this->vues = $vues;
 
         return $this;
     }
