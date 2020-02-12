@@ -12,6 +12,7 @@ use App\Repository\UsersRepository;
 use App\Repository\AnnoncesRepository;
 use App\Repository\PortfolioRepository;
 use App\Repository\AvisRepository;
+use App\Entity\Signalement;
 use App\Entity\Portfolio;
 use App\Entity\Avis;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -243,17 +244,46 @@ class MainController extends AbstractController
         AnnoncesRepository $annonceRepo,
         Request $request)
     {
+        //Récupération des variables
         $cible = $request->query->get('cible');
         $user = $userRepo->find($id);
         $annonce = $annonceRepo->find($id);
+        $em = $this->getDoctrine()->getManager();
+
+        //Création du signalement 
+        $signalement = new Signalement();
 
         $form = $this->createForm(SignalementType::class);
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $params = $request->request->all();
+            $signalement = $form->getData();
 
-            $this->addFlash('success', 'Votre message à bien été envoyé !');
+            if($cible == 'user'){
+                $signalement
+                    ->setUser($user);
+
+                $em->persist($signalement);
+                $em->flush();
+        
+                $this->addFlash('success', 'Votre signalement à bien été envoyé !');
+                return $this->redirectToRoute('mon_compte', [
+                        'id' => $id
+                ]);
+
+            }else{
+                $signalement
+                    ->setAnnonce($annonce);
+                    // dump($signalement);die;
+                $em->persist($signalement);
+                $em->flush();
+                    
+                $this->addFlash('success', 'Votre signalement à bien été envoyé !');
+                return $this->redirectToRoute('annonce', [
+                        'id' => $id
+                ]);
+            }
         }
         return $this->render('main/form_signalement.html.twig', [
             'id' => $id,

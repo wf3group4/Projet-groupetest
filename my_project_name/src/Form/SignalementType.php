@@ -14,7 +14,7 @@ class SignalementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', TextareaType::class, [
+            ->add('message', TextareaType::class, [
             'label' => "Explique nous les raisons de ton signalement:",
             'attr' => [
                 'rows' => 10,
