@@ -81,8 +81,8 @@
             <hr>
         </div>
         <div>
-            <h2 class="mt-5">Mes annonces:</h2>
-                {% if app.user and app.user.id == user.id %}  
+            {% if app.user and app.user.id != user.id %}  
+                <h2 class="mt-5">Mes annonces:</h2>
 				{# liste annonces #}
 				{% if annonces|length %}
 					{% for annonce in annonces %}
@@ -95,38 +95,35 @@
 										{{annonce.dateCreation | date('H:i')}}
 										par
 										{{annonce.user.name}}
-										{{annonce.user.lastname}}</i>
+                                        {{annonce.user.lastname}}
+                                    </i>
 								</div>
 							</div>
-                        <div class="row">
-                            <a href="{{path("annonce", {id: annonce.id})}}">
-                                <h3 class="ml-3">{{annonce.titre}}</h3>
-                            </a>
-                        </div>
-                        <p class="  ml-3">{{annonce.description}}</p>
-                    </article>
-                {% endfor %}
-            {% else %}
+                            <div class="row">
+                                <a href="{{path("annonce", {id: annonce.id})}}">
+                                    <h3 class="ml-3">{{annonce.titre}}</h3>
+                                </a>
+                            </div>
+                            <p class="  ml-3">{{annonce.description}}</p>
+                        </article>
+                    {% endfor %}
+                {% else %}
                 <p> Je n'ai pas encore d'annonce, mais j'y réfléchis 🤔</p>
-            {% endif %}
+                {% endif %}
             <hr>
+            {% endif %}
             <h2 class="mt-5">Les avis:</h2>
             {# liste avis #}
             <div class="mt-3 ">
                 {% if avis|length %}
                     {% for avi in avis %}
                         <div class="border rounded p-3 mb-3">
-                            <p class="h6">Commentaire publiée par {{ avi.nom }} {{ avi.prenom }}</p>
+                            <p class="h6">Commentaire publiée par {{ avi.nom }} {{ avi.prenom }} le {{avi.createAt | date('d M Y') }}</p>
                             <div class="text-justify">{{ avi.contenu|nl2br }}</div>
                             <div class="text-justify">{{ avi.note }}</div>
                             <p>
                                 {% include 'shared/etoile.html.twig' with { note: avi.note } %}
                             </p>
-                            <div class="text-right mt-1">
-                                    {% if app.user and app.user.id == user.id %}    
-                                        <a href="#" class="btn btn-outline-danger">Supprimer</a>
-                                    {% endif %}
-                            </div>
                         </div>
                     {% endfor %}
                 {% else %}
@@ -134,42 +131,42 @@
                 {% endif %}
             </div>
             {# soumission avis #}
-                {% if app.user and app.user.id != user.id %}    
-                    <div class="mt-4">
-                        <form method="post">
-                            <div class="form-group" id="nom">
-                                <label for="nom">Nom</label>
-                                <input type="text" class="form-control"  name="nom" aria-describedby="nomHelp" value="{{ app.user.lastname }}">
-                            </div>
-                            <div class="form-group" id="prenom">
-                                <label for="prenom">Prénom</label>
-                                <input type="text" class="form-control"  name="prenom" aria-describedby="prenomHelp" value="{{ app.user.name }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="contenu">avis</label>
-                                <textarea class="form-control" id="contenu" name="contenu" rows="10"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <select name="note" class="custom-select">
-                                    <option selected="">Mettre une note</option>
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="rgpd" aria-label="Checkbox for following text input">
-                                <label for="rgpd">J'accepte que mes informations soient stockées dans la base de données pour la gestion des commentaires. J'ai bien noté qu'en aucun cas ces données ne seront cédées à des tiers.</label>
-                            </div>
-                            <div class="text-right mt-4">
-                                <button type="submit" class="btn btn-primary">Envoyer l'avis</button>
-                            </div>
-                        </form>
-                    </div><!--fin form avis-->
-                {% endif %}
+            {% if app.user and app.user.id != user.id %}    
+                <div class="mt-4">
+                    <form method="post">
+                        <div class="form-group" id="nom">
+                            <label for="nom">Nom</label>
+                            <input type="text" class="form-control"  name="nom" aria-describedby="nomHelp" value="{{ app.user.lastname }}">
+                        </div>
+                        <div class="form-group" id="prenom">
+                            <label for="prenom">Prénom</label>
+                            <input type="text" class="form-control"  name="prenom" aria-describedby="prenomHelp" value="{{ app.user.name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="contenu">avis</label>
+                            <textarea class="form-control" id="contenu" name="contenu" rows="10"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <select name="note" class="custom-select">
+                                <option selected="">Mettre une note</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="rgpd" aria-label="Checkbox for following text input">
+                            <label for="rgpd">J'accepte que mes informations soient stockées dans la base de données pour la gestion des commentaires. J'ai bien noté qu'en aucun cas ces données ne seront cédées à des tiers.</label>
+                        </div>
+                        <div class="text-right mt-4">
+                            <button type="submit" class="btn btn-primary">Envoyer l'avis</button>
+                        </div>
+                    </form>
+                </div><!--fin form avis-->
+            {% endif %}
         </div>
     </div>
 {% endblock %}

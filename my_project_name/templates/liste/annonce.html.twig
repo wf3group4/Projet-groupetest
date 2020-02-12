@@ -86,13 +86,13 @@
 							<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
 
 							<!-- Gestion du bouton choisir un artiste -->
-							{% if annonce.prestataire %}
-								<a href="{{path('annonce', {id: annonce.id, action: 'remove-prestataire'})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Changer d'artiste</a>
-							{% else %}
-								<a href="{{path('annonce', {id: annonce.id, action: 'add-prestataire', user_id: user.id})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Choisir cet artiste</a>
+							{% if app.user and app.user.id == annonce.user.id %}
+								{% if annonce.prestataire %}
+									<a href="{{path('annonce', {id: annonce.id, action: 'remove-prestataire'})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Changer d'artiste</a>
+								{% else %}
+									<a href="{{path('annonce', {id: annonce.id, action: 'add-prestataire', user_id: user.id})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Choisir cet artiste</a>
+								{% endif %}
 							{% endif %}
-
-
 						</div>
 					</ul>
 				</div>

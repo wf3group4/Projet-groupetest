@@ -27,7 +27,7 @@
 		</div>
 		{% if recherche %}
 			{% for annonce in annonces %}
-				<div class="container border-bottom border-danger my-5">
+				<div class="container border border-danger my-5">
 				   <div class="row">
 						<div class="col-md-8">
 							<h2>{{annonce.titre}}</h2>
@@ -115,7 +115,6 @@
 										<span class="badge badge-pill badge-primary">0</span>
 									{% endif %}
 								</li>
-								<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
 							{% endfor %}
 						</ul>	
 						{% else %}
