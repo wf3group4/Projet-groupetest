@@ -3,7 +3,7 @@
 {% block title %}Hello ListeController!{% endblock %}
 
 {% block body %}
-
+		
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
@@ -15,7 +15,8 @@
         {% endfor %}
     {% endfor %}
 
-    <!-- TITRE -->
+    <!-- TITRE --><div class="container-fluid" style="background-image: url(/peep_link_banner_cut.jpg); width: 100%; height: 200px;">
+    </div>
     <div class="row mt-4">
         <div class="col-7">
             <h1>Liste des profiles</h1>
