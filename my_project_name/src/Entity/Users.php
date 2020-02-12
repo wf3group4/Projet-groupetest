@@ -117,6 +117,23 @@ class Users implements UserInterface
         $this->annonces_postule = new ArrayCollection();
     }
 
+    public function getMoyenne()
+    {
+        $moyenne = 0;
+        $note = 0;
+        $avis = $this->getAvis();
+        $nbAvis = count($avis);
+        if ($nbAvis) {
+            foreach ($avis as $avi) {
+                $note = $note + $avi->getNote();
+            }
+            $moyenne = $note / $nbAvis;
+        }
+
+        return $moyenne;
+    }
+
+
 
 
     public function getId(): ?int

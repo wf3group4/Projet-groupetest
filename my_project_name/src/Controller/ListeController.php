@@ -49,7 +49,6 @@ class ListeController extends AbstractController
 
 
 
-
         return $this->render('liste/LesProfils.html.twig', [
             'profiles' => $profil,
             'recherche' => $search,

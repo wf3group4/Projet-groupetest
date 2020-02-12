@@ -121,9 +121,11 @@
                                             <p>{{ profil.description|raw|slice(0,60) }}...</p>
                                         {% endif %}
                                         <div class="row">
+
                                             <div class="col-4">
                                                 <p>{{ profil.email }}</p>
                                                 <p>{% if profil.vues == 0 %} Je n'ai pas de vues {% else %} Profil vue {{ profil.vues }} fois {% endif %}</p>
+
                                             </div>
                                         </div>
                                         <div class="row">

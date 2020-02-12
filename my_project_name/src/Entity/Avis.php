@@ -47,6 +47,11 @@ class Avis
      */
     private $prenom;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $note;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +126,18 @@ class Avis
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getNote(): ?int
+    {
+        return $this->note;
+    }
+
+    public function setNote(int $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }

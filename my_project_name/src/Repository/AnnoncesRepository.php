@@ -57,7 +57,6 @@ class AnnoncesRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->orWhere('u.titre LIKE :titre')
             ->orWhere('u.prix LIKE :prix')
-            ->setParameters('titre', $search)
             ->setParameters(new ArrayCollection(array(
                   new Parameter('titre', "%$search%"),
                   new Parameter('prix', "$prix")

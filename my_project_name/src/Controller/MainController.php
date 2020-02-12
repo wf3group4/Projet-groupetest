@@ -86,7 +86,7 @@ class MainController extends AbstractController
             $this->addFlash('success', "Les réalisations on bien été modifiées");
 
             return $this->redirectToRoute('mon_compte', [
-                'id' => $id
+                'id' => $id,
             ]);
         }
 
@@ -125,14 +125,17 @@ class MainController extends AbstractController
                 ->setContenu($data['contenu'])
                 ->setRgpd(1)
                 ->setCreateAt(new \DateTime())
+                ->setNote($data['note'])
                 ->setUsers($user);
 
             $em->persist($avis);
             $em->flush();
 
+
+
             $this->addFlash('success', 'Avis Ajouté !');
             return $this->redirectToRoute('mon_compte', [
-                'id' => $id
+                'id' => $id,
                 ]);
         }
 
@@ -151,11 +154,12 @@ class MainController extends AbstractController
 
                 $this->addFlash('success', 'Vous venez de supprimer un avis !');
                 return $this->redirectToRoute('profil', [
-                    'id' => $id 
+                    'id' => $id,
                 ]);
             }
-        } 
+        }
 
+        $moyenne = $user->getMoyenne();
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces,
             'portfolios' => $portfolios, 
@@ -164,6 +168,7 @@ class MainController extends AbstractController
             'id' => $id,
             'user' => $user,
             'form' => $form->createView(),
+            'moyenne' => $moyenne
         ]);
     }
 
