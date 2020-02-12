@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Repository\UsersRepository;
 use Exception;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ListeController extends AbstractController
 {
@@ -159,7 +160,7 @@ class ListeController extends AbstractController
     public function annonces(AnnoncesRepository $annoncesRepo)
     {
         // Requete pour récupérer toutes les annonces
-        $annonces = $annoncesRepo->findAll();
+        $annonces = $annoncesRepo->findBy(['active' => 1]);
 
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
@@ -169,12 +170,11 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
-    public function annonce($id, Request $request)
+    public function annonce($id, Request $request, AnnoncesRepository $annoncesRepo, UsersRepository $usersRepo, EmailService $emailService)
     {
         
         // On récupère l' AnnoncesRepository
         $em = $this->getDoctrine()->getManager();
-        $annoncesRepo = $em->getRepository(Annonces::class);
 
         // On récupère l'annonce, en fonction de l'ID qui est dans l'URL
         $annonce = $annoncesRepo->find($id);
@@ -202,6 +202,36 @@ class ListeController extends AbstractController
             return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
 
         }
+
+        // Traitement du bouton Choisir cet artiste
+        $action = $request->query->get('action');
+
+        if ($action == 'add-prestataire') {
+
+            $user_id = $request->query->get('user_id');
+            $user_choisi = $usersRepo->find($user_id);   
+            $annonce
+                ->setPrestataire($user_choisi)
+                ->setActive(2)
+                ;
+            $em->flush();
+
+            $link = $this->generateUrl('annonce', ['id' => $annonce->getId()],UrlGeneratorInterface::ABSOLUTE_URL );
+            $emailService->choix_prestataire($user_choisi, $link);
+
+            $this->addFlash('success', "Votre choix a bien été enregistré");
+            return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
+
+        // Bouton pour changer d'artiste qui permet de remettre le prestataire à 'null'
+        } elseif ($action == 'remove-prestataire') {
+            $annonce->setPrestataire(null);
+
+            $em->flush();
+
+            $this->addFlash('success', "Le retrait de l'artiste a bien été enregistré");
+            return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
+        }
+        
 
 
         return $this->render('liste/annonce.html.twig', [

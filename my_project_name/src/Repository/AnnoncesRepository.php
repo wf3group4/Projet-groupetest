@@ -28,7 +28,7 @@ class AnnoncesRepository extends ServiceEntityRepository
         return $this->findBy(
             array(
                 'user' => $user, 
-                'active' => 1
+                'active' => [1,2,3,4]
             )
         )
         ;

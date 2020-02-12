@@ -54,6 +54,7 @@ index-jumbotron h1{
     font-weight: 200;
 }
 
-#email {
-    display:none;
+
+#listeAvatar {
+    list-style-type: none;
 }

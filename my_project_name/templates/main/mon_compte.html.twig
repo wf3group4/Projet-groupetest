@@ -71,103 +71,83 @@
         <div>
             <h2 class="mt-5">Mes annonces:</h2>
                 {% if app.user and app.user.id == user.id %}  
-               
-            {# creation annonce #}
-                    <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
-                {% endif %}
+				{# liste annonces #}
+				{% if annonces|length %}
+					{% for annonce in annonces %}
+						<article class="border rounded shadow my-3 p-2 bg-light">
+							<div class="row">
+								<div class="col-md-7">
+									<i>Annonce créée le
+										{{annonce.dateCreation | date('d M Y')}}
+										à
+										{{annonce.dateCreation | date('H:i')}}
+										par
+										{{annonce.user.name}}
+										{{annonce.user.lastname}}</i>
+								</div>
+							</div>
 
-            {# liste annonces #}
-            {% if annonces|length %}
-                {% for annonce in annonces %}
-                    <article class="border rounded shadow my-3 p-2 bg-light">
-                        <div class="row">
-                            <div class="col-md-7">
-                                <i>Annonce créée le {{annonce.dateCreation | date('d M Y')}} à  {{annonce.dateCreation | date('H:i')}}  par {{annonce.user.name}} {{annonce.user.lastname}}</i>
-                            </div>
-                                {% if app.user and app.user.id == user.id %}    
-                                    <div class="col-md-3">
-                                        <a href="{{path('annonce_crud', { id: annonce.id})}} "
-                                            class="ml-auto mr-3 text-primary">Editer mon annonce</a>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <a href="{{path('annonce_crud', { id: annonce.id, action: 'delete' })}} "
-                                            class="ml-auto mr-3 text-danger">Supprimer</a>
-                                    </div>
-                                {% endif %}
-                        </div>
-
-                        <div class="row">
-                            <a href="{{path("annonce", {id: annonce.id})}}">
-                                <h3 class="ml-3">{{annonce.titre}}</h3>
-                            </a>
-                        </div>
-                        <p class="  ml-3">{{annonce.description}}</p>
-                        <hr>
-                        {% if not annonce.UserPostulant.isEmpty %}
-                            {% for user in annonce.UserPostulant %}
-                                <h4>Utilisateur intéressé par cette annonce :</h4>
-                                <div>
-                                    <ul>
-                                        <div class="row">
-                                            <li>{{user.name}} {{user.lastname}}</li>
-                                            <a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
-                                            {% if app.user and app.user.id == annonce.user.id %}
-                                                <a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: annonce.user.id})}} ">Choisir cette utilisateur</a>
-                                            {% endif %}
-                                        </div>
-                                    </ul>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                          <h4> Aucun artiste n'a postulé à cette annonce pour le moment</h4>
-                        {% endif %}
-                    </article>
-                {% endfor %}
-            {% else %}
-                <p> Je n'ai pas encore d'annonce, mais j'y réfléchis 🤔</p>
-            {% endif %}
-            <hr>
-            <h2 class="mt-5">Les avis:</h2>
-            {# liste avis #}
-            <div class="mt-3 ">
-                {% if avis|length %}
-                    {% for avi in avis %}
-                        <div class="border rounded p-3 mb-3">
-                            <p class="h6">Commentaire publiée par {{ avi.email }}</p>
-                            <div class="text-justify">{{ avi.contenu|nl2br }}</div>
-                            <div class="text-right mt-1">
-                                    {% if app.user and app.user.id == user.id %}    
-                                        <a href="#" class="btn btn-outline-danger">Supprimer</a>
-                                    {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p>Je n'ai pas encore d'avis. Laisse moi en un  😘</p>
-                {% endif %}
-            </div>
-            {# soumission avis #}
-                {% if app.user and app.user.id != user.id %}    
-                    <div class="mt-4">
-                        <form method="post">
-                            <div class="form-group">
-                                <label for="contenu">avis</label>
-                                <textarea class="form-control" id="contenu" name="contenu" rows="10"></textarea>
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="checkbox" name="rgpd" aria-label="Checkbox for following text input">
-                                    </div>
-                                </div>
-                                <label for="rgpd">J'accepte que mes informations soient stockées dans la base de données pour la gestion des commentaires. J'ai     bien noté qu'en aucun cas ces données ne seront cédées à des tiers.</label>
-                            </div>
-                            <div class="text-right mt-4">
-                                <button type="submit" class="btn btn-primary">Envoyer l'avis</button>
-                            </div>
-                        </form>
-                    </div><!--fin form avis-->
-                {% endif %}
-        </div>
-    </div>
-{% endblock %}
+							<div class="row">
+								<a href="{{path("annonce", {id: annonce.id})}}">
+									<h3 class="ml-3">{{annonce.titre}}</h3>
+								</a>
+							</div>
+							<p class="  ml-3">{{annonce.description}}</p>
+						</article>
+					{% endfor %}
+				{% else %}
+					<p>
+						Je n'ai pas encore d'annonce, mais j'y réfléchis 🤔</p>
+				{% endif %}
+				{% endif %}
+				<hr>
+				<h2 class="mt-5">Les avis:</h2>
+				{# liste avis #}
+				<div class="mt-3 ">
+					{% if avis|length %}
+						{% for avi in avis %}
+							<div class="border rounded p-3 mb-3">
+								<p class="h6">Commentaire publiée par
+									{{ avi.email }}</p>
+								<div class="text-justify">{{ avi.contenu|nl2br }}</div>
+								<div class="text-right mt-1">
+									{% if app.user and app.user.id == user.id %}
+										<a href="#" class="btn btn-outline-danger">Supprimer</a>
+									{% endif %}
+								</div>
+							</div>
+						{% endfor %}
+					{% else %}
+						<p>Je n'ai pas encore d'avis. Laisse moi en un  😘</p>
+					{% endif %}
+				</div>
+				{# soumission avis #}
+				{% if app.user and app.user.id != user.id %}
+					<div class="mt-4">
+						<form method="post">
+							<div class="form-group">
+								<label for="email">email</label>
+								<input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+							</div>
+							<div class="form-group">
+								<label for="contenu">avis</label>
+								<textarea class="form-control" id="contenu" name="contenu" rows="10"></textarea>
+							</div>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<input type="checkbox" name="rgpd" aria-label="Checkbox for following text input">
+									</div>
+								</div>
+								<label for="rgpd">J'accepte que mes informations soient stockées dans la base de données pour la gestion des commentaires. J'ai     bien noté qu'en aucun cas ces données ne seront cédées à des tiers.</label>
+							</div>
+							<div class="text-right mt-4">
+								<button type="submit" class="btn btn-primary">Envoyer l'avis</button>
+							</div>
+						</form>
+					</div>
+					<!--fin form avis-->
+				{% endif %}
+			</div>
+		</div>
+	{% endblock %}

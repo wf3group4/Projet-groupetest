@@ -79,6 +79,11 @@ class Annonces
      */
     private $signalements;
 
+    /*
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="annonces_prestataire")
+     */
+    private $prestataire;
+
 
 
     public function __construct()
@@ -268,6 +273,16 @@ class Annonces
                 $signalement->setAnnonce(null);
             }
         }
+    }
+    
+    public function getPrestataire(): ?Users
+    {
+        return $this->prestataire;
+    }
+
+    public function setPrestataire(?Users $prestataire): self
+    {
+        $this->prestataire = $prestataire;
 
         return $this;
     }

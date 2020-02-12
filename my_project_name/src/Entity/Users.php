@@ -102,6 +102,11 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="user")
      */
     private $signalements;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Annonces", mappedBy="prestataire")
+     */
+    private $annonces_prestataire;
 
 
     public function __construct()
@@ -111,6 +116,7 @@ class Users implements UserInterface
         $this->avis = new ArrayCollection();
         $this->annonces_postule = new ArrayCollection();
         $this->signalements = new ArrayCollection();
+        $this->annonces_prestataire = new ArrayCollection();
     }
 
 
@@ -431,6 +437,23 @@ class Users implements UserInterface
         if (!$this->signalements->contains($signalement)) {
             $this->signalements[] = $signalement;
             $signalement->setUser($this);
+    
+        }
+    }
+    
+    /**       
+     * @return Collection|Annonces[]
+     */
+    public function getAnnoncesPrestataire(): Collection
+    {
+        return $this->annonces_prestataire;
+    }
+
+    public function addAnnoncesPrestataire(Annonces $annoncesPrestataire): self
+    {
+        if (!$this->annonces_prestataire->contains($annoncesPrestataire)) {
+            $this->annonces_prestataire[] = $annoncesPrestataire;
+            $annoncesPrestataire->setPrestataire($this);
         }
 
         return $this;
@@ -443,6 +466,19 @@ class Users implements UserInterface
             // set the owning side to null (unless already changed)
             if ($signalement->getUser() === $this) {
                 $signalement->setUser(null);
+
+            }
+        }
+    }  
+    
+
+    public function removeAnnoncesPrestataire(Annonces $annoncesPrestataire): self
+    {
+        if ($this->annonces_prestataire->contains($annoncesPrestataire)) {
+            $this->annonces_prestataire->removeElement($annoncesPrestataire);
+            // set the owning side to null (unless already changed)
+            if ($annoncesPrestataire->getPrestataire() === $this) {
+                $annoncesPrestataire->setPrestataire(null);
             }
         }
 

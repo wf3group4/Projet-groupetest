@@ -53,6 +53,13 @@
                         .html(inputFile.files[0].name);
                 });
             </script>
+
+            {# Activation des tooltips sur les images #}
+            <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                    })
+            </script>
         {% endblock %}
     </body>
 </html>
