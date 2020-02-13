@@ -15,21 +15,23 @@
 </div>
 
 <!-- On affiche la liste des postulants not the postulant -->
+<!-- le message ne se montrera pas si la personne loger n'est pas le user  -->
 {#{% if not annonce.UserPostulant.isEmpty %}{% endif %}
-	{% for user in annonce.UserPostulant %}{% endfor %}#}
-{% for annonce in app.user.annonces %}
-    {% for postulant in annonce.userPostulant %}
-     <p>{{postulant.name}}&nbsp;à postulé sur l'annonce : {{ annonce.titre }}</p>
+	{% for user in annonce.UserPostulant %}{% endfor %}
+    {% for annonce in app.user.annonces %}
+    {% for postulant in annonce.userPostulant %} #}
+     <p>{{ notifs }}</p>
+
 
  <!-- On efface les messages quand on les a lu -->   
  <div class="col-md-2">
-    <a href="{{path('publisher_admin', { id: annonce.id, action: 'delete' })}} "
+    <a href="{{path('publisher_admin', { id: notifs.id, action: 'delete' })}} "
      class="ml-auto mr-3 text-danger">Supprimer</a>
 </div>
 	
-    {% endfor %} 
+    {#{% endfor %}  #}
 	
 	    <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
-	  {% endfor %}
+	 {#  {% endfor %}#}
 	</div>
 {% endblock %}

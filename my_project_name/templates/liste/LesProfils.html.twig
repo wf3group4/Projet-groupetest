@@ -15,8 +15,14 @@
         {% endfor %}
     {% endfor %}
 
-    <!-- TITRE --><div class="container-fluid" style="background-image: url(/peep_link_banner_cut.jpg); width: 100%; height: 200px;">
+    <!-- TITRE -->
+    <div class="container-fluid" style="background-image: url(/images/peep_link_banner_cut.jpg); width: 100%; height: 300px;">
+    	<div class="row text-center  ">
+<div class="col-12  pt-5">
+	<button type="button" class="btn btn-danger ">Créez un profile gratuitement</button>
+</div>	</div>
     </div>
+    <div class="container">
     <div class="row mt-4">
         <div class="col-7">
             <h1>Liste des profiles</h1>
@@ -87,7 +93,7 @@
                     </div>
                 </div>
 
-
+        </div>
             {% endfor %}
         {% else %}
             {% for profil in profiles|sort((a,b) => b.commission <=> a.commission) %}

@@ -17,7 +17,7 @@ class Notifs
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="notifs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="notifs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

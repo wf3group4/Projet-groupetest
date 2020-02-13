@@ -27,6 +27,8 @@ class PublisherController extends AbstractController
         return $this->render('publisher/publisher_admin.html.twig', [
         //   'annonce' => $annonce
         ]);
+
+        
     }
 
 }

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Repository;
-
+use App\Entity\Users;
+use App\Entity\Annonces;
 use App\Entity\Notifs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -19,22 +20,25 @@ class NotifsRepository extends ServiceEntityRepository
         parent::__construct($registry, Notifs::class);
     }
 
-    // /**
-    //  * @return Notifs[] Returns an array of Notifs objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+     * @return Notifs[] Returns an array of Notifs objects
+     */
+    
+    public function notifs ($message)
     {
         return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
+            ->andWhere('n.user_id = :user_id')
+           
+            ->setParameter('message', $message)
+          
+            ->orderBy('n.date', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
+
+        ; dump($message); die;
     }
-    */
+   
 
     /*
     public function findOneBySomeField($value): ?Notifs
