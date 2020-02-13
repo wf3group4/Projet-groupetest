@@ -33,7 +33,7 @@
                         </a>
                     </div>
                     <div class="col-3">
-                        <a href="" class="btn btn-success">Payer l'artiste</a>
+                        <a href="{{path('mes_annonces', {id: user.id, action: 'paiement_valide', annonce_id: annonce.id})}}" class="btn btn-success">Payer l'artiste</a>
                     </div>
                 </div>
 				<p class="  ml-3">{{annonce.description}}</p>
