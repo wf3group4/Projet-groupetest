@@ -9,7 +9,28 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello Publisher ✅</h1>
+    <h1 class="text-center text-warning">Hello {{app.user.name}}</h1>
+    <h2 class="text-center" >Les dernières nouvelles</h2>
+    
    
 </div>
+
+<!-- On affiche la liste des postulants not the postulant -->
+{#{% if not annonce.UserPostulant.isEmpty %}{% endif %}
+	{% for user in annonce.UserPostulant %}{% endfor %}#}
+{% for annonce in app.user.annonces %}
+    {% for postulant in annonce.userPostulant %}
+     <p>{{postulant.name}}&nbsp;à postulé sur l'annonce : {{ annonce.titre }}</p>
+
+ <!-- On efface les messages quand on les a lu -->   
+ <div class="col-md-2">
+    <a href="{{path('publisher_admin', { id: annonce.id, action: 'delete' })}} "
+     class="ml-auto mr-3 text-danger">Supprimer</a>
+</div>
+	
+    {% endfor %} 
+	
+	    <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
+	  {% endfor %}
+	</div>
 {% endblock %}

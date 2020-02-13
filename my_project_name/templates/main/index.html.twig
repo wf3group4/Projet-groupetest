@@ -1,72 +1,80 @@
 {% extends 'base.html.twig' %}
-{% block title %}Bienvenue sur l'accueil-mainController
+{% block title %}Bienvenue sur l'accueil
 
 {% endblock %}
 
 {% block body %}
 
-<main>
-    <div class="row my-5 border">
-        <div class="col">
-	        <h1>{{ 'accueil.titre' }}</h1>
-	        <h3>{{ 'accueil.soustitre' }}</h3>
-        </div>
-    </div>
+	<div class="container-fluid" style="background-image: url(/images/woman-xl_left.jpg); width: 100%; height: 500px;">
+		<div class="row text-center  ">
+			<div class="col-12">
+				<div>
+					<h1 class="display-5 my-5 text-white text-center ">Entrées des Artistes</h1>
+					<h2 class="display-5 my-5 text-white text-center">Voici un site destiné aux artistes.</h2>
+					<h3 class="display-5 text-right mt-3 text-white text-center">Parfois on a tous besoin d'un coup  de main,
+						<br>de matos ou un peu d'exposition. Voici l'endroit pour vous !
+						<br>
+						Que ce soit pour offrir vos services (car on sait tous que les artistes crèves de fin )<br>
+						ou que vous soyez à la recherche d'aide pour votre business.
+					</h3>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	
-	<div class=" row my-5 border">
-        <div class="col">
-		
-            {% if app.user and app.user.hasRole('ROLE_STAFF') %}
-			Vous êtes STAFF
-		    {% elseif app.user and app.user.hasRole('ROLE_PUBLISHER') %}
-			Vous êtes PUBLISHER
-		    {% else %}
-			Vous n'êtes pas connectés
-		    {% endif %}
+	<main>
+		<div class="container">
+			<div class="row  centered ">
 
-		    {% if is_granted('ROLE_STAFF') %}
-			Vous êtes STAFF
-		    {% endif %}
-        </div>   
-    </div>
-{# ici c'est une autre façon de se connecter aux pages offres et demandes - genre mini nav - qui sera aussi sur le haut de ces pages là #}
-        <div class="col">
-        <h3>Recherche d'articles</h3>
-            <button type="button" class="btn btn-info">offres</button>
-            <button type="button" class="btn btn-warning">Demandes</button>
-        </div>
-        <div class="col">
-        
-{# par_€ ---- flavicon ici € triangles vers le bas et vers le haut, qui range les articles sur la page demandée par ordre croissant ou décroissant #}
-{# parDate ---- flavicon ici triangles vers le bas et vers le haut #}
-        </div>
+				<div class="col-12">
+					<h2 class="display-5 text-warning text-center py-5">Bienvenue aux nouveaux !</h2>
+				</div>
+			</div>
 
-    <article class=" row my-5 border">
-         <h2>Pourquoi et Comment ?</h2>
-         <h3>Voici un site destiné aux artistes.  </h3>
-            <p>Parfois on a tous besoin d'un coup  de main, de matos ou un peu d'exposition. Voici l'endroit pour vous ! <br> Que ce soit pour offrir vos services (car on sait tous que les artistes crèves de fin ) ou que vous soyez à la recherche d'aide pour votre business. </p>
-    </article>
 
-    	<div class="row">
-            <div class="col">
-                <h2 {{ displayOffres() }}>Liste des 5 dernières offres :</h2>	
-                <h2 {{ displayDemandes() }}>Liste des 5 dernières demandes :</h2>
-            </div>
-        </div>
-</main>
+			<hr>
+			<div class="row">
+				<div
+					class="col-3">
+					{# 4 derniers profils créés #}
+					{% for personne in personnes  %}
+						<h5 class="card-titre">{{ personne.name }}
+						</h5>
+						<p class="card">
+							{{ personne.description|raw|slice(0,20) }}
+							...</p>
+						<a href=" {{ path('mon_compte', { id: personne.id }) }} " class="btn btn-info">Voir Profile</a>
+					{% endfor %}
+				</div>
+			</div>
+			<hr>
 
-<aside>
-    <div class="row my-5 border">
-        <div class="col">  
-            <h1>Votre équipe de développeurs</h1>
-                <img src="" alt="">
-            <h3>Donnez-nous une bonne note pour notre projet !</h3>
-                <p>Etudiant en centre de formation Web Force 3 Strasbourg</p>
-                <a href="https://www.wf3.fr/centre/webforce-3-strasbourg">WF3</a>
-        </div>
-    </div>
-  
-    
-</aside>
-{% block body %}
+			<div class="row container-fluid m-2 py-3 ">
+				<div class="col-12">
+					<h2 class="text-center text-success">les dernières annonces</h2>
+					{#<a href=" {{ path('annonce', { annonce }) }} " class="btn btn-dark">Tout Voir</a>#}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					{% for annonce in annonces %}
+						<h5 class="">{{ annonce.titre }}
+						</h5>
+				</div>
+
+				<div class="col-12">
+					<p>
+						{{ annonce.description|raw|slice(0,20) }}
+								...
+					</p>
+				</div>
+				
+				<div class="col-12">
+					<a href=" {{ path('annonce', { id: annonce.id }) }} " class="btn btn-dark">Lire l'article</a>
+					<hr>
+					{% endfor %}
+				</div>
+			</div>
+		</main>
+	{% endblock %}
+

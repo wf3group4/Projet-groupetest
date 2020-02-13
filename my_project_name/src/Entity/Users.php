@@ -48,6 +48,17 @@ class Users implements UserInterface
     private $Lastname;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $token;
@@ -65,7 +76,7 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $avatar;
+    private $avatar = 'images/imageDefault.jpg';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Portfolio", mappedBy="user", orphanRemoval=true)
@@ -77,11 +88,29 @@ class Users implements UserInterface
      */
     private $annonces;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Avis", mappedBy="users")
+     */
+    private $avis;
+    
+    /** 
+     * @ORM\ManyToMany(targetEntity="App\Entity\Annonces", mappedBy="user_postulant")
+     */
+    private $annonces_postule;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notifs", mappedBy="user", orphanRemoval=true)
+     */
+    private $notifs;
+
 
     public function __construct()
     {
         $this->portfolios = new ArrayCollection();
         $this->annonces = new ArrayCollection();
+        $this->avis = new ArrayCollection();
+        $this->annonces_postule = new ArrayCollection();
+        $this->notifs = new ArrayCollection();
     }
 
 
@@ -105,7 +134,6 @@ class Users implements UserInterface
 
     /**
      * A visual identifier that represents this user.
-     *
      * @see UserInterface
      */
     public function getUsername(): string
@@ -132,10 +160,11 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function hasRoles($role){
-        if(in_array($role, $this->getRoles())){
+    public function hasRoles($role)
+    {
+        if (in_array($role, $this->getRoles())) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -195,6 +224,31 @@ class Users implements UserInterface
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
 
 
     public function getToken(): ?string
@@ -307,5 +361,91 @@ class Users implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Avis[]
+     */
+    public function getAvis(): Collection
+    {
+        return $this->avis;
+    }
 
+    public function addAvi(Avis $avi): self
+    {
+        if (!$this->avis->contains($avi)) {
+            $this->avis[] = $avi;
+            $avi->setUsers($this);
+        }
+        return $this;
+    }
+
+    public function removeAvi(Avis $avi): self
+    {
+        if ($this->avis->contains($avi)) {
+            $this->avis->removeElement($avi);
+            // set the owning side to null (unless already changed)
+            if ($avi->getUsers() === $this) {
+                $avi->setUsers(null);
+            }
+        }
+        return $this;
+    }
+
+     /**       
+     * @return Collection|Annonces[]
+     */
+    public function getAnnoncesPostule(): Collection
+    {
+        return $this->annonces_postule;
+    }
+
+    public function addAnnoncesPostule(Annonces $annoncesPostule): self
+    {
+        if (!$this->annonces_postule->contains($annoncesPostule)) {
+            $this->annonces_postule[] = $annoncesPostule;
+            $annoncesPostule->addUserPostulant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnoncesPostule(Annonces $annoncesPostule): self
+    {
+        if ($this->annonces_postule->contains($annoncesPostule)) {
+            $this->annonces_postule->removeElement($annoncesPostule);
+            $annoncesPostule->removeUserPostulant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notifs[]
+     */
+    public function getNotifs(): Collection
+    {
+        return $this->notifs;
+    }
+
+    public function addNotif(Notifs $notif): self
+    {
+        if (!$this->notifs->contains($notif)) {
+            $this->notifs[] = $notif;
+            $notif->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotif(Notifs $notif): self
+    {
+        if ($this->notifs->contains($notif)) {
+            $this->notifs->removeElement($notif);
+            // set the owning side to null (unless already changed)
+            if ($notif->getUser() === $this) {
+                $notif->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

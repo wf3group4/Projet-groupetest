@@ -37,8 +37,12 @@ class SecurityController extends AbstractController
             );
             $now = new \DateTime();
             $user
-                -> setToken($this->generateToken())
-                -> setActive(0)
+                ->setCreatedAt($now)
+                ->setUpdatedAt($now)
+                ->setToken($this->generateToken())
+                ->setActive(0)
+                ->setRoles(["ROLE_PUBLISHER"])
+
             ;
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -46,7 +50,7 @@ class SecurityController extends AbstractController
 
             $emailService->register($user);
 
-           $this->addFlash('success', "Inscription bien prise en compte. Clique sur le lien wesh envoyé à l'email ".$user->getEmail());
+           $this->addFlash('success', "Inscription bien prise en compte. Clique sur le lien envoyé à l'email ".$user->getEmail());
            return $this->redirectToRoute('app_login');
 
             // return $guardHandler->authenticateUserAndHandleSuccess(
@@ -68,7 +72,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('accueil');
+            return $this->redirectToRoute('mon_compte');
         }
 
         // get the login error if there is one
