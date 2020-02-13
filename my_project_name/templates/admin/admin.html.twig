@@ -29,8 +29,8 @@
                             {% endfor %}
                             <div class="row px-2">
                                 <a href="{{path('annonce', {id: signalements[0].annonce.id})}}" class="btn btn-info col-sm-4 col-md-2">Voir l'annonce --></a>
-                                <a href="" class="btn btn-success col-sm-4 col-md-2">C'est ok</a>
-                                <a href="" class="btn btn-danger col-sm-4 col-md-2">Supprimer</a>
+                                <a href="{{path('admin', {id: signalements[0].annonce.id, action: "ok", cible: "annonce"})}}" class="btn btn-success col-sm-4 col-md-2">C'est ok</a>
+                                <a href="{{path('admin', {id: signalements[0].annonce.id, action: "delete", cible: "annonce"})}}" class="btn btn-danger col-sm-4 col-md-2">Supprimer</a>
                             </div>
                         </div>
                     </div>
@@ -49,8 +49,8 @@
                             {% endfor %}
                             <div class="row px-2">
                                 <a href="{{path('mon_compte', {id: signalements[0].user.id})}}" class="btn btn-info col-sm-4 col-md-2">Voir le profil --></a>
-                                <a href="" class="btn btn-success col-sm-4 col-md-2">C'est ok</a>
-                                <a href="" class="btn btn-danger col-sm-4 col-md-2">Bannir</a>
+                                <a href="{{path('admin', {id: signalements[0].user.id, action: "ok", cible: "user"})}}" class="btn btn-success col-sm-4 col-md-2">C'est ok</a>
+                                <a href="{{path('admin', {id: signalements[0].user.id, action: "delete", cible: "user"})}}" class="btn btn-danger col-sm-4 col-md-2">Bannir</a>
                             </div>
                         </div>
                     </div>

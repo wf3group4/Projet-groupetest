@@ -5,14 +5,28 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\SignalementRepository;
+use App\Repository\AnnoncesRepository;
+use App\Repository\UsersRepository;
+use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends AbstractController
 {
     /**
      * @Route("/a/admin", name="admin")
      */
-    public function admin(SignalementRepository $signalementRepo)
+    public function admin(
+        SignalementRepository $signalementRepo,
+        UsersRepository $userRepo,
+        AnnoncesRepository $annoncesRepo,
+        Request $request)
     {
+        //Recuperation query
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->query->get('id');
+        $action = $request->query->get('action');
+        $cible = $request->query->get('cible');
+
+        //Gestion des signalements
         $all_signalements = $signalementRepo->getSignalement();
         $signalements_user = $signalements_annonces = [];
     
@@ -42,6 +56,26 @@ class AdminController extends AbstractController
                 unset($signalements_user[$id_user]);
             }
         }
+
+        //Suppression compte/annonce
+        if($cible == "user"){
+            $user = $userRepo->find($id);
+            $user
+                ->setActive(0);
+            $em->persist($user);
+            $em->flush();
+        }
+        if($cible == "annonce"){
+            $annonce = $annoncesRepo->find($id);
+            $annonce
+                ->setActive(0);
+            $em->persist($annonce);
+            $em->flush();
+        }
+
+
+
+
         return $this->render('admin/admin.html.twig', [
             'signalements_annonces' => $signalements_annonces,
             'signalements_user' => $signalements_user,
