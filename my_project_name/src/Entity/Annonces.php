@@ -95,6 +95,7 @@ class Annonces
         $this->signalements = new ArrayCollection();
     }
 
+
     public function getId(): ?int
     {
         return $this->id;
