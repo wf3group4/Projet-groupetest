@@ -1,11 +1,11 @@
 /*--------------PAGE LISTE PROFIL-----------------*/
 
 #Profiles:nth-of-type(2n){
-    background-color: #ff5733;
+    background-color: #fbcf87;
 }
 
 #Profiles:nth-of-type(4){
-    background-color: #b1ff33;
+    background-color: #b4ffef;
 }
 
 
@@ -39,11 +39,32 @@
 }
 
 body{
-    font-family: Lato, Arial, Helvetica, sans-serif;
+    font-family:  Verdana, Arial, Helvetica, sans-serif;
 
     line-height: 1.5;
-    color:rgb(14, 46, 38) ;
+    color:rgb(10, 120, 134) ;
 }
+p, p u{
+    font-size: medium;
+}
+body {
+    font-size: 1em; /* That is your text's default font size. Here i chose 12px */
+}
+
+nav a{
+    color: rgb(102, 35, 35) !important;
+    font-size: 1.5em !important;
+    }
+
+nav i{
+    color: rgb(10, 120, 134)  !important;
+    font-size: 1.8em !important;
+    }
+
+nav em{
+     color: rgb(10, 120, 134)  !important;
+    font-size: 1em !important;
+    }
 
 index-jumbotron h1{
     font-size: 42;
