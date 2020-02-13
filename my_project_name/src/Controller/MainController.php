@@ -276,7 +276,9 @@ class MainController extends AbstractController
 
             if($cible == 'user'){
                 $signalement
-                    ->setUser($user);
+                    ->setUser($user)
+                    ->setDate( new \DateTime())
+                    ->setActive(1);
 
                 $em->persist($signalement);
                 $em->flush();
@@ -288,7 +290,9 @@ class MainController extends AbstractController
 
             }else{
                 $signalement
-                    ->setAnnonce($annonce);
+                    ->setAnnonce($annonce)
+                    ->setDate( new \DateTime())
+                    ->setActive(1);
                     // dump($signalement);die;
                 $em->persist($signalement);
                 $em->flush();

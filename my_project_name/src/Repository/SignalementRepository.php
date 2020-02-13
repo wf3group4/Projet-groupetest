@@ -25,8 +25,14 @@ class SignalementRepository extends ServiceEntityRepository
 
     public function getSignalement()
     {
-        return $this->findAll()
+        $derniere_semaine = new \DateTime("1 week ago");
+        return $this->createQueryBuilder('signalement')
+        ->where('signalement.date >= :derniere_semaine')
+            ->setParameter('derniere_semaine', $derniere_semaine)
+        ->getQuery()
+        ->getResult()
         ;
+
     }
 
 
