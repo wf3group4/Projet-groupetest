@@ -15,6 +15,7 @@ use App\Repository\AvisRepository;
 use App\Entity\Signalement;
 use App\Entity\Portfolio;
 use App\Entity\Avis;
+use App\Entity\Facture;
 use App\Service\EmailService;
 use Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -69,28 +70,27 @@ class MainController extends AbstractController
         }
 
         $em = $this->getDoctrine()->getManager();
-        $user->setVues($user->getVues()+1);
+        $user->setVues($user->getVues() + 1);
 
         $em->flush();
 
         //Ajout de liens/images au portfolio
         $portfolios = $portfolioRepo->getUserLastPortfolio($id);
-        
+
         $new_image = new Portfolio();
         $form = $this->createForm(PortfolioType::class, $new_image);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $portfolios = $form->getData()
-                ->setUser($user)
-            ;
+                ->setUser($user);
 
-                $file = $form['img_url']->getData();
-                    if($file){
-                       $repertoire = $this->getParameter('images');
-                       $nameOfPicture = 'portfolio-'.uniqid().'.'.$file->guessExtension();
-                       $file->move($repertoire, $nameOfPicture);
-                       $portfolios->setImgUrl($nameOfPicture);
-                    }
+            $file = $form['img_url']->getData();
+            if ($file) {
+                $repertoire = $this->getParameter('images');
+                $nameOfPicture = 'portfolio-' . uniqid() . '.' . $file->guessExtension();
+                $file->move($repertoire, $nameOfPicture);
+                $portfolios->setImgUrl($nameOfPicture);
+            }
             $em->persist($portfolios);
             $em->flush();
 
@@ -170,7 +170,7 @@ class MainController extends AbstractController
             }
         }
 
-        
+
 
         $moyenne = $user->getMoyenne();
         return $this->render('main/mon_compte.html.twig', [
@@ -230,14 +230,14 @@ class MainController extends AbstractController
         ]);
     }
 
-     /**
+    /**
      * @Route("/portfolio/{id}", name="portfolio")
      */
     public function portfolio(
-        $id, 
+        $id,
         UsersRepository $userRepo,
-        PortfolioRepository $portfolioRepo)
-    {
+        PortfolioRepository $portfolioRepo
+    ) {
         $user = $userRepo->find($id);
         $portfolios = $portfolioRepo->getUserPortfolios($id);
 
@@ -246,18 +246,17 @@ class MainController extends AbstractController
             'user' => $user,
             'portfolios' => $portfolios
         ]);
-     
     }
 
-     /**
+    /**
      * @Route("/signalement/{id}", name="signalement")
      */
     public function signalement(
-        $id, 
+        $id,
         UsersRepository $userRepo,
         AnnoncesRepository $annonceRepo,
-        Request $request)
-    {
+        Request $request
+    ) {
         //Récupération des variables
         $cible = $request->query->get('cible');
         $user = $userRepo->find($id);
@@ -270,48 +269,46 @@ class MainController extends AbstractController
         $form = $this->createForm(SignalementType::class);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $signalement = $form->getData();
 
-            if($cible == 'user'){
+            if ($cible == 'user') {
                 $signalement
                     ->setUser($user);
 
                 $em->persist($signalement);
                 $em->flush();
-        
+
                 $this->addFlash('success', 'Votre signalement à bien été envoyé !');
                 return $this->redirectToRoute('mon_compte', [
-                        'id' => $id
+                    'id' => $id
                 ]);
-
-            }else{
+            } else {
                 $signalement
                     ->setAnnonce($annonce);
-                    // dump($signalement);die;
+                // dump($signalement);die;
                 $em->persist($signalement);
                 $em->flush();
-                    
+
                 $this->addFlash('success', 'Votre signalement à bien été envoyé !');
                 return $this->redirectToRoute('annonce', [
-                        'id' => $id
+                    'id' => $id
                 ]);
             }
         }
         return $this->render('main/form_signalement.html.twig', [
             'id' => $id,
             'user' => $user,
-            'annonce' =>$annonce,
+            'annonce' => $annonce,
             'cible' => $cible,
             'form' => $form->createView(),
         ]);
-
     }
     /**
      * @Route("/mes_candidatures/{id}", name="mes_candidatures")
      */
-    public function mes_candidatures ($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo, Request $request) {
+    public function mes_candidatures($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo, Request $request)
+    {
 
         // On récupère l'utilisateur
         $user = $userRepo->find($id);
@@ -335,12 +332,13 @@ class MainController extends AbstractController
 
         if ($action == 'projet_fini') {
             $annonce = $annoncesRepo->find($request->query->get('annonce_id'));
-            
+
             $annonce->setActive(3);
             $em->flush();
-            
+
             return $this->redirectToRoute('mes_candidatures', [
-                'id' => $user->getId()]);
+                'id' => $user->getId()
+            ]);
         }
 
 
@@ -354,7 +352,8 @@ class MainController extends AbstractController
     /**
      * @Route("/mes_annonces/{id}", name="mes_annonces")
      */
-    public function mes_annonces ($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo, Request $request, EmailService $emailService) {
+    public function mes_annonces($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo, Request $request, EmailService $emailService)
+    {
 
         $user = $userRepo->find($id);
 
@@ -375,17 +374,53 @@ class MainController extends AbstractController
         if ($action == 'paiement_valide') {
             $annonce = $annoncesRepo->find($request->query->get('annonce_id'));
             $annonce->setActive(4);
+            $prestataire = $annonce->getPrestataire();
+            $prestataire->setCommission($prestataire->getCommission() + ($annonce->getPrix() * 0.1));
             $em->flush();
-        }
 
+            $emailService->envoi_facture($user, $annonce);
+
+
+            // $this->makeFacture($user, $annonce);
+
+            return $this->redirectToRoute('mes_annonces', [
+                'id' => $user->getId()]);
+        }
+        
 
         return $this->render('main/mes_annonces.html.twig', [
             'user' => $user,
             'annonces' => $annonces,
             'candidature_valide' => $candidature_valide,
         ]);
-
     }
 
 
-}
+    // public function makeFacture($user, $annonce)
+    // {
+    //     $em = $this->getDoctrine()->getManager();
+    //     $factureRepo = $em->getRepository(Facture::class);
+    //     $options = new Options();
+    //     $options->set('defaultFont', 'Arial');
+
+
+    //     $dompdf = new Dompdf($options);
+
+    //     $html = $this->renderView('front/facture.html.twig', [
+    //         'headline' => "Monsieur " . $user->getName() . ' ' . $user->getLastname(),
+    //         'prix' => $annonce->getPrix(),
+    //     ]);
+
+    //     $dompdf->loadHtml($html);
+    //     $dompdf->setPaper('A4', 'portrait');
+    //     $dompdf->render();
+
+    //     $file = $dompdf->output();
+    //     dump($file);die;
+    //     $fileName = 'facture-' . rand(1, 99999) . '.pdf';
+    //     $repertoire = $this->getParameter('factures');
+    //     $file->move($repertoire, $fileName);
+    //     }
+
+    // }
+    }

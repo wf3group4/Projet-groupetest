@@ -84,8 +84,8 @@
             {% if app.user and app.user.id != user.id %}  
                 <h2 class="mt-5">Mes annonces:</h2>
 				{# liste annonces #}
-				{% if annonces|length %}
-					{% for annonce in annonces %}
+                {% if annonces|length %}
+					{% for annonce in annonces | slice(0,5) | sort((a, b) => b.dateCreation | date("d M Y") <=> a.dateCreation | date("d M Y")) %}
 						<article class="border rounded shadow my-3 p-2 bg-light">
 							<div class="row">
 								<div class="col-md-7">
@@ -116,11 +116,10 @@
             {# liste avis #}
             <div class="mt-3 ">
                 {% if avis|length %}
-                    {% for avi in avis %}
+                    {% for avi in avis | slice(0,5) %}
                         <div class="border rounded p-3 mb-3">
                             <p class="h6">Commentaire publiée par {{ avi.nom }} {{ avi.prenom }} le {{avi.createAt | date('d M Y') }}</p>
                             <div class="text-justify">{{ avi.contenu|nl2br }}</div>
-                            <div class="text-justify">{{ avi.note }}</div>
                             <p>
                                 {% include 'shared/etoile.html.twig' with { note: avi.note } %}
                             </p>

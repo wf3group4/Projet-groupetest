@@ -35,6 +35,7 @@ class AnnoncesRepository extends ServiceEntityRepository
         )
         ;
     }
+
     /**
       * @return LastAnnonces[] Returns an array of the last Annonces 
       */

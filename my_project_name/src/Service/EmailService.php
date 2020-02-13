@@ -115,4 +115,15 @@ class EmailService{
         );
         $this->send($data);
     }
+
+    public function envoi_facture($user, $annonce) {
+        $data = array(
+            'subject' => "Votre facture concernant l'annonce '" . $annonce->getTitre() . "'",
+            'template' => 'emails/facture.html.twig',
+            'context' => ['user' => $user, 'annonce' => $annonce]
+        );
+        $this->send($data);
+
+    }
+
 }
