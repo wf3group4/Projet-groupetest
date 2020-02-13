@@ -21,15 +21,15 @@
 {% for annonce in app.user.annonces %}
     {% for postulant in annonce.userPostulant %}
      <p>{{postulant.name}}&nbsp;à postulé sur l'annonce : {{ annonce.titre }}</p>
-    {% endfor %} 
 
  <!-- On efface les messages quand on les a lu -->   
  <div class="col-md-2">
-    <a href="{{path('annonce', { id: annonce.id, action: 'delete' })}} "
+    <a href="{{path('publisher_admin', { id: annonce.id, action: 'delete' })}} "
      class="ml-auto mr-3 text-danger">Supprimer</a>
 </div>
 	
-	{% else %}
+    {% endfor %} 
+	
 	    <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
 	  {% endfor %}
 	</div>
