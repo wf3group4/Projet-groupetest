@@ -37,6 +37,7 @@ class Users implements UserInterface
      */
     private $password;
 
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -102,21 +103,21 @@ class Users implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="user")
      */
     private $signalements;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Annonces", mappedBy="prestataire")
-     */
-    private $annonces_prestataire;
-    
-    /*
-     * @ORM\Column(type="integer")
-     */
-    private $Vues;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
     private $commission;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $vues;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Annonces", mappedBy="prestataire")
+     */
+    private $annonces_prestataire;
 
 
     public function __construct()
@@ -468,7 +469,43 @@ class Users implements UserInterface
         }
     }
     
-    /**       
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->contains($signalement)) {
+            $this->signalements->removeElement($signalement);
+            // set the owning side to null (unless already changed)
+            if ($signalement->getUser() === $this) {
+                $signalement->setUser(null);
+
+            }
+        }
+    }  
+    
+    public function getCommission(): ?float
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?float $commission): self
+    {
+        $this->commission = $commission;
+
+        return $this;
+    }
+
+    public function getVues(): ?int
+    {
+        return $this->vues;
+    }
+
+    public function setVues(int $vues): self
+    {
+        $this->vues = $vues;
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Annonces[]
      */
     public function getAnnoncesPrestataire(): Collection
@@ -482,32 +519,9 @@ class Users implements UserInterface
             $this->annonces_prestataire[] = $annoncesPrestataire;
             $annoncesPrestataire->setPrestataire($this);
         }
-    }
-    
-    public function getVues(): ?int
-    {
-        return $this->Vues;
-    }
-
-    public function setVues(int $Vues): self
-    {
-        $this->Vues = $Vues;
 
         return $this;
     }
-
-    public function removeSignalement(Signalement $signalement): self
-    {
-        if ($this->signalements->contains($signalement)) {
-            $this->signalements->removeElement($signalement);
-            // set the owning side to null (unless already changed)
-            if ($signalement->getUser() === $this) {
-                $signalement->setUser(null);
-
-            }
-        }
-    }  
-    
 
     public function removeAnnoncesPrestataire(Annonces $annoncesPrestataire): self
     {
@@ -518,16 +532,6 @@ class Users implements UserInterface
                 $annoncesPrestataire->setPrestataire(null);
             }
         }
-    }
-    
-    public function getCommission(): ?float
-    {
-        return $this->commission;
-    }
-
-    public function setCommission(?float $commission): self
-    {
-        $this->commission = $commission;
 
         return $this;
     }

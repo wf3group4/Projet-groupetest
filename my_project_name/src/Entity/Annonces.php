@@ -69,25 +69,22 @@ class Annonces
      */
     private $prix;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $artiste_choisi;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="annonce")
      */
     private $signalements;
 
-    /*
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $vues;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="annonces_prestataire")
      */
     private $prestataire;
 
-    /*
-    * @ORM\Column(type="integer")
-    */
-    private $vues;
 
 
 
@@ -239,17 +236,6 @@ class Annonces
         return $this;
     }
 
-    public function getArtisteChoisi(): ?string
-    {
-        return $this->artiste_choisi;
-    }
-
-    public function setArtisteChoisi(?string $artiste_choisi): self
-    {
-        $this->artiste_choisi = $artiste_choisi;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Signalement[]
@@ -279,17 +265,6 @@ class Annonces
             }
         }
     }
-    
-    public function getPrestataire(): ?Users
-    {
-        return $this->prestataire;
-    }
-
-    public function setPrestataire(?Users $prestataire): self
-    {
-        $this->prestataire = $prestataire;
-    }
-    
     public function getVues(): ?int
     {
         return $this->vues;
@@ -298,6 +273,18 @@ class Annonces
     public function setVues(int $vues): self
     {
         $this->vues = $vues;
+
+        return $this;
+    }
+
+    public function getPrestataire(): ?Users
+    {
+        return $this->prestataire;
+    }
+
+    public function setPrestataire(?Users $prestataire): self
+    {
+        $this->prestataire = $prestataire;
 
         return $this;
     }
