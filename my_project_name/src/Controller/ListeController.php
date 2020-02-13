@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Annonces;
 use App\Entity\Users;
 use App\Entity\Avis;
+use App\Entity\Tags;
 use App\Form\CreerAnnonceType;
 use App\Repository\AnnoncesRepository;
 use App\Form\ContactProType;
 
 
+use App\Repository\TagsRepository;
 use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -78,7 +80,8 @@ class ListeController extends AbstractController
             $data = $request->request->all();
 
             $avis = (new Avis())
-                ->setEmail($data['email'])
+                ->setNom($data['nom'])
+                ->setPrenom($data['prenom'])
                 ->setContenu($data['contenu'])
                 ->setRgpd(1)
                 ->setCreateAt(new \DateTime())
@@ -150,18 +153,16 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonces", name="annonces")
      */
-    public function annonces(AnnoncesRepository $annoncesRepo,Request $request)
+    public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo)
     {
         // Requete pour récupérer toutes les annonces
         $annonces = $annoncesRepo->findBy(['active' => 1]);
 
+
         $search = $request->query->get('search');
-        $prix = $request->query->get('prix');
-
-        if ($search && $prix)
+        if ($search)
         {
-
-            $annonces = $annoncesRepo->searchByAnnonce($search, $prix);
+            $annonces = $annoncesRepo->searchByAnnonce($search);
 
             if(!$annonces)
             {
@@ -169,15 +170,34 @@ class ListeController extends AbstractController
                 return $this->redirectToRoute('annonces');
             }
 
-
             $this->addFlash('success', 'Résultat trouvée !');
+
+        }
+
+        $search = $request->query->get('ordre');
+        if($search)
+        {
+            $annonces = $annoncesRepo->ordre($search);
+        }
+
+        $search = $request->query->get('tag');
+        if($search == "Musique")
+        {
+
+            $em = $this->getDoctrine()->getManager();
+            $tagsRepo = $em->getRepository(Tags::class);
+            $tags = $tagsRepo -> findAll();
+            $tags->getAnnonces();
+            dump($tags);die;
+            $annonces = $annoncesRepo->findBy(['Tag' => $tags]);
+            dump($annonces);die;
 
         }
 
 
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
-            'recherche' => $search && $prix,
+            'recherche' => $search,
         ]);
     }
 

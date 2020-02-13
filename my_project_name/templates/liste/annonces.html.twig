@@ -12,22 +12,37 @@
 					<div class="form-group">
 						<input class="form-control mr-sm-2" name="search" type="text" placeholder="Rechercher une annonce">
 					</div>
-					<div class="form-group">
-						<select name="prix" class="form-control mr-sm-2" id="exampleSelect1">
-							<option value="">-- Prix --</option>
-							<option value="60">60</option>
-							<option value="120">120</option>
-							<option value="240">240</option>
-							<option value="300">300</option>
-						</select>
-					</div>
 					<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Rechercher</button>
+				</form>
+
+				<p>trier par :</p>
+
+				<form class="form-inline my-2 my-lg-0">
+					<div class="form-group">
+						<select name="ordre" class="form-control mr-sm-2" id="exampleSelect1">
+							<option value="">-- Prix --</option>
+							<option value="ASC">Du plus petit au plus grand</option>
+							<option value="DESC">Du plus grand au plus petit</option>
+						</select>
+						<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Rechercher</button>
+					</div>
+				</form>
+				<form class="form-inline my-2 my-lg-0">
+					<div class="form-group">
+						<select name="tag" class="form-control mr-sm-2" id="exampleSelect1">
+							<option value="">-- Tag --</option>
+							<option value="Musique">Musique</option>
+							<option value="Art_graphique">Art graphique</option>
+						</select>
+						<button class="btn btn-danger my-2 my-sm-0" type="submit">Rechercher <span class="text-white">/!\ ne pas appuyer /!\ </span></button>
+
+					</div>
 				</form>
 			</div>
 		</div>
 		{% if recherche %}
-			{% for annonce in annonces %}
-				<div class="container border border-danger my-5">
+			{% for annonce in annonces%}
+				<div class="container border-bottom border-danger my-5">
 				   <div class="row">
 						<div class="col-md-8">
 							<h2>{{annonce.titre}}</h2>
@@ -48,9 +63,9 @@
 							{% if not annonce.vues %}
 						   	Je n'ai aucune vue
 					   		{% else %}
-						   	{{ annonce.vues }}
+						   	vues {{ annonce.vues }}
 					   		{% endif %}
-					   		de fois
+					   		 fois
 				   		</p>
 						<p>{{annonce.description | slice(0, 200)}}...</p>
 						<div>
@@ -62,6 +77,13 @@
 								{% for user in annonce.UserPostulant %}
 									<li id="listeAvatar" class="">
 										<a href="{{ path('mon_compte', {id: user.id}) }}"><img src="{{ asset('images/'~user.avatar)}}" alt="avatar" class="img-fluid rounded-circle mr-2 mb-3" style="width: 34px; height:34px;" data-toggle="tooltip" data-placement="top" title="{{user.name}} {{user.lastname}} "></a>
+										{% if user.commission >= 40 %}
+											<span class="badge badge-pill badge-success">2</span>
+										{% elseif user.commission >= 20 %}
+											<span class="badge badge-pill badge-warning">1</span>
+										{% else %}
+											<span class="badge badge-pill badge-primary">0</span>
+										{% endif %}
 									</li>
 								{% endfor %}
 							</ul>
@@ -73,13 +95,14 @@
 				</div>
 			{% endfor %}
 		{% else %}
-			{% for annonce in annonces %}
+			{% for annonce in annonces|sort((a,b) => b.vues <=> a.vues) %}
 				<div class="container border-bottom border-danger my-5">
 				   <div class="row">
 						<div class="col-md-8">
 							<h2>{{annonce.titre}}</h2>
 						</div>
 						<div class="col-4">
+
 							<!-- Affichage des tags -->
 							{% for tags in annonce.Tag %}
 								{% if tags %}
@@ -94,9 +117,9 @@
 						{% if not annonce.vues %}
 						Je n'ai aucune vue
 					   	{% else %}
-						{{ annonce.vues }}
+						vues {{ annonce.vues }}
 					   	{% endif %}
-					   	de fois
+					   	 fois
 				   	</p>
 					<p>{{annonce.description | slice(0, 200)}}...</p>
 					<div>
