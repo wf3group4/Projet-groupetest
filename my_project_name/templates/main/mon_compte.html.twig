@@ -46,7 +46,7 @@
             </div>
 
             {% if app.user and app.user.id != user.id %}
-                <a href="{{ path('signalement', { id: user.id, cible: 'user'}) }}" class="text-danger ml-auto">Signaler cette utilisateur</a>
+                <a href="{{ path('signalement', { id: user.id, cible: 'user'}) }}" class="text-danger ml-auto">Signaler cet utilisateur</a>
             {% endif %}
         </div>
         <hr>

@@ -7,12 +7,37 @@
 <div class="example-wrapper">
     <h1 class="text-center py-5">Hello {{app.user.name}}</h1>
     <h2 class="py-3">Les signalements:</h2>
+        
+        <!-- affichage des annonces -->
+        <h3 class="text-center my-5">Les annonces</h3>
         {% for signalement in signalements %}
-        <pre>
-            {{ dump(signalement) }}
-        </pre>
-            <p>{{signalement.message}}</p>
+            {% if signalement.annonce %}
+            <div class="border bg-warning rounded p-2 my-2">
+                <div>
+                    <h4 class="border-bottom">Signalement sur l'annonce:{{signalement.annonce.titre}}</h4>
+                </div>
+                <h5>Motif</h5>
+                <p>{{signalement.message}}</p>
+                <a href="{{path('annonce', {id: signalement.annonce.id})}}">Voir l'annonce</a>
+            </div>   
+            {% endif %}
         {% endfor %}
+
+        <!-- affichage des utilisateur -->
+        <h3 class="text-center my-5">Les utilisateurs</h3>
+        {% for signalement in signalements %}
+            {% if signalement.user %}
+            <div class="border bg-warning rounded p-2 my-2">
+                <div>
+                    <h4 class="border-bottom">Signalement sur le profil:{{signalement.user.name}} {{signalement.user.lastname}}</h4>
+                </div>
+                <h5>Motif</h5>
+                <p>{{signalement.message}}</p>
+                <a href="{{path('annonce', {id: signalement.user.id})}}">Voir le profil</a>
+            </div>   
+            {% endif %}
+        {% endfor %}
+
     <h2 class="py-3">Le coin des stats:</h2>
     <h3>Argent générer ce mois:</h3>
     <h3>Nouveau profil:</h3>
