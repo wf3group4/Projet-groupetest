@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Annonces;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
 
 /**
  * @method Annonces|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,7 +30,7 @@ class AnnoncesRepository extends ServiceEntityRepository
         return $this->findBy(
             array(
                 'user' => $user, 
-                'active' => 1
+                'active' => [1,2,3,4]
             )
         )
         ;
@@ -48,6 +50,22 @@ class AnnoncesRepository extends ServiceEntityRepository
             $max
         )
         ;
+    }
+
+    public function searchByAnnonce($search, $prix)
+    {
+        return $this->createQueryBuilder('u')
+            ->orWhere('u.titre LIKE :titre')
+            ->orWhere('u.prix LIKE :prix')
+            ->setParameters(new ArrayCollection(array(
+                  new Parameter('titre', "%$search%"),
+                  new Parameter('prix', "$prix")
+                        )))
+
+
+            ->getQuery()
+            ->getResult()
+            ;
     }
     
 

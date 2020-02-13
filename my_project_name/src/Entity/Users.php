@@ -37,6 +37,7 @@ class Users implements UserInterface
      */
     private $password;
 
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -103,6 +104,26 @@ class Users implements UserInterface
      */
     private $notifs;
 
+    /*
+     * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="user")
+     */
+    private $signalements;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $commission;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $vues;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Annonces", mappedBy="prestataire")
+     */
+    private $annonces_prestataire;
+
 
     public function __construct()
     {
@@ -111,7 +132,26 @@ class Users implements UserInterface
         $this->avis = new ArrayCollection();
         $this->annonces_postule = new ArrayCollection();
         $this->notifs = new ArrayCollection();
+        $this->signalements = new ArrayCollection();
+        $this->annonces_prestataire = new ArrayCollection();
     }
+
+    public function getMoyenne()
+    {
+        $moyenne = 0;
+        $note = 0;
+        $avis = $this->getAvis();
+        $nbAvis = count($avis);
+        if ($nbAvis) {
+            foreach ($avis as $avi) {
+                $note = $note + $avi->getNote();
+            }
+            $moyenne = $note / $nbAvis;
+        }
+
+        return $moyenne;
+    }
+
 
 
 
@@ -432,6 +472,75 @@ class Users implements UserInterface
             $this->notifs[] = $notif;
             $notif->setUser($this);
         }
+    }
+        
+    /*
+     * @return Collection|Signalement[]
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): self
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements[] = $signalement;
+            $signalement->setUser($this);
+    
+        }
+    }
+    
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->contains($signalement)) {
+            $this->signalements->removeElement($signalement);
+            // set the owning side to null (unless already changed)
+            if ($signalement->getUser() === $this) {
+                $signalement->setUser(null);
+
+            }
+        }
+    }  
+    
+    public function getCommission(): ?float
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?float $commission): self
+    {
+        $this->commission = $commission;
+
+        return $this;
+    }
+
+    public function getVues(): ?int
+    {
+        return $this->vues;
+    }
+
+    public function setVues(int $vues): self
+    {
+        $this->vues = $vues;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Annonces[]
+     */
+    public function getAnnoncesPrestataire(): Collection
+    {
+        return $this->annonces_prestataire;
+    }
+
+    public function addAnnoncesPrestataire(Annonces $annoncesPrestataire): self
+    {
+        if (!$this->annonces_prestataire->contains($annoncesPrestataire)) {
+            $this->annonces_prestataire[] = $annoncesPrestataire;
+            $annoncesPrestataire->setPrestataire($this);
+        }
 
         return $this;
     }
@@ -443,6 +552,18 @@ class Users implements UserInterface
             // set the owning side to null (unless already changed)
             if ($notif->getUser() === $this) {
                 $notif->setUser(null);
+
+            }
+        }
+    }
+    
+    public function removeAnnoncesPrestataire(Annonces $annoncesPrestataire): self
+    {
+        if ($this->annonces_prestataire->contains($annoncesPrestataire)) {
+            $this->annonces_prestataire->removeElement($annoncesPrestataire);
+            // set the owning side to null (unless already changed)
+            if ($annoncesPrestataire->getPrestataire() === $this) {
+                $annoncesPrestataire->setPrestataire(null);
             }
         }
 

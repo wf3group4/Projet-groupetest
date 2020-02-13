@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Repository\UsersRepository;
 use Exception;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ListeController extends AbstractController
 {
@@ -33,7 +34,7 @@ class ListeController extends AbstractController
         $profil = $usersRepo->findAll();
 
 
-        $search = $request->query->get('name');
+        $search = $request->query->get('search');
             if ($search)
             {
                 $profil = $usersRepo->SearchByName($search);
@@ -56,6 +57,7 @@ class ListeController extends AbstractController
 
         return $this->render('liste/LesProfils.html.twig', [
             'profiles' => $profil,
+            'recherche' => $search,
         ]);
     }
 
@@ -154,28 +156,52 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonces", name="annonces")
      */
-    public function annonces(AnnoncesRepository $annoncesRepo)
+    public function annonces(AnnoncesRepository $annoncesRepo,Request $request)
     {
         // Requete pour récupérer toutes les annonces
-        $annonces = $annoncesRepo->findAll();
+        $annonces = $annoncesRepo->findBy(['active' => 1]);
+
+        $search = $request->query->get('search');
+        $prix = $request->query->get('prix');
+
+        if ($search && $prix)
+        {
+
+            $annonces = $annoncesRepo->searchByAnnonce($search, $prix);
+
+            if(!$annonces)
+            {
+                $this->addFlash('danger', 'Aucun résultat trouvé');
+                return $this->redirectToRoute('annonces');
+            }
+
+
+            $this->addFlash('success', 'Résultat trouvée !');
+
+        }
+
 
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
+            'recherche' => $search && $prix,
         ]);
     }
 
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
-    public function annonce($id, Request $request)
+    public function annonce($id, Request $request, AnnoncesRepository $annoncesRepo, UsersRepository $usersRepo, EmailService $emailService)
     {
-
+        
         // On récupère l' AnnoncesRepository
         $em = $this->getDoctrine()->getManager();
         $annoncesRepo = $em->getRepository(Annonces::class);
-
         // On récupère l'annonce, en fonction de l'ID qui est dans l'URL
         $annonce = $annoncesRepo->find($id);
+
+        $annonce->setVues($annonce->getVues()+1);
+
+        $em->flush();
 
         if (!$annonce) {
             $this->addFlash('danger', "L'article demandé n'a pas été trouvé.");
@@ -201,6 +227,36 @@ class ListeController extends AbstractController
 
         }
 
+        // Traitement du bouton Choisir cet artiste
+        $action = $request->query->get('action');
+
+        if ($action == 'add-prestataire') {
+
+            $user_id = $request->query->get('user_id');
+            $user_choisi = $usersRepo->find($user_id);   
+            $annonce
+                ->setPrestataire($user_choisi)
+                ->setActive(2)
+                ;
+            $em->flush();
+
+            $link = $this->generateUrl('annonce', ['id' => $annonce->getId()],UrlGeneratorInterface::ABSOLUTE_URL );
+            $emailService->choix_prestataire($user_choisi, $link);
+
+            $this->addFlash('success', "Votre choix a bien été enregistré");
+            return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
+
+        // Bouton pour changer d'artiste qui permet de remettre le prestataire à 'null'
+        } elseif ($action == 'remove-prestataire') {
+            $annonce->setPrestataire(null);
+
+            $em->flush();
+
+            $this->addFlash('success', "Le retrait de l'artiste a bien été enregistré");
+            return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
+        }
+        
+
 
         return $this->render('liste/annonce.html.twig', [
             'annonce' => $annonce,
@@ -212,7 +268,7 @@ class ListeController extends AbstractController
      */
     public function annonce_crud($id, Request $request, AnnoncesRepository $annoncesRepo)
     {
-
+        $user_id = $this->getUser()->getId();
         $this->denyAccessUnlessGranted('ROLE_PUBLISHER');
 
         $em = $this->getDoctrine()->getManager();
@@ -229,7 +285,9 @@ class ListeController extends AbstractController
             $annonce = $annoncesRepo->find($id);
             if (!$annonce) {
                 $this->addFlash('danger', "Cet annonce n'a pas été trouvé.");
-                return $this->redirectToRoute('mon_compte');
+                return $this->redirectToRoute('mon_compte', [
+                    'id' =>  $user_id
+                ]);
             }
 
             // On vérifie si l'utilisateur à écrit l'annonce
@@ -249,7 +307,9 @@ class ListeController extends AbstractController
             $em->flush();
 
             $this->addFlash('danger', "L'annonce a bien été supprimé.");
-            return $this->redirectToRoute('mon_compte');
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $user_id
+            ]);
         }
 
 
@@ -271,7 +331,9 @@ class ListeController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', "L'annonce a bien été " . ($nouveau ? 'créé' : 'modifié') . ".");
-            return $this->redirectToRoute('mon_compte');
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $user_id
+            ]);
         }
 
         return $this->render('liste/annonce_crud.html.twig', [

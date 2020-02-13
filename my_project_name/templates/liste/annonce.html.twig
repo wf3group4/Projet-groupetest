@@ -6,20 +6,14 @@
 
 {% block body %}
 
+	<h1 class="text-center my-5">{{annonce.titre}}</h1>
 
-	<h1 class="text-center my-5">{{annonce.titre}}</h1> 
-        <div class="input-group mb-3">
-			<div class="input-group-prepend">
-			
-			</div>
-		</div>
 	<div class="row">
 
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-body">
 					<h2 class="card-title">Information sur celui qui a posté l'annonce</h2>
-                    
 					<p>
 						<a href="#">Voir son profil</a>
 					</p>
@@ -35,6 +29,13 @@
 					{% else %}
 						<p class="card-text">Date limite de la recherche : L'annonceur n'a pas précisé de date limite</p>
 					{% endif %}
+					<p class="card-text">Nombre de vues :
+						{% if not annonce.vues %}
+							Je n'ai aucune vue
+						{% else %}
+							{{ annonce.vues }}
+						{% endif %}
+						 de fois</p>
 				</div>
 			</div>
 		</div>
@@ -47,7 +48,8 @@
 				</div>
 				<!-- fin de la col description -->
 
-				{% if app.user and annonce.user.id != app.user.id %}
+				<!-- Gestion du bouton ça m'intéresse -->
+				{% if app.user and annonce.user.id != app.user.id and not annonce.prestataire %}
 
 					{% if annonce in app.user.annoncesPostule %}
 						<div class="col">
@@ -58,18 +60,49 @@
 							<a href="{{path('annonce', {id: annonce.id, action: 'add'})}}" class="btn btn-success my-5">Ca m'intéresse</a>
 						</div>
 					{% endif %}
-
+				{% else %}
+					<div class="col">
+						<u><p class="my-5 font-weight-bold text-success">Cette annonce a été pourvu</p></u>
+					</div>
 				{% endif %}
-
-
+				{% if app.user and app.user.id != annonce.id %}
+                <a href="{{ path('signalement', { id: annonce.id, cible: 'annonce'}) }}" class="text-danger ml-auto">Signaler cette annonce</a>
+            {% endif %}
 			</div>
-			
 		</div>
 		<!-- fin de la col description -->
 
 	</div>
-
-
 	<!-- fin de la row -->
+
+	<div class="my-4">
+        {% if not annonce.UserPostulant.isEmpty %}
+        <h4>Utilisateur intéressé par cette annonce :</h4>
+
+			{% for user in annonce.UserPostulant %}
+				<div>
+					<ul>
+						<div class="row">
+							<li>{{user.name}}
+								{{user.lastname}}</li>
+							<a class="ml-5 pt-1 badge badge-pill badge-primary" href="{{path('mon_compte', {id: user.id})}} ">Voir son profil</a>
+
+							<!-- Gestion du bouton choisir un artiste -->
+							{% if app.user and app.user.id == annonce.user.id %}
+								{% if annonce.prestataire %}
+									<a href="{{path('annonce', {id: annonce.id, action: 'remove-prestataire'})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Changer d'artiste</a>
+								{% else %}
+									<a href="{{path('annonce', {id: annonce.id, action: 'add-prestataire', user_id: user.id})}}" class="ml-5 pt-1 badge badge-pill badge-primary">Choisir cet artiste</a>
+								{% endif %}
+							{% endif %}
+						</div>
+					</ul>
+				</div>
+			{% endfor %}
+		{% else %}
+			<h4>
+				Aucun artiste n'a postulé à cette annonce pour le moment</h4>
+		{% endif %}
+	</div>
 
 {% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mes annonces
+{% endblock %}
+
+
+{% block body %}
+
+	<h1 class="text-center my-5">Mes annonces</h1>
+
+
+	{# creation annonce #}
+    <a href="{{ path('annonce_crud', { id: 0 }) }}" class="btn btn-outline-primary">Ajouter une annonce</a>
+    
+    <h2 class="mt-5">Mes annonces en attente de paiement:</h2>
+
+	{# liste annonces #}
+	{% for annonce in annonces %}
+		{% if annonce.Active == 3 %}
+			<article class="border rounded shadow my-3 p-2 bg-light">
+				<i>Annonce créée le
+					{{annonce.dateCreation | date('d M Y')}}
+					à
+					{{annonce.dateCreation | date('H:i')}}
+					par
+					{{annonce.user.name}}
+					{{annonce.user.lastname}}</i>
+
+				<div class="row">
+                    <div class="col-9">
+                        <a href="{{path('annonce', {id: annonce.id})}}">
+                            <h3 class="ml-3">{{annonce.titre}}</h3>
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <a href="{{path('mes_annonces', {id: user.id, action: 'paiement_valide', annonce_id: annonce.id})}}" class="btn btn-success">Payer l'artiste</a>
+                    </div>
+                </div>
+				<p class="  ml-3">{{annonce.description}}</p>
+			</article>
+		{% endif %}
+	{% endfor %}
+
+
+
+	<h2 class="mt-5">Mes annonces en cours:</h2>
+
+	{# liste annonces #}
+	{% for annonce in annonces %}
+		{% if annonce.Active == 2 %}
+			<article class="border rounded shadow my-3 p-2 bg-light">
+				<i>Annonce créée le
+					{{annonce.dateCreation | date('d M Y')}}
+					à
+					{{annonce.dateCreation | date('H:i')}}
+					par
+					{{annonce.user.name}}
+					{{annonce.user.lastname}}</i>
+
+				<div class="row">
+					<div class="col-9">
+					    <a href="{{path("annonce", {id: annonce.id})}}">
+    						<h3 class="ml-3">{{annonce.titre}}</h3>
+    					</a>
+                    </div>
+				</div>
+				<p class="  ml-3">{{annonce.description}}</p>
+			</article>
+		{% endif %}
+	{% endfor %}
+
+
+	<h2 class="mt-5">Les annonces en attentes de sélection d'un artiste:</h2>
+	<small>Cliquez sur l'annonce pour sélectionner un artiste</small>
+	{# liste annonces #}
+	{% for annonce in annonces %}
+		{% if annonce.Active == 1 %}
+			<article class="border rounded shadow my-3 p-2 bg-light">
+				<div class="row">
+					<div class="col-md-7">
+						<i>Annonce créée le
+							{{annonce.dateCreation | date('d M Y')}}
+							à
+							{{annonce.dateCreation | date('H:i')}}
+							par
+							{{annonce.user.name}}
+							{{annonce.user.lastname}}</i>
+					</div>
+					<div class="col-md-3">
+						<a href="{{path('annonce_crud', { id: annonce.id})}} " class="ml-auto mr-3 text-primary">Editer mon annonce</a>
+					</div>
+					<div class="col-md-2">
+						<a href="{{path('annonce_crud', { id: annonce.id, action: 'delete' })}} " class="ml-auto mr-3 text-danger">Supprimer</a>
+					</div>
+				</div>
+
+				<div class="row">
+					<a href="{{path("annonce", {id: annonce.id})}}">
+						<h3 class="ml-3">{{annonce.titre}}</h3>
+					</a>
+				</div>
+				<p class="  ml-3">{{annonce.description}}</p>
+			</article>
+		{% endif %}
+	{% endfor %}
+
+
+{% endblock %}

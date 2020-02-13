@@ -55,9 +55,21 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         ;
         
     }
-/**
- * @return User returns person interested sur publisher_admin
- */
+
+
+
+    public function SearchByName($search, $commission)
+    {
+        return $this->createQueryBuilder('u')
+            ->orWhere("u.Name LIKE :search")
+            ->orWhere("u.Lastname LIKE :search")
+            ->setParameter('search', "%$search%")
+
+
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
     // /**
     //  * @return User[] Returns an array of User objects

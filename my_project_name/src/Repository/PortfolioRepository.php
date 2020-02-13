@@ -22,7 +22,6 @@ class PortfolioRepository extends ServiceEntityRepository
      /**
       * @return Portfolio[] Returns an array of Portfolio objects
       */
-    
     public function getUserPortfolios($user)
     {
         return $this->createQueryBuilder('portfolio')
@@ -33,6 +32,20 @@ class PortfolioRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function getUserLastPortfolio($user)
+    {
+        return $this->createQueryBuilder('portfolio')
+            ->andWhere('portfolio.user = :user')
+                ->setParameter('user', $user)
+            ->andWhere('portfolio.img_url IS NOT NULL')
+            ->orderBy('portfolio.id', 'DESC')
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult()
+        ;
+    } 
+
 
     public function getUserLiens($user){
         return $this->createQueryBuilder('portfolio')

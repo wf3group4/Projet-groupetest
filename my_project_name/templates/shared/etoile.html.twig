@@ -1,0 +1,37 @@
+{% if note < 1 or null %}
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+{% elseif note < 2 %}
+    <i class="fas fa-star text-warning"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+{% elseif note < 3 %}
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+{% elseif note < 4 %}
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="far fa-star"></i>
+    <i class="far fa-star"></i>
+{% elseif note < 5 %}
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="far fa-star"></i>
+{% elseif note == 5 %}
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+    <i class="fas fa-star text-warning"></i>
+{% endif %}

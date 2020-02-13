@@ -13,12 +13,13 @@
             </div>
         </div>
         <div class="col-md-2">
+
                     <p>Catégories <i class="fas fa-archive"></i></p>
 
                     <div class="list-group text-white">
-                        <a class="badge badge-primary mb-1">Musique <i class="fas fa-compact-disc"></i></a>
-                        <a class="badge badge-primary mb-1">Danse</a>
-                        <a class="badge badge-primary">Chanson</a>
+                        {% for tag in tags %}
+                            <a class="badge badge-primary mb-1">{{ tag.nom }}</a>
+                        {% endfor %}
                     </div>
         </div>
         <div class="col-md-2">

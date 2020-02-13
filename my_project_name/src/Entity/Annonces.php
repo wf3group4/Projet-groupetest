@@ -70,11 +70,29 @@ class Annonces
     private $prix;
 
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="annonce")
+     */
+    private $signalements;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $vues;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="annonces_prestataire")
+     */
+    private $prestataire;
+
+
+
 
     public function __construct()
     {
         $this->user_postulant = new ArrayCollection();
         $this->tag = new ArrayCollection();
+        $this->signalements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,6 +232,59 @@ class Annonces
     public function setPrix(string $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|Signalement[]
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): self
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements[] = $signalement;
+            $signalement->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->contains($signalement)) {
+            $this->signalements->removeElement($signalement);
+            // set the owning side to null (unless already changed)
+            if ($signalement->getAnnonce() === $this) {
+                $signalement->setAnnonce(null);
+            }
+        }
+    }
+    public function getVues(): ?int
+    {
+        return $this->vues;
+    }
+
+    public function setVues(int $vues): self
+    {
+        $this->vues = $vues;
+
+        return $this;
+    }
+
+    public function getPrestataire(): ?Users
+    {
+        return $this->prestataire;
+    }
+
+    public function setPrestataire(?Users $prestataire): self
+    {
+        $this->prestataire = $prestataire;
 
         return $this;
     }

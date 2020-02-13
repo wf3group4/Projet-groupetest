@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signalement{% endblock %}
+
+{% block body %}
+    
+    {% if cible == 'user' %}
+    <h1 class="py-5 text-center">Signalement de  l'utilisateur: {{user.name}} {{user.lastname}}</h1>
+
+        {{form(form)}}
+
+    {% else %}
+    <h1 class="py-5 text-center">Signalement de l'article: {{annonce.titre}}</h1>
+
+        {{form(form)}}
+
+    {% endif %}
+    
+{% endblock %}

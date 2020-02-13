@@ -1,17 +1,30 @@
-#Profiles:nth-of-type(2){
-    background-color: #a7fbe9;
+/*--------------PAGE LISTE PROFIL-----------------*/
+
+#Profiles:nth-of-type(2n){
+    background-color: #ff5733;
 }
+
+#Profiles:nth-of-type(4){
+    background-color: #b1ff33;
+}
+
 
 /* ------------PAGE MON COMPTE------------- */
 
+/*-----------AVIS----------*/
+
+#nom {
+    display:none;
+}
+
+#prenom {
+    display:none;
+}
 
 
 /* ------------PAGE ACCUEIL------------- */
 
 
-#Profiles:nth-of-type(4){
-    background-color: #f8d69f;
-}
 
 
 *:before, *:after {
@@ -55,7 +68,6 @@ index-jumbotron h1{
 }
 
 
-
-#email {
-    display:none;
+#listeAvatar {
+    list-style-type: none;
 }
