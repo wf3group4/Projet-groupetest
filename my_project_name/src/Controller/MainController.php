@@ -13,8 +13,11 @@ use App\Repository\PortfolioRepository;
 use App\Repository\AvisRepository;
 use App\Entity\Portfolio;
 use App\Entity\Avis;
+use App\Service\EmailService;
 use Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class MainController extends AbstractController
 {
@@ -255,7 +258,7 @@ class MainController extends AbstractController
     /**
      * @Route("/mes_annonces/{id}", name="mes_annonces")
      */
-    public function mes_annonces ($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo) {
+    public function mes_annonces ($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo, Request $request, EmailService $emailService) {
 
         $user = $userRepo->find($id);
 
@@ -264,12 +267,41 @@ class MainController extends AbstractController
         // On récupère les annonces pour lesquels l'utilisateur a été séléctionné comme prestataire
         $candidature_valide = $user->getAnnoncesPrestataire();
 
+        $action = $request->query->get('action');
+        $em = $this->getDoctrine()->getManager();
+
+
         if ($this->getUser() != $user) {
             throw new \Exception("Vous devez être connecté");
             $this->redirectToRoute('accueil');
         }
 
+        if ($action == 'paiement_valide') {
+            $annonce = $annoncesRepo->find($request->query->get('annonce_id'));
+            $annonce->setActive(4);
+            $em->flush();
+        }
 
+        $options = new Options();
+        $options->set('defaultFont', 'Roboto');
+        
+       
+        $dompdf = new Dompdf($options);
+        
+        $data = array(
+          'headline' => 'my headline'
+        );
+        $html = $this->renderView('pdf/pdf.html.twig', [
+            'headline' => "Test pdf generator"
+        ]);
+        
+       
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("testpdf.pdf", [
+            "Attachment" => true
+        ]);
 
 
         return $this->render('main/mes_annonces.html.twig', [
