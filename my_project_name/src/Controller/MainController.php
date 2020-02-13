@@ -378,27 +378,6 @@ class MainController extends AbstractController
             $em->flush();
         }
 
-        $options = new Options();
-        $options->set('defaultFont', 'Roboto');
-        
-       
-        $dompdf = new Dompdf($options);
-        
-        $data = array(
-          'headline' => 'my headline'
-        );
-        $html = $this->renderView('pdf/pdf.html.twig', [
-            'headline' => "Test pdf generator"
-        ]);
-        
-       
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $dompdf->stream("testpdf.pdf", [
-            "Attachment" => true
-        ]);
-
 
         return $this->render('main/mes_annonces.html.twig', [
             'user' => $user,
