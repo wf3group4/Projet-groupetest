@@ -8,8 +8,7 @@ use App\Entity\Avis;
 use App\Form\CreerAnnonceType;
 use App\Repository\AnnoncesRepository;
 use App\Form\ContactProType;
-
-
+use App\Repository\TagsRepository;
 use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -154,7 +153,7 @@ class ListeController extends AbstractController
     {
         // Requete pour récupérer toutes les annonces
         $annonces = $annoncesRepo->findBy(['active' => 1]);
-
+        
         $search = $request->query->get('search');
         $prix = $request->query->get('prix');
 
@@ -196,6 +195,7 @@ class ListeController extends AbstractController
         $annonce->setVues($annonce->getVues()+1);
 
         $em->flush();
+
 
         if (!$annonce) {
             $this->addFlash('danger', "L'article demandé n'a pas été trouvé.");

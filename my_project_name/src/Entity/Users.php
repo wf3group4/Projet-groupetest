@@ -120,6 +120,7 @@ class Users implements UserInterface
     private $annonces_prestataire;
 
 
+
     public function __construct()
     {
         $this->portfolios = new ArrayCollection();
@@ -535,4 +536,5 @@ class Users implements UserInterface
 
         return $this;
     }
+
 }

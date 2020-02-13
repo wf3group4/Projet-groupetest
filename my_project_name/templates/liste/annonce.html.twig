@@ -61,6 +61,7 @@
 						</div>
 					{% endif %}
 				{% else %}
+				{% if app.user and annonce.user.id != app.user.id %}
 					<div class="col">
 						<u><p class="my-5 font-weight-bold text-success">Cette annonce a été pourvu</p></u>
 					</div>
@@ -104,5 +105,4 @@
 				Aucun artiste n'a postulé à cette annonce pour le moment</h4>
 		{% endif %}
 	</div>
-
 {% endblock %}

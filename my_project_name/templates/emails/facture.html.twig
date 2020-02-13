@@ -1,10 +1,19 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Generate PDF File</title>
-    </head>
-    <body>
-        <h4>{{ headline }}</h4>
-        <p>Description</p>
-    </body>
-</html>
+Bonjour {{user.name}} {{user.lastname}}
+
+<h1>
+    Votre facture
+</h1>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col" colspan="3">Facture à l'intention de {{user.name}} {{user.lastname}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2">Prix facturé :</td>
+        <td>{{annonce.prix}}</td>
+      </tr>
+    </tbody>
+  </table>
