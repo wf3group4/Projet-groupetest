@@ -20,14 +20,14 @@
 	{% for user in annonce.UserPostulant %}{% endfor %}
     {% for annonce in app.user.annonces %}
     {% for postulant in annonce.userPostulant %} #}
-     <p>{{ notifs }}</p>
+     {#<p>{{ notifs.id }}</p>#}
 
 
  <!-- On efface les messages quand on les a lu -->   
- <div class="col-md-2">
+ {#<div class="col-md-2">
     <a href="{{path('publisher_admin', { id: notifs.id, action: 'delete' })}} "
      class="ml-auto mr-3 text-danger">Supprimer</a>
-</div>
+</div>#}
 	
     {#{% endfor %}  #}
 	
