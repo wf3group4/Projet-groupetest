@@ -16,6 +16,7 @@ use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 use App\Repository\UsersRepository;
@@ -27,11 +28,16 @@ class ListeController extends AbstractController
     /**
      * @Route("/liste-profils", name="liste-profils")
      */
-    public function Profils(Request $request)
+    public function Profils(Request $request, PaginatorInterface $paginator)
     {
         $em = $this->getDoctrine()->getManager();
-        $usersRepo = $em->getRepository(Users::class);
-        $profil = $usersRepo->findAll();
+        $usersRepo = $em->getRepository(Users::class)->findAll();
+
+        $profil = $paginator->paginate(
+            $usersRepo, // Requête contenant les données à paginer
+            $request->query->getInt('page',1), // Numéro de la page en cours, passé dans l'URL, si aucune page
+            3
+        );
 
 
         $search = $request->query->get('search');
@@ -54,7 +60,6 @@ class ListeController extends AbstractController
 
         return $this->render('liste/LesProfils.html.twig', [
             'profiles' => $profil,
-            'recherche' => $search,
         ]);
     }
 
@@ -157,38 +162,17 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonces", name="annonces")
      */
-    public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo)
+    public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo, PaginatorInterface $paginator)
     {
-        // Requete pour récupérer toutes les annonces
-        // $annonces = $annoncesRepo->findBy(['active' => 1]);
-
-        // $search = $request->query->get('search');
-        // if ($search)
-        // {
-        //     $annonces = $annoncesRepo->searchByAnnonce($search);
-
-        //     if(!$annonces)
-        //     {
-        //         $this->addFlash('danger', 'Aucun résultat trouvé');
-        //         return $this->redirectToRoute('annonces');
-        //     }
-
-        //     $this->addFlash('success', 'Résultat trouvée !');
-
-        // }
-
-        // $tri = $request->query->get('ordre');
-        // if($search)
-        // {
-        //     $annonces = $annoncesRepo->ordre($search);
-        // }
-
-
 
         $query = $annoncesRepo->createQueryBuilder('a')
             ->addSelect('a', 't')
             ->leftJoin('a.tag', 't')
             ->andWhere('a.active = 1');
+
+
+
+
 
         $searchParNom = $request->query->get('titre');
         if($searchParNom)
@@ -199,7 +183,6 @@ class ListeController extends AbstractController
 
         }
 
-
         $tri = $request->query->get('ordre');
         if($tri)
         {
@@ -207,7 +190,6 @@ class ListeController extends AbstractController
                 ->orderBy('a.prix', "$tri");
 
         }
-
 
         $tag = $request->query->get('tag');
         if ($tag) {
@@ -217,20 +199,15 @@ class ListeController extends AbstractController
 
         }
 
-
-
         $annonces = $query
             ->getQuery()
             ->getResult();
 
-
-
-        // if($tag == "Musique")
-        // {
-        //     $tag = $tagsRepo->findOneBy(['nom' => 'Art graphique']);
-        //     $annonces = $tag->getAnnonces();
-        //     dump($annonces); die();
-        // }
+        $annonces = $paginator->paginate(
+            $query,
+            $request->query->getInt('page',1),
+            2
+        );
 
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,

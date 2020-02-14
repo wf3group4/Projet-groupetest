@@ -34,7 +34,6 @@
 
     <!-- LISTES DES PROFILES -->
     <div class="px-3">
-        {% if recherche %}
             {% for profil in profiles|sort((a,b) => b.commission <=> a.commission) %}
 
                 <div class="row mt-3 py-4 border-bottom" id="Profiles">
@@ -44,64 +43,6 @@
                                 {% if profil.avatar %}
                                     <a href="{{ path('mon_compte', {id:profil.id}) }}">
                                         <img src="{{ asset('images/'~profil.avatar) }}" alt="{{ profil.name }}" title="{{ profil.name }} {{ profil.lastname }}" class="img-thumbnail">
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('mon_compte', {id:profil.id}) }}">
-                                        <img src="{{ asset('images/'~profil.avatar) }}" alt="{{ profil.name }}" title="{{ profil.name }} {{ profil.lastname }}" class="img-thumbnail">
-                                    </a>
-                                {% endif %}
-                            </div>
-                            <div class="col-8">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h2>{{ profil.name }} {{ profil.lastname }} -
-                                            {% if profil.commission >= 600 %}
-                                                <span class="badge badge-pill badge-success">4</span>
-                                            {% elseif profil.commission >= 400 %}
-                                                <span class="badge badge-pill badge-secondary">3</span>
-                                            {% elseif profil.commission >= 200 %}
-                                                <span class="badge badge-pill badge-info">2</span>
-                                            {% elseif profil.commission >= 100 %}
-                                                <span class="badge badge-pill badge-warning">1</span>
-                                            {% else %}
-                                                <span class="badge badge-pill badge-primary">0</span>
-                                            {% endif %}
-                                        </h2>
-                                        {% if not profil.description == null %}
-                                            <p>{{ profil.description|raw|slice(0,60) }}...</p>
-                                        {% endif %}
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <p>{{ profil.email }}</p>
-                                                <p>{% if profil.vues == 0 %} Je n'ai pas de vues {% else %} Profil vue {{ profil.vues }} fois {% endif %}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <a class="btn btn-outline-primary" href="{{ path('mon_compte', {id: profil.id}) }}">Voir le profil <i class="fas fa-search-plus"></i></a>
-                                                <a class="btn btn-outline-primary" href="{{ path('contact-profil', {id: profil.id}) }}">Me contacter <i class="fas fa-envelope"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-            {% endfor %}
-        {% else %}
-            {% for profil in profiles|sort((a,b) => b.commission <=> a.commission) %}
-
-                <div class="row mt-3 py-4 border-bottom" id="Profiles">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-4">
-                                {% if profil.avatar %}
-                                    <a href="{{ path('mon_compte', {id:profil.id}) }}">
-                                        <img src="{{ asset('images/'~profil.avatar) }}" alt="{{ profil.name }}" title="{{ profil.name }} {{ profil.lastname }}"class="img-thumbnail">
                                     </a>
                                 {% else %}
                                     <a href="{{ path('mon_compte', {id:profil.id}) }}">
@@ -151,7 +92,11 @@
                 </div>
 
             {% endfor %}
-        {% endif %}
+        <div class="row mt-2">
+            <div class="col-12">
+                {{ knp_pagination_render(profiles) }}
+            </div>
+        </div>
     </div>
 
 
