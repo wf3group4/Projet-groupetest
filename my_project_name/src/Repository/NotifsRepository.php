@@ -36,7 +36,7 @@ class NotifsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
 
-        ; dump($message); die;
+        ; 
     }
    
 

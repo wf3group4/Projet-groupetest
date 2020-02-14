@@ -33,6 +33,38 @@ class PortfolioRepository extends ServiceEntityRepository
         ;
     }
 
+      /**
+      * @return LastPorts[9] Returns an array of Portfolio objects
+      */
+    public function getLastPorts($id){
+        return $this->createQueryBuilder('lastPortfolios')
+        ->andWhere('portfolio.id = :id')
+        ->setParameter('id', $id)
+        ->orderBy('portfolio.id', 'DESC')
+        ->setMaxResults(9)
+        ->getQuery()
+        ->getResult()
+      ;
+    }
+
+/**
+      * @return LastPortfolios[] Returns an array of the last Arts posted
+      */
+
+      public function getLastPortfolios($max = 9){
+        return $this->findBy(
+            array(),
+            array(
+                'id' => 1
+            ),
+            array(
+                'date_creation' => 'DESC'
+            ),
+            $max
+        )
+        ;
+    }
+
     public function getUserLastPortfolio($user)
     {
         return $this->createQueryBuilder('portfolio')

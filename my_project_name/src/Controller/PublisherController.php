@@ -22,10 +22,10 @@ class PublisherController extends AbstractController
         }
         $id = $this->getUser()->getId();
         
-        //$annonce = $annoncesRepo->find($id);
+        $annonce = $annoncesRepo->find($id);
 
         return $this->render('publisher/publisher_admin.html.twig', [
-        //   'annonce' => $annonce
+          'annonce' => $annonce
         ]);
 
         

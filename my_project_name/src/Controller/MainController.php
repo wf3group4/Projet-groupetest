@@ -43,8 +43,15 @@ class MainController extends AbstractController
         //return $this->findBy(
         //   array('active' => 1),
         // array('date_creation' => 'DESC')
-        //  );
-
+        //  );   
+   
+    } 
+    
+    public function lastPort(PortfolioRepository $PortfolioRepo){
+        $portfolios = $PortfolioRepo->getLast(9);
+        return $this->render('main/index.html.twig', [
+            'portfolios' => $portfolios,
+        ]);
     }
 
     /**
