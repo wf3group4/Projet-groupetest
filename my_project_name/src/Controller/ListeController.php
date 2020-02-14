@@ -158,31 +158,6 @@ class ListeController extends AbstractController
      */
     public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo)
     {
-        // Requete pour récupérer toutes les annonces
-        // $annonces = $annoncesRepo->findBy(['active' => 1]);
-
-        // $search = $request->query->get('search');
-        // if ($search)
-        // {
-        //     $annonces = $annoncesRepo->searchByAnnonce($search);
-
-        //     if(!$annonces)
-        //     {
-        //         $this->addFlash('danger', 'Aucun résultat trouvé');
-        //         return $this->redirectToRoute('annonces');
-        //     }
-
-        //     $this->addFlash('success', 'Résultat trouvée !');
-
-        // }
-
-        // $tri = $request->query->get('ordre');
-        // if($search)
-        // {
-        //     $annonces = $annoncesRepo->ordre($search);
-        // }
-
-
 
         $query = $annoncesRepo->createQueryBuilder('a')
             ->addSelect('a', 't')
@@ -221,15 +196,6 @@ class ListeController extends AbstractController
         $annonces = $query
             ->getQuery()
             ->getResult();
-
-
-
-        // if($tag == "Musique")
-        // {
-        //     $tag = $tagsRepo->findOneBy(['nom' => 'Art graphique']);
-        //     $annonces = $tag->getAnnonces();
-        //     dump($annonces); die();
-        // }
 
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
