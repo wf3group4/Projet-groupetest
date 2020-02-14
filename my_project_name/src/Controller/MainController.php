@@ -290,7 +290,7 @@ class MainController extends AbstractController
                     ->setAnnonce($annonce)
                     ->setDate( new \DateTime())
                     ->setActive(1);
-                    // dump($signalement);die;
+    
                 $em->persist($signalement);
                 $em->flush();
 

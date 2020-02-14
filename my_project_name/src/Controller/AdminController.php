@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdminController extends AbstractController
 {
+
     /**
      * @Route("/a/admin", name="admin")
      */
@@ -57,31 +58,72 @@ class AdminController extends AbstractController
             }
         }
 
-        //Suppression compte/annonce
+        //Suppression compte
         if($cible == "user"){
-            if($action ="delete")
+            if($action == "delete")
             {
+            //On ban l'utilisateur
             $user = $userRepo->find($id);
             $user
                 ->setActive(0);
+            //On désactive les signalements liées à l'utilisateur
+            $messages = $signalementRepo->getUserSignalement($id);
+                foreach($messages as $message){
+                    $message
+                        ->setActive(0);
+
+                    $em->persist($message);
+                    $em->flush();
+                }
+
             $em->persist($user);
             $em->flush();
             }
-            if($action ="ok")
-            {
+            if($action == "ok"){
+             //On désactive les signalements liées à l'utilisateur
+                $messages = $signalementRepo->getUserSignalement($id);
+                    foreach($messages as $message){
+                        $message
+                            ->setActive(0);
 
+                        $em->persist($message);
+                        $em->flush();
+                }
             }
         }
+        //Suppression annonce
         if($cible == "annonce"){
+            if($action == "delete")
+            {
+            //On ban l'utilisateur
             $annonce = $annoncesRepo->find($id);
             $annonce
                 ->setActive(0);
+            //On désactive les signalements liées à l'utilisateur
+            $messages = $signalementRepo->getAnnonceSignalement($id);
+                foreach($messages as $message){
+                    $message
+                        ->setActive(0);
+
+                    $em->persist($message);
+                    $em->flush();
+                }
+
             $em->persist($annonce);
             $em->flush();
+            }
+            if($action == "ok"){
+             //On désactive les signalements liées à l'utilisateur
+                $messages = $signalementRepo->getAnnonceSignalement($id);
+                    foreach($messages as $message){
+                        $message
+                            ->setActive(0);
+
+                        $em->persist($message);
+                        $em->flush();
+                }
+            }
         }
-
-
-
 
         return $this->render('admin/admin.html.twig', [
             'signalements_annonces' => $signalements_annonces,

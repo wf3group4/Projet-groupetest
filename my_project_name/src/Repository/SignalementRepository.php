@@ -29,15 +29,37 @@ class SignalementRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('signalement')
         ->where('signalement.date >= :derniere_semaine')
             ->setParameter('derniere_semaine', $derniere_semaine)
+        ->andWhere('signalement.active = 1')
         ->getQuery()
         ->getResult()
         ;
 
     }
-
-    public function getSignalement($nb)
+    
+    /**
+     *Fonction qui recherche les signalements liées à un utilisateur 
+     */
+    public function getUserSignalement($id)
     {
-        // return $this->createQueryBuilder('signalement')
+        return $this->createQueryBuilder('signalement')
+            ->where('signalement.user = :id') 
+                ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+     /**
+     *Fonction qui recherche les signalements liées à une annonce 
+     */
+    public function getAnnonceSignalement($id)
+    {
+        return $this->createQueryBuilder('signalement')
+            ->where('signalement.annonce = :id') 
+                ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 
