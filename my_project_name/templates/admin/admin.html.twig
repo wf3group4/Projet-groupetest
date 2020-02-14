@@ -57,11 +57,12 @@
                     </div>
             {% endfor %}
         </div>
+        <!-- Les bannis -->
         <div class="tab-pane fade" id="nav-bannis"role="tabpanel" aria-labelledby="nav-bannis-tab">
             <h2 class="py-3">Le Bannis</h2>
             {% for banni in bannis %}
             <div class="row">
-                <p>{{banni.name}} {{banni.lastname}} </p>
+                <p><b>{{banni.name}} {{banni.lastname}}</b> </p>
                 <a href="{{path('admin', {id: banni.id, action: 'debann'})}}" class="text-danger ml-2">Réactiver le compte</a>
             </div>
             {% endfor %}  

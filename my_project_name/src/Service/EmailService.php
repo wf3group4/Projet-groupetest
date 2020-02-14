@@ -126,5 +126,31 @@ class EmailService{
 
     }
 
+    public function suppression_annonce($annonce){
+        $data = array(
+            'subject' => "Suppression annonce",
+            'template' => 'emails/suppression_annonce.html.twig',
+            'context' => [ 'annonce' => $annonce]
+        );
+        $this->send($data);
+    }
+
+    public function suppression_compte($user){
+        $data = array(
+            'subject' => "Suppression compte",
+            'template' => 'emails/suppression_compte.html.twig',
+            'context' => [ 'user' => $user]
+        );
+        $this->send($data);
+    }
+
+    public function reactivation_compte($user){
+        $data = array(
+            'subject' => "Reactivation compte",
+            'template' => 'emails/reactivation_compte.html.twig',
+            'context' => [ 'user' => $user]
+        );
+        $this->send($data);
+    }
 
 }

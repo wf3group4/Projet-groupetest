@@ -8,6 +8,7 @@ use App\Repository\SignalementRepository;
 use App\Repository\AnnoncesRepository;
 use App\Repository\UsersRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\EmailService;
 
 class AdminController extends AbstractController
 {
@@ -19,6 +20,7 @@ class AdminController extends AbstractController
         SignalementRepository $signalementRepo,
         UsersRepository $userRepo,
         AnnoncesRepository $annoncesRepo,
+        EmailService $emailService,
         Request $request)
     {
         //Recuperation query
@@ -47,13 +49,13 @@ class AdminController extends AbstractController
         }
 
         foreach ($signalements_annonces as $id_annonce => $annonces) {
-            if(count($annonces) < 5) {
+            if(count($annonces) < 3) {
                 unset($signalements_annonces[$id_annonce]);
             }
         }
 
         foreach ($signalements_user as $id_user => $users) {
-            if(count($users) < 5) {
+            if(count($users) < 3) {
                 unset($signalements_user[$id_user]);
             }
         }
@@ -67,17 +69,21 @@ class AdminController extends AbstractController
             $user
                 ->setActive(2);
             //On désactive les signalements liées à l'utilisateur
-            $messages = $signalementRepo->getUserSignalement($id);
-                foreach($messages as $message){
-                    $message
-                        ->setActive(0);
+                $messages = $signalementRepo->getUserSignalement($id);
+                    foreach($messages as $message){
+                        $message
+                            ->setActive(0);
 
                     $em->persist($message);
                     $em->flush();
                 }
 
-            $em->persist($user);
-            $em->flush();
+                $em->persist($user);
+                $em->flush();
+
+                $emailService->suppression_compte($user);
+                $this->addFlash('success', "L'utilisateur a bien été banni!");
+                return $this->redirectToRoute('admin');
             }
             if($action == "ok"){
              //On désactive les signalements liées à l'utilisateur
@@ -88,7 +94,10 @@ class AdminController extends AbstractController
 
                         $em->persist($message);
                         $em->flush();
-                }
+
+                    }
+                $this->addFlash('success', "L'utilisateur a bien été relaxer!");
+                return $this->redirectToRoute('admin');
             }
         }
         //Suppression annonce
@@ -107,10 +116,15 @@ class AdminController extends AbstractController
 
                     $em->persist($message);
                     $em->flush();
-                }
 
-            $em->persist($annonce);
-            $em->flush();
+                }
+                
+                $em->persist($annonce);
+                $em->flush();
+
+                $emailService->suppression_annonce($annonce);
+                $this->addFlash('success', "L'annonce a bien été supprimer!");
+                return $this->redirectToRoute('admin');
             }
             if($action == "ok"){
              //On désactive les signalements liées à l'utilisateur
@@ -121,7 +135,10 @@ class AdminController extends AbstractController
 
                         $em->persist($message);
                         $em->flush();
-                }
+
+                    }
+                    $this->addFlash('success', "Le signalement est ignoré!");
+                    return $this->redirectToRoute('admin');
             }
         }
         //Récupération des bannis
@@ -134,6 +151,11 @@ class AdminController extends AbstractController
                 ->setActive(1);
             $em->persist($user);
             $em->flush();
+
+            $emailService->reactivation_compte($user);
+
+            $this->addFlash('success', "L'utilisateur a bien été activé!");
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('admin/admin.html.twig', [
