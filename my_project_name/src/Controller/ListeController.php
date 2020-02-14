@@ -339,6 +339,7 @@ class ListeController extends AbstractController
                 $annonce
                     ->setDateCreation(new \DateTime())
                     ->setActive(1)
+                    ->setVues(0)
                     ->setUser($this->getUser());
             }
 
