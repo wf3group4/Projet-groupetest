@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ModifCompteType;
 use App\Form\PortfolioType;
 use App\Form\SignalementType;
+use App\Form\ContactProType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -386,6 +387,53 @@ class MainController extends AbstractController
         ]);
 
     }
+    
+     /**
+     * @Route("/nous-contacter", name="nous_contacter")
+     */
+    public function contac(Request $request, EmailService $emailService
+    )
+    {
+        $contactProtype = $this->createForm(ContactProType::class);
+        if(
+            $request->isMethod('POST')
+        ){
+            $params = $request->request->all();
+            $emailService->contact_webmaster($params ['contact_pro']);
+           $this->addFlash('success', 'votre message a bien été envoyé.');
+           return $this->redirectToRoute('accueil');
+        }
+        return $this->render('pied/nous_contacter.html.twig', [
+            'form'=> $contactProtype->createView()
 
 
+        ]);
+     
+    }
+     /**
+     * @Route("/apropos", name="aPropos")
+     */
+    public function apropos()
+        { 
+            return $this->render('pied/apropos.html.twig'
+            );
+         
+        }
+
+     /**
+     * @Route("/mentions-legales", name="mentions_legales")
+     */
+    public function mentions_legales()
+        { 
+            return $this->render('pied/mentions_legales.html.twig'
+            );
+        }
+      /**
+     * @Route("/recrutement", name="recrutement")
+     */
+    public function recrutement()
+        { 
+            return $this->render('pied/recrutement.html.twig'
+            );
+        }    
 }

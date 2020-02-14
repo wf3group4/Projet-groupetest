@@ -92,3 +92,64 @@ index-jumbotron h1{
 #listeAvatar {
     list-style-type: none;
 }
+.side-panel .tip h4 {
+    color: #555555;
+    font-size: 21px;
+    font-weight: 500;
+    margin: 0 0 33px;
+}
+
+.side-panel {
+    width: 33%;
+    max-width: 400px;
+    min-width: inherit;
+}
+
+h4 {
+    margin-block-start: 1.33em;
+    margin-block-end: 1.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.side-panel .tip .tip-row .tip-title {
+    font-weight: 500;
+}
+
+.side-panel .tip .tip-row {
+    font-size: 16px;
+    margin-bottom: 33px;
+}
+
+.side-panel .phone {
+    padding: 25px 25px 0;
+    border-top: solid 1px #eff1f2;
+}
+
+.side-panel .tip {
+    padding: 50px 25px 20px;
+    line-height: 22px;
+}
+
+.main-panel {
+    padding-top: 18px;
+    margin: 0 25px;
+    border: 0;
+    float: none;
+    width: auto;
+}
+
+aside {
+    display: block;
+}
+
+body .contact-form-container .submit-ticket-form .form-actions {
+    margin-top: 20px;
+}
+
+body .contact-form-container .form-actions {
+    display: flex;
+    text-align: center;
+    flex-direction: row-reverse;
+}
