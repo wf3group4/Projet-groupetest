@@ -56,6 +56,19 @@ class UsersRepository extends ServiceEntityRepository implements PasswordUpgrade
         
     }
 
+    public function getLesBannis()
+    {
+        return $this->findBy(
+            array(
+                'active' => 2
+            ),
+            array(
+                'id' => 'ASC'
+            )
+        )
+        ;
+    }
+
 
 
     public function SearchByName($search)

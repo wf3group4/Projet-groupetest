@@ -47,13 +47,13 @@ class AdminController extends AbstractController
         }
 
         foreach ($signalements_annonces as $id_annonce => $annonces) {
-            if(count($annonces) < 3) {
+            if(count($annonces) < 5) {
                 unset($signalements_annonces[$id_annonce]);
             }
         }
 
         foreach ($signalements_user as $id_user => $users) {
-            if(count($users) < 3) {
+            if(count($users) < 5) {
                 unset($signalements_user[$id_user]);
             }
         }
@@ -65,7 +65,7 @@ class AdminController extends AbstractController
             //On ban l'utilisateur
             $user = $userRepo->find($id);
             $user
-                ->setActive(0);
+                ->setActive(2);
             //On désactive les signalements liées à l'utilisateur
             $messages = $signalementRepo->getUserSignalement($id);
                 foreach($messages as $message){
@@ -124,11 +124,22 @@ class AdminController extends AbstractController
                 }
             }
         }
+        //Récupération des bannis
+        $bannis = $userRepo->getLesBannis();
+
+        //Réactivation du compte
+        if($action == "debann"){
+            $user = $userRepo->find($id);
+            $user
+                ->setActive(1);
+            $em->persist($user);
+            $em->flush();
+        }
 
         return $this->render('admin/admin.html.twig', [
             'signalements_annonces' => $signalements_annonces,
             'signalements_user' => $signalements_user,
-            'all_signalements' => $all_signalements
+            'bannis' => $bannis
         ]);
     }
 }

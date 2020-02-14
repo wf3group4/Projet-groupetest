@@ -10,6 +10,7 @@
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-signalement-tab" data-toggle="tab" href="#nav-signalement" role="tab" aria-controls="nav-home" aria-selected="true">Signalement</a>
+          <a class="nav-item nav-link" id="nav-bannis-tab" data-toggle="tab" href="#nav-bannis" role="tab" aria-controls="nav-profile" aria-selected="false">Les bannis</a>
           <a class="nav-item nav-link" id="nav-statistique-tab" data-toggle="tab" href="#nav-statistique" role="tab" aria-controls="nav-profile" aria-selected="false">Statistique</a>
         </div>
     </nav>
@@ -55,6 +56,15 @@
                         </div>
                     </div>
             {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="nav-bannis"role="tabpanel" aria-labelledby="nav-bannis-tab">
+            <h2 class="py-3">Le Bannis</h2>
+            {% for banni in bannis %}
+            <div class="row">
+                <p>{{banni.name}} {{banni.lastname}} </p>
+                <a href="{{path('admin', {id: banni.id, action: 'debann'})}}" class="text-danger ml-2">Réactiver le compte</a>
+            </div>
+            {% endfor %}  
         </div>
         <div class="tab-pane fade" id="nav-statistique"role="tabpanel" aria-labelledby="nav-statistique-tab">
             <h2 class="py-3">Le coin des stats:</h2>
