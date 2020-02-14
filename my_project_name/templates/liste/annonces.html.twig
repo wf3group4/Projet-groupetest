@@ -46,9 +46,7 @@
 							<!-- Affichage des tags -->
 							{% for tags in annonce.Tag %}
 								{% if tags %}
-									<div class="badge badge-pill badge-info">
-										{{ tags.nom }}
-									</div>
+										<a href="{{ path('annonces') }}?titre=&ordre=&tag={{ tags.nom }}" class="badge badge-pill badge-info">{{ tags.nom }}</a>
 								{% endif %}
 							{% endfor %}
 						</div> <!-- fin col tags -->

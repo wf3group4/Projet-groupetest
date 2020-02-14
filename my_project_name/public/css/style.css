@@ -14,17 +14,10 @@
 
 /*-----------AVIS ET CONTACT---------*/
 
-#nom {
+.presetUserCurrent {
     display:none;
 }
 
-#prenom {
-    display:none;
-}
-
-#email {
-    display:none;
-}
 
 
 /* ------------PAGE ACCUEIL------------- */

@@ -139,11 +139,11 @@
             {% if app.user and app.user.id != user.id %}    
                 <div class="mt-4">
                     <form method="post">
-                        <div class="form-group" id="nom">
+                        <div class="form-group presetUserCurrent">
                             <label for="nom">Nom</label>
                             <input type="text" class="form-control"  name="nom" aria-describedby="nomHelp" value="{{ app.user.lastname }}">
                         </div>
-                        <div class="form-group" id="prenom">
+                        <div class="form-group presetUserCurrent">
                             <label for="prenom">Prénom</label>
                             <input type="text" class="form-control"  name="prenom" aria-describedby="prenomHelp" value="{{ app.user.name }}">
                         </div>
