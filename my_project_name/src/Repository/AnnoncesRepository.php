@@ -51,40 +51,6 @@ class AnnoncesRepository extends ServiceEntityRepository
         ;
     }
 
-    public function searchByAnnonce($search)
-    {
-        return $this->createQueryBuilder('u')
-            ->orWhere('u.titre LIKE :titre')
-            ->setParameter('titre', "%$search%")
-
-
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-
-    public function ordre($ordre)
-    {
-        return $this->createQueryBuilder('u')
-            ->orderBy('u.prix', "$ordre")
-
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-
-    public function tag($tags)
-    {
-        return $this->createQueryBuilder('t')
-            ->orWhere('t.nom LIKE :nom')
-            ->setParameter('nom', "%$tags%")
-
-            ->getQuery()
-            ->getResult()
-            ;
-    }
 
 
     /*

@@ -18,7 +18,7 @@ class ContactProType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'mapped' => false,
-                'label' => 'Nom'
+                'label' => 'Nom',
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',

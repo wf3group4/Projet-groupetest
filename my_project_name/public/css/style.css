@@ -11,15 +11,13 @@
 
 /* ------------PAGE MON COMPTE------------- */
 
-/*-----------AVIS----------*/
 
-#nom {
+/*-----------AVIS ET CONTACT---------*/
+
+.presetUserCurrent {
     display:none;
 }
 
-#prenom {
-    display:none;
-}
 
 
 /* ------------PAGE ACCUEIL------------- */

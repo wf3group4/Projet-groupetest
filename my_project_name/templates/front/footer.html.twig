@@ -18,7 +18,7 @@
 
                     <div class="list-group text-white">
                         {% for tag in tags %}
-                            <a class="badge badge-primary mb-1">{{ tag.nom }}</a>
+                            <a href="{{ path('annonces') }}?titre=&ordre=&tag={{ tag.nom }}" class="badge badge-primary mb-1">{{ tag.nom }}</a>
                         {% endfor %}
                     </div>
         </div>

@@ -76,14 +76,14 @@ class EmailService{
     public function ContactProfil($params)
     {
         $data = array(
-            'subject' => '[LEGRAND - Email du site',
-            'template' => 'email/contactProfil.email.twig',
+            'subject' => '[LEGRAND - Email du site]',
+            'template' => 'emails/contactProfil.email.twig',
             'context' => array(
                 "message" => $params
             )
         );
 
-        $this->send($params);
+        $this->send($data);
 
     }
 

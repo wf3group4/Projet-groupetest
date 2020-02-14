@@ -130,17 +130,21 @@ class ListeController extends AbstractController
 
         $form = $this->createForm(ContactProType::class);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $params = $request->request->all();
+            if($request->isMethod("POST"))
+            {
+                $params = $request->request->all();
+//                dump($params);die;
+                $emailService->ContactProfil($params['contact_pro']);
+
+                $this->addFlash('success', 'Votre message à bien été envoyé !');
+
+                return $this->redirectToRoute('mon_compte', [
+                    'id' => $id
+                ]);
+
+            }
 
 
-            $emailService->send($params['form']);
-
-            $this->addFlash('success', 'Votre message à bien été envoyé !');
-
-            return $this->redirectToRoute('liste-profils');
-        }
 
         return $this->render('liste/contactProfil.html.twig',[
             'profil' => $profil,
@@ -155,47 +159,81 @@ class ListeController extends AbstractController
     public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo)
     {
         // Requete pour récupérer toutes les annonces
-        $annonces = $annoncesRepo->findBy(['active' => 1]);
+        // $annonces = $annoncesRepo->findBy(['active' => 1]);
 
-        $search = $request->query->get('search');
-        if ($search)
+        // $search = $request->query->get('search');
+        // if ($search)
+        // {
+        //     $annonces = $annoncesRepo->searchByAnnonce($search);
+
+        //     if(!$annonces)
+        //     {
+        //         $this->addFlash('danger', 'Aucun résultat trouvé');
+        //         return $this->redirectToRoute('annonces');
+        //     }
+
+        //     $this->addFlash('success', 'Résultat trouvée !');
+
+        // }
+
+        // $tri = $request->query->get('ordre');
+        // if($search)
+        // {
+        //     $annonces = $annoncesRepo->ordre($search);
+        // }
+
+
+
+        $query = $annoncesRepo->createQueryBuilder('a')
+            ->addSelect('a', 't')
+            ->leftJoin('a.tag', 't')
+            ->andWhere('a.active = 1');
+
+        $searchParNom = $request->query->get('titre');
+        if($searchParNom)
         {
-            $annonces = $annoncesRepo->searchByAnnonce($search);
-
-            if(!$annonces)
-            {
-                $this->addFlash('danger', 'Aucun résultat trouvé');
-                return $this->redirectToRoute('annonces');
-            }
-
-            $this->addFlash('success', 'Résultat trouvée !');
+            $query
+                ->orWhere('a.titre LIKE :titre')
+                ->setParameter('titre', "%$searchParNom%");
 
         }
 
-        $search = $request->query->get('ordre');
-        if($search)
-        {
-            $annonces = $annoncesRepo->ordre($search);
-        }
 
-        $search = $request->query->get('tag');
-        if($search == "Musique")
+        $tri = $request->query->get('ordre');
+        if($tri)
         {
-
-            $em = $this->getDoctrine()->getManager();
-            $tagsRepo = $em->getRepository(Tags::class);
-            $tags = $tagsRepo -> findAll();
-            $tags->getAnnonces();
-            dump($tags);die;
-            $annonces = $annoncesRepo->findBy(['Tag' => $tags]);
-            dump($annonces);die;
+            $query
+                ->orderBy('a.prix', "$tri");
 
         }
 
+
+        $tag = $request->query->get('tag');
+        if ($tag) {
+            $query
+                ->andWhere('t.nom = :nom')
+                ->setParameter('nom', $tag);
+
+        }
+
+
+
+        $annonces = $query
+            ->getQuery()
+            ->getResult();
+
+
+
+        // if($tag == "Musique")
+        // {
+        //     $tag = $tagsRepo->findOneBy(['nom' => 'Art graphique']);
+        //     $annonces = $tag->getAnnonces();
+        //     dump($annonces); die();
+        // }
 
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
-            'recherche' => $search,
+            'tags' => $tags = $tagsRepo->findAll(),
         ]);
     }
 
