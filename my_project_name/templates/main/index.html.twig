@@ -82,8 +82,10 @@
 			<hr>
 			<div class="row">
 				<div
-					class="col-3">
-					{# 9 derniers portfolios 
+					class="col-4">
+					{#	{{portfolios(portfolios)}} 
+					<a href=" {{ path('portfolio', { image_url }) }}"></a>
+					 9 derniers portfolios 
 					{% for personne in personnes  %}
 						<h5 class="card-titre">{{ personne.name }}
 						</h5>
@@ -94,7 +96,8 @@
 					{% endfor %}#}
 				</div>
 			</div>
-<div class="row d-flex flex-wrap ml-5">
+
+			<div class="row d-flex flex-wrap ml-5">
                                             <div class="card p-3 m-3" style="width: 18rem;">
                         
                                                          
@@ -131,9 +134,6 @@
 
                 </div>
                 
-
-                
-            
         </div>
 		
 		</main>

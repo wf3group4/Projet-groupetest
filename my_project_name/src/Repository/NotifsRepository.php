@@ -41,7 +41,7 @@ class NotifsRepository extends ServiceEntityRepository
    
 
     /*
-    public function findOneBySomeField($value): ?Notifs
+    public function findOneBySomeField($value): 
     {
         return $this->createQueryBuilder('n')
             ->andWhere('n.exampleField = :val')
