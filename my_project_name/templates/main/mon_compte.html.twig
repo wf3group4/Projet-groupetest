@@ -5,13 +5,18 @@
 {% block body %}
     <div>
         <h1 class="text-center py-5" id="titre">{{user.name}} {{user.lastname}} -
-            {% if user.commission >= 40 %}
-                <span class="badge badge-pill badge-success">2</span>
-            {% elseif user.commission >= 20 %}
+            {% if user.commission >= 600 %}
+                <span class="badge badge-pill badge-success">4</span>
+            {% elseif user.commission >= 400 %}
+                <span class="badge badge-pill badge-secondary">3</span>
+            {% elseif user.commission >= 200 %}
+                <span class="badge badge-pill badge-info">2</span>
+            {% elseif user.commission >= 100 %}
                 <span class="badge badge-pill badge-warning">1</span>
             {% else %}
                 <span class="badge badge-pill badge-primary">0</span>
-            {% endif %}</h1>
+            {% endif %}
+        </h1>
         <div class="row">
             <div class="col-md-4">
                 {% if user.avatar %}

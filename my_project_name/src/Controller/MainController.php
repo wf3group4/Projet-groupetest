@@ -164,7 +164,7 @@ class MainController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('success', 'Vous venez de supprimer un avis !');
-                return $this->redirectToRoute('profil', [
+                return $this->redirectToRoute('mon_compte', [
                     'id' => $id
                 ]);
             }

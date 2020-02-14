@@ -11,13 +11,18 @@
 
 /* ------------PAGE MON COMPTE------------- */
 
-/*-----------AVIS----------*/
+
+/*-----------AVIS ET CONTACT---------*/
 
 #nom {
     display:none;
 }
 
 #prenom {
+    display:none;
+}
+
+#email {
     display:none;
 }
 

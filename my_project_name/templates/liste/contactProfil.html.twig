@@ -17,20 +17,20 @@
     {{ form_start(form) }}
 
         <div class="row mt-5">
-            <div class="col-md-6">
-                {{ form_row(form.nom) }}
+            <div class="col-md-6" id="nom">
+                {{ form_row(form.nom, {value: app.user.name}) }}
             </div>
-            <div class="col-md-6">
-                {{ form_row(form.prenom) }}
+            <div class="col-md-6" id="prenom">
+                {{ form_row(form.prenom, {value: app.user.lastname}) }}
             </div>
         </div>
 
         <div class="row my-4">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 {{ form_row(form.sujet) }}
             </div>
-            <div class="col-md-6">
-                {{ form_row(form.email) }}
+            <div class="col-md-6" id="email">
+                {{ form_row(form.email, {value: app.user.email}) }}
             </div>
         </div>
         <div class="row">
