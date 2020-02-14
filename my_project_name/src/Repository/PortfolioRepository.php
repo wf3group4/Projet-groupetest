@@ -56,6 +56,8 @@ class PortfolioRepository extends ServiceEntityRepository
         ->getResult()
         ;
     }
+
+  
     
 
     /*

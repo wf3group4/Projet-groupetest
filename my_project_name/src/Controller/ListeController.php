@@ -191,8 +191,6 @@ class ListeController extends AbstractController
 
         }
 
-
-
         $annonces = $query
             ->getQuery()
             ->getResult();

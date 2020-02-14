@@ -12,6 +12,24 @@
 /* ------------PAGE MON COMPTE------------- */
 
 
+/* ------------PAGE MON PORTFOLIO------------- */
+
+
+
+
+/* ------------PAGE MON PORTFOLIO------------- */
+#image_portfolio{
+    transition:all 0.5s;
+}
+
+#image_portfolio:hover{
+    transform: scale(1.05);
+    opacity: 0.8;
+    box-shadow: 5px 5px 10px #888888;
+    z-index: 2;
+}
+
+
 /*-----------AVIS ET CONTACT---------*/
 
 .presetUserCurrent {

@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PublisherController extends AbstractController
 {
+    
     /**
      * @Route("/quoi-de-neuf", name="publisher_admin")
      */

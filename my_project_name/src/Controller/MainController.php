@@ -37,14 +37,7 @@ class MainController extends AbstractController
         return $this->render('main/index.html.twig', [
             'personnes' => $personnes,
             'annonces' => $annonces
-
         ]);
-        //return $this->findBy(
-        //   array('active' => 1),
-        // array('date_creation' => 'DESC')
-        //  );
-
-
     }
 
     /**
@@ -247,6 +240,23 @@ class MainController extends AbstractController
             'portfolios' => $portfolios
         ]);
     }
+
+    /**
+     * @Route("/portfolio/image/{id}", name="image")
+     */
+        public function image(
+        $id,
+        Request $request,
+        UsersRepository $userRepo,
+        PortfolioRepository $portfolioRepo
+    ) {
+        $id_image = $request->query->get('id');
+        $img_url = $portfolioRepo->find($id)->getImgUrl();
+        return $this->render('main/image.html.twig', [
+            'img_url' => $img_url,
+        ]);
+    }
+
 
     /**
      * @Route("/signalement/{id}", name="signalement")

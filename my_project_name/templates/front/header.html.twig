@@ -31,6 +31,8 @@
                        
                         {% if app.user %}
                         <a class="dropdown-item" href="{{path('mon_compte', {id: app.user.id})}}">Mon compte <i class="fas fa-user"></i></a>
+                        <a class="dropdown-item" href="{{path('publisher_admin', {id: app.user.id})}}">Mes notifs</a>
+                        <a class="dropdown-item" href="{{path('portfolio', {id: app.user.id})}}">Mon Porfolio</a>  
                         <a class="dropdown-item" href="{{path('mes_candidatures', {id: app.user.id})}}">Mes candidatures</a>
                         <a class="dropdown-item" href="{{path('mes_annonces', {id: app.user.id})}}">Mes annonces</a>
                         <a class="dropdown-item" href="{{path('app_logout')}}">Déconnexion <i class="fas fa-sign-out-alt"></i></a>
