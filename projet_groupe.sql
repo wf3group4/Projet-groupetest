@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  jeu. 13 fév. 2020 à 08:38
+-- Généré le :  ven. 14 fév. 2020 à 08:07
 -- Version du serveur :  5.7.24
 -- Version de PHP :  7.2.11
 
@@ -46,11 +46,11 @@ CREATE TABLE `annonces` (
 --
 
 INSERT INTO `annonces` (`id`, `titre`, `description`, `date_creation`, `date_limite`, `active`, `user_id`, `prix`, `vues`, `prestataire_id`) VALUES
-(1, 'Recherche un photographe pour choucroute musicale', 'J\'ai un super concept de choucroute musicale et je cherche un bon photographe pour mettre ca en avant!', '2020-02-08 23:30:45', NULL, 1, 1, '0.00', 0, NULL),
-(2, 'Recherche scénariste pour film', 'Je sais faire tourner une caméra mais j\'ai aucune idée', '2020-02-07 11:40:00', '2020-04-23 12:00:00', 1, 1, '0.00', 0, NULL),
-(3, 'Guitariste recherche bassiste', 'Tout est dit', '2020-02-08 23:37:05', NULL, 1, 3, '0.00', 0, NULL),
-(4, 'Graphiste recherche musicien', 'Je voudrais faire une chaise musicale, je recherche donc un ébéniste pour qui la luth greco-romaine c\'est pas du pipeau.', '2020-02-08 23:40:54', NULL, 1, 5, '0.00', 0, NULL),
-(11, 'Nouvelle annonce', 'Ceci est une annonce', '2020-02-12 12:14:15', '2015-01-01 00:00:00', 1, 1, '300.00', 0, NULL);
+(1, 'Recherche un photographe pour choucroute musicale', 'J\'ai un super concept de choucroute musicale et je cherche un bon photographe pour mettre ca en avant!', '2020-02-08 23:30:45', NULL, 3, 1, '0.00', 18, 2),
+(2, 'Recherche scénariste pour film', 'Je sais faire tourner une caméra mais j\'ai aucune idée', '2020-02-07 11:40:00', '2020-04-23 12:00:00', 1, 1, '0.00', 4, NULL),
+(3, 'Guitariste recherche bassiste', 'Tout est dit', '2020-02-08 23:37:05', NULL, 1, 3, '0.00', 10, NULL),
+(4, 'Graphiste recherche musicien', 'Je voudrais faire une chaise musicale, je recherche donc un ébéniste pour qui la luth greco-romaine c\'est pas du pipeau.', '2020-02-08 23:40:54', NULL, 0, 5, '0.00', 14, NULL),
+(11, 'Nouvelle annonce', 'Ceci est une annonce', '2020-02-12 12:14:15', '2015-01-01 00:00:00', 1, 1, '300.00', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -134,7 +134,7 @@ CREATE TABLE `migration_versions` (
 --
 
 INSERT INTO `migration_versions` (`version`, `executed_at`) VALUES
-('20200213083517', '2020-02-13 08:36:08');
+('20200213123149', '2020-02-13 12:31:57');
 
 -- --------------------------------------------------------
 
@@ -163,7 +163,8 @@ INSERT INTO `portfolio` (`id`, `img_url`, `user_id`, `liens`) VALUES
 (12, 'portfolio-5e43ce1c09eb3.jpeg', 1, NULL),
 (13, 'portfolio-5e43ce3c197b8.png', 1, NULL),
 (14, 'portfolio-5e43ce5e9d701.jpeg', 1, NULL),
-(15, 'portfolio-5e43ce69bcc39.jpeg', 1, NULL);
+(15, 'portfolio-5e43ce69bcc39.jpeg', 1, NULL),
+(16, 'portfolio-5e452bd00e753.jpeg', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -175,21 +176,27 @@ CREATE TABLE `signalement` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `annonce_id` int(11) DEFAULT NULL,
-  `message` longtext COLLATE utf8mb4_unicode_ci NOT NULL
+  `message` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `active` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `signalement`
 --
 
-INSERT INTO `signalement` (`id`, `user_id`, `annonce_id`, `message`) VALUES
-(1, 3, NULL, 'C\'est un con'),
-(2, NULL, 4, 'Le mec a l\'air louche'),
-(3, NULL, 4, 'IL propose des trucs nazi c\'est pas cool'),
-(4, NULL, 4, 'Franchement. VOila quoi'),
-(5, NULL, 4, 'Cette article ca sent trop l\'arnaque, il me veut  un rein'),
-(6, NULL, 1, 'Franchement voila quoi'),
-(7, NULL, 4, 'Nul zero');
+INSERT INTO `signalement` (`id`, `user_id`, `annonce_id`, `message`, `date`, `active`) VALUES
+(10, NULL, 4, 'Le mec vends des trucs nazi', '2020-02-13 13:12:59', 1),
+(11, NULL, 4, 'Je crois que c\'est un nazi', '2020-02-13 13:13:15', 1),
+(12, NULL, 4, 'C\'est illégal!!!!', '2020-02-13 13:13:30', 1),
+(13, NULL, 3, 'il vend les rein d\'un enfants!!', '2020-01-16 13:16:21', 1),
+(14, NULL, 3, 'c\'est quoi ce truc ???', '2020-02-13 13:16:44', 1),
+(15, NULL, 3, 'je suis pas content', '2020-02-13 13:16:56', 1),
+(16, 3, NULL, 'c\'est un con', '2020-02-13 13:19:22', 1),
+(17, NULL, 3, 'C\'est pas bien ce qu\'il vend', '2020-02-13 13:38:35', 1),
+(18, 3, NULL, 'PAs gentil', '2020-02-13 00:00:00', 1),
+(19, 3, NULL, 'Pas gentilllllllllllllleeeeeeeeeeeeuuuh', '2020-02-13 07:23:00', 1),
+(20, 1, NULL, 'Il a mis un avatar Fry!', '2020-02-14 08:44:05', 1);
 
 -- --------------------------------------------------------
 
@@ -238,12 +245,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `roles`, `password`, `lastname`, `token`, `active`, `description`, `avatar`, `created_at`, `updated_at`, `name`, `commission`, `vues`) VALUES
-(1, 'marc@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2id$v=19$m=65536,t=4,p=1$Q2J0MnJhZ1d1Tmx5NUNMNw$iXo8+mtzh73ik3NZw5QXaGsoQojV0dlDLNwFvTBSPS8', 'BOYON', '0f10ee4818a41ea81014abdc9c5c2b3b4ceaaa689f', 1, 'Je suis un mec plutot gentil et passionné de burritos', 'avatar-15118.jpeg', '2020-02-08 23:06:38', '2020-02-08 23:06:38', 'Marc', NULL, 22),
-(2, 'manon@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2id$v=19$m=65536,t=4,p=1$UWMvd3VYdk5GcjlUZzc1ag$4RB2ZwRzg1loM+tFVoStOLVazRGzzGSE6SGZUNn6X50', 'Bissop', '0e4b7b4eb59460d0f60f299cbd6d9200d951d697c3', 1, NULL, NULL, '2020-02-08 23:07:36', '2020-02-08 23:07:36', 'Manon', NULL, 0),
-(3, 'matthieu@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2i$v=19$m=65536,t=4,p=1$c1ZtVXkvOS9BTnZ0SS9FTw$4e1z2i+bcZ2OJwnlvhPFULglHWO7NkSZnGEgofPFraU', 'Miloud', '2981d31c8445e0d11b6c2bc103434fd3e8fb9c978c', 1, 'Voila quoi', NULL, '2020-02-08 23:07:56', '2020-02-08 23:07:56', 'Matthieu', 50, 3),
+(1, 'marc@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2id$v=19$m=65536,t=4,p=1$Q2J0MnJhZ1d1Tmx5NUNMNw$iXo8+mtzh73ik3NZw5QXaGsoQojV0dlDLNwFvTBSPS8', 'BOYON', '0f10ee4818a41ea81014abdc9c5c2b3b4ceaaa689f', 1, 'Je suis un mec plutot gentil et passionné de burritos', 'avatar-15118.jpeg', '2020-02-08 23:06:38', '2020-02-08 23:06:38', 'Marc', 100, 28),
+(2, 'manon@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2id$v=19$m=65536,t=4,p=1$UWMvd3VYdk5GcjlUZzc1ag$4RB2ZwRzg1loM+tFVoStOLVazRGzzGSE6SGZUNn6X50', 'Bissop', '0e4b7b4eb59460d0f60f299cbd6d9200d951d697c3', 1, NULL, NULL, '2020-02-08 23:07:36', '2020-02-08 23:07:36', 'Manon', NULL, 1),
+(3, 'matthieu@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2i$v=19$m=65536,t=4,p=1$a1hxL2t4b09EN1dYeVpzeQ$CbRxEThKi227Rwm0GXHqT9IOlMt241FYdrGDoIvY304', 'Miloud', '2981d31c8445e0d11b6c2bc103434fd3e8fb9c978c', 1, 'Voila quoi', NULL, '2020-02-08 23:07:56', '2020-02-08 23:07:56', 'Matthieu', 50, 10),
 (4, 'olivier@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2i$v=19$m=65536,t=4,p=1$QmMzeXJRMWZ6ei42SUpkSg$rGvOcMeYqZJiwZAAHxf+SzkvO8HNNvNCHE2PSI1DUk0', 'legrand', '2c9c29f5f1cb3f5f5acecc3e8867759ff731ed7325', 1, NULL, NULL, '2020-02-08 23:08:21', '2020-02-08 23:08:21', 'Olivier', 20, 14),
-(5, 'sandra@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2i$v=19$m=65536,t=4,p=1$RERHbGUxblo2ZjRwL2Q1MA$s573YVksXVL3Ud4ueNnwVWebC93/ZTT2J9GzZ5FVZIY', 'roth', 'e2c39dec2d0a8bce9b0ec52c0643840c31f404dc12', 1, NULL, NULL, '2020-02-08 23:08:40', '2020-02-08 23:08:40', 'Alexandra', NULL, 0),
-(6, 'victor@hotmail.fr', '[\"ROLE_ADMIN\"]', '$argon2id$v=19$m=65536,t=4,p=1$d2hnUlBveGpWNVhkL0RHYw$HmfdAD3530AjX7cHdawjnfG/FAlXs+fgIoR68ASFLCY', 'Krumm', '2fcc208ddafd1c812320fb2dcd1bdab7a3d1a3732e', 1, NULL, NULL, '2020-02-08 23:14:03', '2020-02-08 23:14:03', 'Victor', NULL, 0);
+(5, 'sandra@hotmail.fr', '[\"ROLE_PUBLISHER\"]', '$argon2i$v=19$m=65536,t=4,p=1$RERHbGUxblo2ZjRwL2Q1MA$s573YVksXVL3Ud4ueNnwVWebC93/ZTT2J9GzZ5FVZIY', 'roth', 'e2c39dec2d0a8bce9b0ec52c0643840c31f404dc12', 1, NULL, NULL, '2020-02-08 23:08:40', '2020-02-08 23:08:40', 'Alexandra', NULL, 4),
+(6, 'victor@hotmail.fr', '[\"ROLE_ADMIN\"]', '$argon2id$v=19$m=65536,t=4,p=1$d2hnUlBveGpWNVhkL0RHYw$HmfdAD3530AjX7cHdawjnfG/FAlXs+fgIoR68ASFLCY', 'Krumm', '2fcc208ddafd1c812320fb2dcd1bdab7a3d1a3732e', 1, NULL, NULL, '2020-02-08 23:14:03', '2020-02-08 23:14:03', 'Victor', NULL, 1);
 
 --
 -- Index pour les tables déchargées
@@ -334,13 +341,13 @@ ALTER TABLE `avis`
 -- AUTO_INCREMENT pour la table `portfolio`
 --
 ALTER TABLE `portfolio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `signalement`
 --
 ALTER TABLE `signalement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `tags`

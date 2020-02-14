@@ -23,7 +23,7 @@ class SignalementRepository extends ServiceEntityRepository
     * @return Signalement[] Returns an array of Signalement objects
     */
 
-    public function getSignalement()
+    public function getLastWeekSignalements()
     {
         $derniere_semaine = new \DateTime("1 week ago");
         return $this->createQueryBuilder('signalement')
@@ -33,6 +33,11 @@ class SignalementRepository extends ServiceEntityRepository
         ->getResult()
         ;
 
+    }
+
+    public function getSignalement($nb)
+    {
+        // return $this->createQueryBuilder('signalement')
     }
 
 

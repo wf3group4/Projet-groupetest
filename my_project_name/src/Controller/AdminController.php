@@ -27,7 +27,7 @@ class AdminController extends AbstractController
         $cible = $request->query->get('cible');
 
         //Gestion des signalements
-        $all_signalements = $signalementRepo->getSignalement();
+        $all_signalements = $signalementRepo->getLastWeekSignalements();
         $signalements_user = $signalements_annonces = [];
     
         foreach ($all_signalements as $signalement ) {
@@ -59,11 +59,18 @@ class AdminController extends AbstractController
 
         //Suppression compte/annonce
         if($cible == "user"){
+            if($action ="delete")
+            {
             $user = $userRepo->find($id);
             $user
                 ->setActive(0);
             $em->persist($user);
             $em->flush();
+            }
+            if($action ="ok")
+            {
+
+            }
         }
         if($cible == "annonce"){
             $annonce = $annoncesRepo->find($id);
