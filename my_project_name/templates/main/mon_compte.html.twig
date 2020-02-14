@@ -74,8 +74,11 @@
                                         <a href="{{path('mon_compte', { id: app.user.id, id_img: portfolio.id, action: 'delete-img' })}} "
                             class="ml-auto mr-3 text-danger">Supprimer</a>
                                 {% endif %}
-                         
-                            <img class="card-img-top" src="{{ asset('images/'~portfolio.imgUrl)}}" alt="Card image cap">
+                            <a href="{{path('image', {id: portfolio.id})}}" >
+                                    <div class="card" id="image_portfolio">
+                                        <img class="card-img-top"  src="{{ asset('images/'~portfolio.imgUrl)}}" >
+                                    </div>
+                                </a>   
                         </div>
                     {% endfor %}        
                 </div><!--fin card-->
