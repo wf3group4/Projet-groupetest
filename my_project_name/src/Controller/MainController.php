@@ -17,6 +17,7 @@ use App\Entity\Portfolio;
 use App\Entity\Avis;
 use App\Entity\Facture;
 use App\Service\EmailService;
+use DateTime;
 use Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Dompdf\Dompdf;
@@ -377,7 +378,8 @@ class MainController extends AbstractController
 
         if ($action == 'paiement_valide') {
             $annonce = $annoncesRepo->find($request->query->get('annonce_id'));
-            $annonce->setActive(4);
+            $annonce->setActive(4)
+            ->setClosedAt(new DateTime());
             $prestataire = $annonce->getPrestataire();
             $prestataire->setCommission($prestataire->getCommission() + ($annonce->getPrix() * 0.1));
             $em->flush();

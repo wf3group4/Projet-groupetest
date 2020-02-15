@@ -155,44 +155,61 @@ class ListeController extends AbstractController
     public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo)
     {
         // Requete pour récupérer toutes les annonces
-        $annonces = $annoncesRepo->findBy(['active' => 1]);
+        // $annonces = $annoncesRepo->findBy(['active' => 1]);
 
-        $search = $request->query->get('search');
-        if ($search)
-        {
-            $annonces = $annoncesRepo->searchByAnnonce($search);
+        // $search = $request->query->get('search');
+        // if ($search)
+        // {
+            
+        //     $annonces = $annoncesRepo->searchByAnnonce($search);
 
-            if(!$annonces)
-            {
-                $this->addFlash('danger', 'Aucun résultat trouvé');
-                return $this->redirectToRoute('annonces');
-            }
+        //     if(!$annonces)
+        //     {
+        //         $this->addFlash('danger', 'Aucun résultat trouvé');
+        //         return $this->redirectToRoute('annonces');
+        //     }
 
-            $this->addFlash('success', 'Résultat trouvée !');
+        //     $this->addFlash('success', 'Résultat trouvée !');
 
+        // }
+
+        // $search = $request->query->get('ordre');
+        // if($search)
+        // {
+        //     $annonces = $annoncesRepo->ordre($search);
+        // }
+
+
+
+        $query = $annoncesRepo->createQueryBuilder('a')
+            ->addSelect('a', 't')
+            ->leftJoin('a.tag', 't')
+            ->andWhere('a.active = 1');
+            
+        $tag = $request->query->get('tag');
+        if ($tag) {
+            $query
+                ->andWhere('t.nom = :nom')
+                ->setParameter('nom', $tag);
         }
 
-        $search = $request->query->get('ordre');
-        if($search)
-        {
-            $annonces = $annoncesRepo->ordre($search);
-        }
-
-        $search = $request->query->get('tag');
-        if($search == "Musique")
-        {
-
-            $em = $this->getDoctrine()->getManager();
-            $tagsRepo = $em->getRepository(Tags::class);
-            $tags = $tagsRepo -> findAll();
-            $tags->getAnnonces();
-            dump($tags);die;
-            $annonces = $annoncesRepo->findBy(['Tag' => $tags]);
-            dump($annonces);die;
-
-        }
+        // autes if... 
 
 
+        $annonces = $query
+            ->getQuery()
+            ->getResult();
+
+
+
+        // if($tag == "Musique")
+        // {
+        //     $tag = $tagsRepo->findOneBy(['nom' => 'Art graphique']);
+        //     $annonces = $tag->getAnnonces();
+        //     dump($annonces); die();
+        // }
+
+            $search = 'lolol';
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
             'recherche' => $search,

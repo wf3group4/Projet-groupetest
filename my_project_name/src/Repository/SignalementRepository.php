@@ -28,7 +28,7 @@ class SignalementRepository extends ServiceEntityRepository
         $derniere_semaine = new \DateTime("1 week ago");
         return $this->createQueryBuilder('signalement')
         ->where('signalement.date >= :derniere_semaine')
-            ->setParameter('derniere_semaine', $derniere_semaine)
+        ->setParameter('derniere_semaine', $derniere_semaine)
         ->getQuery()
         ->getResult()
         ;

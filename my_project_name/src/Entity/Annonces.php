@@ -85,6 +85,11 @@ class Annonces
      */
     private $prestataire;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $closed_at;
+
 
 
 
@@ -286,6 +291,18 @@ class Annonces
     public function setPrestataire(?Users $prestataire): self
     {
         $this->prestataire = $prestataire;
+
+        return $this;
+    }
+
+    public function getClosedAt(): ?\DateTimeInterface
+    {
+        return $this->closed_at;
+    }
+
+    public function setClosedAt(?\DateTimeInterface $closed_at): self
+    {
+        $this->closed_at = $closed_at;
 
         return $this;
     }

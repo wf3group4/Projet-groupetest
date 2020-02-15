@@ -1,0 +1,58 @@
+{% extends "base.html.twig" %}
+
+{% block title %}admin stats
+{% endblock %}
+
+{% block body %}
+	<form method="GET">
+        <label for="debut">Choisissez une date de départ</label>
+        <input type="date" name="debut" id="debut">
+
+        <label for="fin">Choisissez une date de fin</label>
+        <input type="date" name="fin" id="fin">
+
+        <input type="submit" value="Envoyer">
+    </form>
+
+    {{erreur}}
+	<canvas id="myChart"></canvas>
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script>
+		let label = {{ data.labels|json_encode()|raw }};
+let value = {{ data.values|json_encode()|raw }};
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, { // The type of chart we want to create
+type: 'bar',
+
+// The data for our dataset
+data: {
+labels: label,
+datasets: [
+{
+label: "Le nombre d'annonce crée cette année par mois",
+backgroundColor: 'rgb(255, 99, 132)',
+borderColor: 'rgb(255, 99, 132)',
+data: value
+}
+]
+},
+
+// Configuration options go here
+options: {
+scales: {
+yAxes: [
+{
+ticks: {
+beginAtZero: true
+}
+}
+]
+}
+}
+});
+	</script>
+{% endblock %}
