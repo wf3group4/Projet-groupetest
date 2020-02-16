@@ -90,5 +90,10 @@
 					<a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary mb-3">Lire l'annonce</a>
 				</div>
 			{% endfor %}
+		<div class="row mt-2">
+			<div class="col-12">
+				{{ knp_pagination_render(annonces) }}
+			</div>
+		</div>
 	</div>
 {% endblock %}
