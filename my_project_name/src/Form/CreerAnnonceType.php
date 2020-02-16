@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class CreerAnnonceType extends AbstractType
 {
@@ -22,12 +23,20 @@ class CreerAnnonceType extends AbstractType
     {
         $builder
             ->add('titre', TextType::class)
-            ->add('description', TextareaType::class, [
-                'label' => "Ajoutez le texte de votre annonce",
-                'attr' => [
-                    'rows' => 10,
-                ],
-                ])
+            // ->add('description', TextareaType::class, [
+            //     'label' => "Ajoutez le texte de votre annonce",
+            //     'attr' => [
+            //         'rows' => 10,
+            //     ],
+            //     ])
+            ->add('description', CKEditorType::class, array(
+                'config' => array(
+                    'uiColor' => '#52b8df',
+                    'toolbar' => 'full',
+                    'required' => true,
+                    'language' => 'fr',
+                ),
+            ))
             ->add('prix', MoneyType::class, [
                 'label' => 'Prix',
                 'invalid_message' => 'Vous devez entrer un nombre',

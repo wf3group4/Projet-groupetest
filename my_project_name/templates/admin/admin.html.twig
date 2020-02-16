@@ -4,13 +4,12 @@
 
 {% block body %}
 
-
 <div class="example-wrapper">
     <h1 class="text-center py-5">Hello {{app.user.name}}</h1>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <a class="nav-item nav-link active" id="nav-signalement-tab" data-toggle="tab" href="#nav-signalement" role="tab" aria-controls="nav-home" aria-selected="true">Signalement</a>
-          <a class="nav-item nav-link" id="nav-statistique-tab" data-toggle="tab" href="#nav-statistique" role="tab" aria-controls="nav-profile" aria-selected="false">Statistique</a>
+          <a class="nav-item nav-link" id="nav-statistique-tab" href="{{path('admin_stat')}}" role="tab" aria-controls="nav-profile" aria-selected="false">Statistiques</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -55,13 +54,4 @@
                         </div>
                     </div>
             {% endfor %}
-        </div>
-        <div class="tab-pane fade" id="nav-statistique"role="tabpanel" aria-labelledby="nav-statistique-tab">
-            <h2 class="py-3">Le coin des stats:</h2>
-            <h3>Argent générer l'année passée: <canvas id="myChart"></canvas></h3>
-            <h3>Nouveau profil:</h3>
-            <h3>Nouvelle annonce:</h3>    
-        </div>
-    </div>
-</div>
 {% endblock %}
