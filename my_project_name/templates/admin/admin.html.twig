@@ -9,9 +9,9 @@
     <h1 class="text-center py-5">Hello {{app.user.name}}</h1>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link active" id="nav-signalement-tab" data-toggle="tab" href="#nav-signalement" role="tab" aria-controls="nav-home" aria-selected="true">Signalement</a>
+          <a class="nav-item nav-link active" id="nav-signalement-tab" data-toggle="tab" href="#nav-signalement" role="tab" aria-controls="nav-home" aria-selected="true">Signalements</a>
           <a class="nav-item nav-link" id="nav-bannis-tab" data-toggle="tab" href="#nav-bannis" role="tab" aria-controls="nav-profile" aria-selected="false">Les bannis</a>
-          <a class="nav-item nav-link" id="nav-statistique-tab" data-toggle="tab" href="#nav-statistique" role="tab" aria-controls="nav-profile" aria-selected="false">Statistique</a>
+          <a class="nav-item nav-link" id="nav-statistique-tab" data-toggle="tab" href="#nav-statistique" role="tab" aria-controls="nav-profile" aria-selected="false">Statistiques</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -59,7 +59,7 @@
         </div>
         <!-- Les bannis -->
         <div class="tab-pane fade" id="nav-bannis"role="tabpanel" aria-labelledby="nav-bannis-tab">
-            <h2 class="py-3">Le Bannis</h2>
+            <h2 class="py-3">Les Bannis</h2>
             {% for banni in bannis %}
             <div class="row">
                 <p><b>{{banni.name}} {{banni.lastname}}</b> </p>

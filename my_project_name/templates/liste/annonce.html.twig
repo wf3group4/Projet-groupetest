@@ -16,7 +16,7 @@
 					{# <h2 class="card-title">Information sur celui qui a posté l'annonce</h2> #}
 					<p class="card-text">Nom :
 						{{annonce.user.name}}</p>
-					<p class="card-text">Prénom
+					<p class="card-text">Prénom :
 						{{annonce.user.lastname}}</p>
 					<p class="card-text">Inscrit depuis le :
 						{{annonce.user.createdAt | date("Y-m-d H:i:s") }}</p>
@@ -44,7 +44,7 @@
 		<div class="col-md-8">
 			<div class="row d-flex flex-column">
 				<div class="col">
-					<div class="">{{annonce.description}}</div>
+					<div class="">{{annonce.description | nl2br}}</div>
 				</div>
 				<!-- fin de la col description -->
 
@@ -66,10 +66,10 @@
 						<u><p class="my-5 font-weight-bold text-success">Cette annonce a été pourvu</p></u>
 					</div>
 					{% endif %}
-					{% if app.user and app.user.id != annonce.id %}
-                <a href="{{ path('signalement', { id: annonce.id, cible: 'annonce'}) }}" class="text-danger ml-auto">Signaler cette annonce</a>
 				{% endif %}
-			{% endif %}
+				{% if app.user and annonce.user.id != app.user.id %}
+					<a href="{{ path('signalement', { id: annonce.id, cible: 'annonce'}) }}" class="text-danger ml-auto">Signaler cette annonce</a>
+				{% endif %}
 			</div>
 		</div>
 		<!-- fin de la col description -->
