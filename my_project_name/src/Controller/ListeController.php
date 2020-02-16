@@ -154,33 +154,6 @@ class ListeController extends AbstractController
      */
     public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo)
     {
-        // Requete pour récupérer toutes les annonces
-        // $annonces = $annoncesRepo->findBy(['active' => 1]);
-
-        // $search = $request->query->get('search');
-        // if ($search)
-        // {
-            
-        //     $annonces = $annoncesRepo->searchByAnnonce($search);
-
-        //     if(!$annonces)
-        //     {
-        //         $this->addFlash('danger', 'Aucun résultat trouvé');
-        //         return $this->redirectToRoute('annonces');
-        //     }
-
-        //     $this->addFlash('success', 'Résultat trouvée !');
-
-        // }
-
-        // $search = $request->query->get('ordre');
-        // if($search)
-        // {
-        //     $annonces = $annoncesRepo->ordre($search);
-        // }
-
-
-
         $query = $annoncesRepo->createQueryBuilder('a')
             ->addSelect('a', 't')
             ->leftJoin('a.tag', 't')
@@ -193,28 +166,16 @@ class ListeController extends AbstractController
                 ->setParameter('nom', $tag);
         }
 
-        // autes if... 
-
-
         $annonces = $query
             ->getQuery()
             ->getResult();
-
-
-
-        // if($tag == "Musique")
-        // {
-        //     $tag = $tagsRepo->findOneBy(['nom' => 'Art graphique']);
-        //     $annonces = $tag->getAnnonces();
-        //     dump($annonces); die();
-        // }
-
-            $search = 'lolol';
+$recherche = "bla";
         return $this->render('liste/annonces.html.twig', [
             'annonces' => $annonces,
-            'recherche' => $search,
+            'recherche' => $recherche
         ]);
     }
+
 
     /**
      * @Route("/annonce/{id}", name="annonce")
@@ -229,9 +190,7 @@ class ListeController extends AbstractController
         $annonce = $annoncesRepo->find($id);
 
         $annonce->setVues($annonce->getVues()+1);
-
         $em->flush();
-
 
         if (!$annonce) {
             $this->addFlash('danger', "L'article demandé n'a pas été trouvé.");
@@ -254,7 +213,6 @@ class ListeController extends AbstractController
 
             $this->addFlash('success', "Votre retrait de l'annonce a bien été enregistré");
             return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
-
         }
 
         // Traitement du bouton Choisir cet artiste
@@ -286,8 +244,6 @@ class ListeController extends AbstractController
             return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
         }
         
-
-
         return $this->render('liste/annonce.html.twig', [
             'annonce' => $annonce,
         ]);
@@ -341,7 +297,6 @@ class ListeController extends AbstractController
                 'id' => $user_id
             ]);
         }
-
 
         $form = $this->createForm(CreerAnnonceType::class, $annonce);
 

@@ -96,6 +96,10 @@ class AdminController extends AbstractController
         $erreur = null;
         $debut = $request->query->get('debut');
         $fin = $request->query->get('fin');
+        $debutGraphCoture = $request->query->get('debutGraphCoture');
+        $finGraphCoture = $request->query->get('finGraphCoture');
+
+        // Stats sur le nombre d'annonce crée \\
         if (!$fin) {
             $fin = date("Y-m-d");
         }
@@ -103,8 +107,6 @@ class AdminController extends AbstractController
             $time = strtotime("-1 year", time());
             $debut = date('Y-m-d', $time);
         }
-
-        // Stats sur le nombre d'annonce crée \\
 
         $query = $annoncesRepo->createQueryBuilder('a')
             ->where("a.date_creation BETWEEN :debut AND :fin")
@@ -117,7 +119,7 @@ class AdminController extends AbstractController
             ->getResult();
         if (!$annonceCree) {
             $this->addFlash('danger', 'Aucun résultat trouvé');;
-            return $this->redirectToRoute('admin');
+            return $this->redirectToRoute('admin_stat');
         }
         foreach ($annonceCree as $annonce) {
             $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
@@ -128,28 +130,63 @@ class AdminController extends AbstractController
         $data['labels'] = array_keys($annonceMois);
         $data['values'] = array_values($annonceMois);
 
+
+
+        // Stats sur le nombre d'annonce cloturé \\
+
+        if (!$finGraphCoture) {
+            $finGraphCoture = date("Y-m-d");
+        }
+        if (!$debutGraphCoture) {
+            $time = strtotime("-1 year", time());
+            $debutGraphCoture = date('Y-m-d', $time);
+        }
+
+        $query2 = $annoncesRepo->createQueryBuilder('a')
+            ->where("a.closed_at BETWEEN :debut AND :fin")
+            ->setParameter('debut', $debutGraphCoture)
+            ->setParameter('fin', $finGraphCoture)
+            ->orderBy("a.closed_at", "ASC");
+
+        $annonceCloture = $query2
+            ->getQuery()
+            ->getResult();
+        if (!$annonceCloture) {
+            $this->addFlash('danger', 'Aucun résultat trouvé');;
+            return $this->redirectToRoute('admin_stat');
+        }
+        foreach ($annonceCloture as $annonce) {
+            $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
+            $fmt->setPattern('MMMM yyyy');
+            $listecloture[] = ucfirst($fmt->format(strtotime(date_format($annonce->getClosedAt(), "F-Y"))));
+            $annonceClotureMois = array_count_values($liste);
+        }
+        $dataCloture['labels'] = array_keys($annonceClotureMois);
+        $dataCloture['values'] = array_values($annonceClotureMois);
+
         // Stats sur le CA \\
 
-    //     $query2 = $annoncesRepo->createQueryBuilder('a')
-    //         ->where("a.closed_at BETWEEN :debut AND :fin")
-    //         ->setParameter('debut', $debut)
-    //         ->setParameter('fin', $fin)
-    //         ->orderBy("a.closed_at", "ASC");;
-    //     $stats = $query2
-    //         ->getQuery()
-    //         ->getResult();
-    //     foreach ($stats as $stat) {
-    //         $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
-    //         $fmt->setPattern('MMMM yyyy');
-    //         $testdate[] = ucfirst($fmt->format(strtotime(date_format($stat->getClosedAt(), "F-Y"))));
-    //         $testprix[]= $stat->getPrix();
-    //         $test[] = array_combine($testdate, $testprix);
+        //     $query2 = $annoncesRepo->createQueryBuilder('a')
+        //         ->where("a.closed_at BETWEEN :debut AND :fin")
+        //         ->setParameter('debut', $debut)
+        //         ->setParameter('fin', $fin)
+        //         ->orderBy("a.closed_at", "ASC");;
+        //     $stats = $query2
+        //         ->getQuery()
+        //         ->getResult();
+        //     foreach ($stats as $stat) {
+        //         $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
+        //         $fmt->setPattern('MMMM yyyy');
+        //         $testdate[] = ucfirst($fmt->format(strtotime(date_format($stat->getClosedAt(), "F-Y"))));
+        //         $testprix[]= $stat->getPrix();
+        //         $test[] = array_combine($testdate, $testprix);
 
-    // }dump($test);die;
+        // }dump($test);die;
 
 
         return $this->render('admin/admin-stat.html.twig', [
             'data' => $data,
+            'dataCloture' =>$dataCloture,
             'erreur' => $erreur,
             // 'test' => $test
         ]);

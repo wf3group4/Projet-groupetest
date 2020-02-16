@@ -276,7 +276,7 @@ class MainController extends AbstractController
             if ($cible == 'user') {
                 $signalement
                     ->setUser($user)
-                    ->setDate( new \DateTime())
+                    ->setDate(new \DateTime())
                     ->setActive(1);
 
                 $em->persist($signalement);
@@ -289,9 +289,9 @@ class MainController extends AbstractController
             } else {
                 $signalement
                     ->setAnnonce($annonce)
-                    ->setDate( new \DateTime())
+                    ->setDate(new \DateTime())
                     ->setActive(1);
-                    // dump($signalement);die;
+                // dump($signalement);die;
                 $em->persist($signalement);
                 $em->flush();
 
@@ -327,7 +327,6 @@ class MainController extends AbstractController
         // On récupère le paramètre action en url pour savoit si le bouton 'déclarer un projet' a été cliqué
         $action = $request->query->get('action');
 
-
         $em = $this->getDoctrine()->getManager();
 
         if ($this->getUser() != $user) {
@@ -346,7 +345,6 @@ class MainController extends AbstractController
             ]);
         }
 
-
         return $this->render('main/mes_candidatures.html.twig', [
             'user' => $user,
             'annonces_postule' => $annonces_postule,
@@ -359,9 +357,7 @@ class MainController extends AbstractController
      */
     public function mes_annonces($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo, Request $request, EmailService $emailService)
     {
-
         $user = $userRepo->find($id);
-
         $annonces = $annoncesRepo->getUserAnnonces($id);
 
         // On récupère les annonces pour lesquels l'utilisateur a été séléctionné comme prestataire
@@ -369,7 +365,6 @@ class MainController extends AbstractController
 
         $action = $request->query->get('action');
         $em = $this->getDoctrine()->getManager();
-
 
         if ($this->getUser() != $user) {
             throw new \Exception("Vous devez être connecté");
@@ -379,20 +374,17 @@ class MainController extends AbstractController
         if ($action == 'paiement_valide') {
             $annonce = $annoncesRepo->find($request->query->get('annonce_id'));
             $annonce->setActive(4)
-            ->setClosedAt(new DateTime());
+                ->setClosedAt(new DateTime());
             $prestataire = $annonce->getPrestataire();
             $prestataire->setCommission($prestataire->getCommission() + ($annonce->getPrix() * 0.1));
             $em->flush();
 
             $emailService->envoi_facture($user, $annonce);
 
-
-            // $this->makeFacture($user, $annonce);
-
             return $this->redirectToRoute('mes_annonces', [
-                'id' => $user->getId()]);
+                'id' => $user->getId()
+            ]);
         }
-        
 
         return $this->render('main/mes_annonces.html.twig', [
             'user' => $user,
@@ -400,33 +392,4 @@ class MainController extends AbstractController
             'candidature_valide' => $candidature_valide,
         ]);
     }
-
-
-    // public function makeFacture($user, $annonce)
-    // {
-    //     $em = $this->getDoctrine()->getManager();
-    //     $factureRepo = $em->getRepository(Facture::class);
-    //     $options = new Options();
-    //     $options->set('defaultFont', 'Arial');
-
-
-    //     $dompdf = new Dompdf($options);
-
-    //     $html = $this->renderView('front/facture.html.twig', [
-    //         'headline' => "Monsieur " . $user->getName() . ' ' . $user->getLastname(),
-    //         'prix' => $annonce->getPrix(),
-    //     ]);
-
-    //     $dompdf->loadHtml($html);
-    //     $dompdf->setPaper('A4', 'portrait');
-    //     $dompdf->render();
-
-    //     $file = $dompdf->output();
-    //     dump($file);die;
-    //     $fileName = 'facture-' . rand(1, 99999) . '.pdf';
-    //     $repertoire = $this->getParameter('factures');
-    //     $file->move($repertoire, $fileName);
-    //     }
-
-    // }
-    }
+}
