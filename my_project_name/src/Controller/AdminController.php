@@ -34,6 +34,7 @@ class AdminController extends AbstractController
         //Gestion des signalements
         $all_signalements = $signalementRepo->getLastWeekSignalements();
         $signalements_user = $signalements_annonces = [];
+        
     
         foreach ($all_signalements as $signalement ) {
             $annonce = $signalement->getAnnonce();
@@ -43,12 +44,12 @@ class AdminController extends AbstractController
                 $id_annonce = $signalement->getAnnonce()->getId();
                 $signalements_annonces[$id_annonce][] = $signalement;
             }
-
             if ($user) {
                 $id_user = $signalement->getUser()->getId();
                 $signalements_user[$id_user][] = $signalement;  
             }
         }
+      
 
         foreach ($signalements_annonces as $id_annonce => $annonces) {
             if(count($annonces) < 3) {
