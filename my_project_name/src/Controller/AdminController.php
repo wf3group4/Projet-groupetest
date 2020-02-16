@@ -24,9 +24,6 @@ class AdminController extends AbstractController
         Request $request)
     {
 
-        if ($this->getUser()->hasRoles('ROLE_PUBLISHER')){
-            return $this->redirectToRoute('login');
-        }
 
         //Recuperation query
         $em = $this->getDoctrine()->getManager();

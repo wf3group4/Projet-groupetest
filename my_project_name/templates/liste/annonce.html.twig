@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des annonces
+{% block title %}Annonce | {{annonce.titre}}
 {% endblock %}
 
 
@@ -13,16 +13,16 @@
 		<div class="col-md-4">
 			<div class="card">
 				<div class="card-body">
-					<h2 class="card-title">Information sur celui qui a posté l'annonce</h2>
-					<p>
-						<a href="#">Voir son profil</a>
-					</p>
+					{# <h2 class="card-title">Information sur celui qui a posté l'annonce</h2> #}
 					<p class="card-text">Nom :
 						{{annonce.user.name}}</p>
 					<p class="card-text">Prénom
 						{{annonce.user.lastname}}</p>
 					<p class="card-text">Inscrit depuis le :
 						{{annonce.user.createdAt | date("Y-m-d H:i:s") }}</p>
+					<p>
+						<a href="{{path('mon_compte', {id: annonce.user.id})}}">Voir son profil <i class="far fa-arrow-alt-circle-right"></i></a>
+					</p>
 					{% if annonce.dateLimite %}
 						<p class="card-text">Date limite de la recherche :
 							{{annonce.dateLimite | date("Y-m-d H:i:s") }}</p>

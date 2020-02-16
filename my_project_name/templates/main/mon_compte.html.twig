@@ -68,21 +68,20 @@
             {% if portfolios|length %}
                 <div class="row d-flex flex-wrap ml-5">
                     {% for portfolio in portfolios %}
-                        <div class="card p-3 m-3" style="width: 18rem;">
-                        
-                                {% if app.user and app.user.id == user.id %}    
-                                        <a href="{{path('mon_compte', { id: app.user.id, id_img: portfolio.id, action: 'delete-img' })}} "
+                        <div class="card p-3 m-3" style="width: 18rem">
+                            {% if app.user and app.user.id == user.id %}    
+                                <a href="{{path('mon_compte', { id: app.user.id, id_img: portfolio.id, action: 'delete-img' })}} "
                             class="ml-auto mr-3 text-danger">Supprimer</a>
-                                {% endif %}
+                            {% endif %}
                             <a href="{{path('image', {id: portfolio.id})}}" >
-                                    <div class="card" id="image_portfolio">
-                                        <img class="card-img-top"  src="{{ asset('images/'~portfolio.imgUrl)}}" >
-                                    </div>
-                                </a>   
+                                <div class="card" id="image_portfolio">
+                                    <img class="card-img-top"  src="{{ asset('images/'~portfolio.imgUrl)}}" >
+                                </div>
+                            </a>   
                         </div>
                     {% endfor %}        
                 </div><!--fin card-->
-                <a href="{{path('portfolio', {id: user.id})}}">Voir tout le portfolio --></a>  
+                <a href="{{path('portfolio', {id: user.id})}}">Voir tout le portfolio <i class="far fa-arrow-alt-circle-right"></i></a>  
             {% else %}
                 <p>Je n'ai pas encore de portfolio j'y travaille 😎</p>
             {% endif %} 

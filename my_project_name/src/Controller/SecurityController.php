@@ -74,7 +74,10 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('mon_compte');
+            $id = $this->getUser()->getId();
+            return $this->redirectToRoute('mon_compte', [
+                'id' => $id
+            ]);
         }
 
         // get the login error if there is one
@@ -106,11 +109,11 @@ class SecurityController extends AbstractController
        
 
             if(! $user){
-            $error = "Votre adresse mail ne correspond à aucun compte";
+            $error = "Ton adresse mail ne correspond à aucun compte";
             }elseif($user->getActive() == 1){
-            $error = "Compte déjà valider wesh! ";
+            $error = "Compte déjà valider! ";
             }elseif($token != $user->getToken()){
-            $error = "Une erreur est survenue. Contacter notre service com";
+            $error = "Une erreur est survenue. Contacte notre service com";
             }else{
             $user->setActive(1);
             $em = $this->getDoctrine()->getManager();

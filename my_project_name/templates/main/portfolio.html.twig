@@ -4,7 +4,7 @@
 
 <h1 class="text-center my-5"> Portfolio de {{user.name}} {{user.lastname}}</h1>
 
-<a href="{{ path('mon_compte', {id: user.id}) }}"> <-- retour au profil</a>
+<a href="{{ path('mon_compte', {id: user.id}) }}"><i class="far fa-arrow-alt-circle-left"></i> retour au profil</a>
 {% if portfolios|length %}
     <div class="card-columns mt-5">
         {% for portfolio in portfolios %}

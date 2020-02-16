@@ -3,7 +3,9 @@
 {% block title %}{{ nouveau ? 'Créer une nouvelle annonce' : annonce.titre }}{% endblock %}
 
 {% block body %}
-
+	<div class="col-12 mb-2">
+		<a href="{{ path('mon_compte', {id: app.user.id} ) }}"><i class="far fa-arrow-alt-circle-left"></i> Annuler la création</a>
+	</div>
 	{% if nouveau %}
 		<h1>Créer une nouvelle annonce</h1>
 	{% else %}

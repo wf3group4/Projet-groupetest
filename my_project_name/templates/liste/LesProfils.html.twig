@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ListeController!{% endblock %}
+{% block title %}Les Profils{% endblock %}
 
 {% block body %}
 
@@ -80,7 +80,7 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <a class="btn btn-outline-primary" href="{{ path('mon_compte', {id: profil.id}) }}">Voir le profil <i class="fas fa-search-plus"></i></a>
-                                                <a class="btn btn-outline-primary" href="{{ path('contact-profil', {id: profil.id}) }}">Me contacter <i class="fas fa-envelope"></i></a>
+                                                {# <a class="btn btn-outline-primary" href="{{ path('contact-profil', {id: profil.id}) }}">Me contacter <i class="fas fa-envelope"></i></a> #}
                                             </div>
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@
 
             {% endfor %}
         <div class="row mt-2">
-            <div class="col-12">
+            <div class="d-flex mx-auto">
                 {{ knp_pagination_render(profiles) }}
             </div>
         </div>
