@@ -205,7 +205,7 @@ class ListeController extends AbstractController
         $annonces = $paginator->paginate(
             $query,
             $request->query->getInt('page',1),
-            2
+            5
         );
 
         return $this->render('liste/annonces.html.twig', [
