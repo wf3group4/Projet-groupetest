@@ -8,7 +8,7 @@
 {% if portfolios|length %}
     <div class="card-columns mt-5">
         {% for portfolio in portfolios %}
-            <a href="{{path('image', {id: portfolio.id})}}" >
+            <a href="{{path('image', {id: portfolio.id, user: user.id})}}" >
                 <div class="card" id="image_portfolio">
                     <img class="card-img-top"  src="{{ asset('images/'~portfolio.imgUrl)}}" >
                 </div>

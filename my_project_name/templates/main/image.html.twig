@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Portfolio{% endblock %}
 {% block body %}
+<a href="{{ path('portfolio', {id: user}) }}"><i class="far fa-arrow-alt-circle-left"></i> retour au portfolio</a>
 <div class="d-flex mx-auto w-75">
     <img class="card-img-top"  src="{{ asset('images/'~img_url)}}">  
 </div>

@@ -251,9 +251,11 @@ class MainController extends AbstractController
         PortfolioRepository $portfolioRepo
     ) {
         $id_image = $request->query->get('id');
+        $user_id = $request->query->get('user');
         $img_url = $portfolioRepo->find($id)->getImgUrl();
         return $this->render('main/image.html.twig', [
             'img_url' => $img_url,
+            'user' =>$user_id
         ]);
     }
 
