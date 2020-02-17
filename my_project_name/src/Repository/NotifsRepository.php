@@ -24,18 +24,15 @@ class NotifsRepository extends ServiceEntityRepository
      * @return Notifs[] Returns an array of Notifs objects
      */
     
-    public function notifs ($message)
+    public function notifs ($user)
     {
         return $this->createQueryBuilder('n')
-            ->andWhere('n.user_id = :user_id')
-           
-            ->setParameter('message', $message)
-          
+            ->andWhere('n.user = :user')
+            ->setParameter('user', $user)
             ->orderBy('n.date', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-
         ; 
     }
    

@@ -216,7 +216,7 @@ class ListeController extends AbstractController
             $notifs = new Notifs();
 // ici j'appelle les nouvelles personnes intéressées, avec l'annonce/titre est date de postulation
             $notifs
-                ->setmessage("voivi une nouvelle personne intéressée :&nbsp;")
+                ->setmessage("voici une nouvelle personne intéressée :")
                 ->setUser($annonce->getUser())
                 ->setDate(new \DateTime())
                 ->setActive(1)

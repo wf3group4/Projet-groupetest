@@ -25,9 +25,9 @@ window.onload = function() {
     };
 
 var images = [
-    "images/woman-xl_left2.jpg.jpg",
-    "images/hands_up_banner.jpg",
-    "images/guitarist.jpg"
+    "images/optimisé_banners/woman-xl_left2.jpg.jpg",
+    "images/optimisé_banners/hands_up_banner.jpg",
+    "images/optimisé_banners/guitarist.jpg"
 ];
 var index = 0;
 

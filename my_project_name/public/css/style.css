@@ -72,7 +72,7 @@ nav em {
 }
 
 index-jumbotron h1 {
-    font-size: 42;
+    font-size: 24;
     margin-bottom: 20px;
 }
 
@@ -81,8 +81,8 @@ index-jumbotron h1 {
     color: inherit;
 }
 
-.index-jumbotron-title {
-    text-transform: uppercase;
+h1{
+    font-size: 1em;
 }
 
 .index-jumbotron-title,

@@ -11,29 +11,21 @@
 <div class="example-wrapper">
     <h1>Hello {{app.user.name}}</h1>
     <h2>Les nouvelles</h2>
+    <!-- On affiche la liste des postulants not the user -->
+
+    <div class="list-group">
+        {% for notif in notifs %}
+            <li class="list-group-item">
+                {{notif.message}} <br>
+                <a href="{{path('publisher_admin', { id: notif.id, action: 'delete' })}} "
+                class="ml-auto mr-3 text-danger">Supprimer</a>
+            </li>  
+
+        {% endfor %}
+    </div>
    
 </div>
-
-
-
-<!-- On affiche la liste des postulants not the user -->
-<!-- le message ne se montrera pas si la personne loger n'est pas le user  -->
-    {#{% if annonce and annonce.UserPostulant %}{% endif %}
-	{% for user in annonce.UserPostulant %}{% endfor %}
-    {% for annonce in app.user.annonces %}
-    {% for postulant in annonce.userPostulant %} #}
-     {#<p>{{ notifs.id }}</p>
-
-
- <!-- On efface les messages quand on les a lu -->   
- <div class="col-md-2">
-    <a href="{{path('publisher_admin', { id: notifs.id, action: 'delete' })}} "
-     class="ml-auto mr-3 text-danger">Supprimer</a>
-</div> 
-	
-    {% endfor %}  
-	
 	    <p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
-	  {% endfor %}#}
+	  
 	</div>
 {% endblock %}
