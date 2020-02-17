@@ -3,7 +3,7 @@
 {% block title %}Les Profils{% endblock %}
 
 {% block body %}
-
+		
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
@@ -16,10 +16,16 @@
     {% endfor %}
 
     <!-- TITRE -->
+    <div class="container-fluid" style="background-image: url(/images/purplegirl.jpg); width: 100%; height: 300px;">
+    	<div class="row text-center  ">
+<div class="col-12  pt-5">
+	<button type="button" class="btn btn-danger mt-5">Créez un profile gratuitement</button>
+</div>	</div>
+    </div>
+    <div class="container">
     <div class="row mt-4">
         <div class="col-7">
-            <h1>Liste des profiles</h1>
-
+            <h1>Liste des profils</h1>
         </div>
         <div class="col-5">
 
@@ -42,7 +48,7 @@
                             <div class="col-4">
                                 {% if profil.avatar %}
                                     <a href="{{ path('mon_compte', {id:profil.id}) }}">
-                                        <img src="{{ asset('images/'~profil.avatar) }}" alt="{{ profil.name }}" title="{{ profil.name }} {{ profil.lastname }}" class="img-thumbnail">
+                                        <img src="{{ asset('images/'~profil.avatar) }}" alt="{{ profil.name }}" title="{{ profil.name }} {{ profil.lastname }}" class="w-75">
                                     </a>
                                 {% else %}
                                     <a href="{{ path('mon_compte', {id:profil.id}) }}">
@@ -70,7 +76,6 @@
                                             <p>{{ profil.description|raw|slice(0,60) }}...</p>
                                         {% endif %}
                                         <div class="row">
-
                                             <div class="col-4">
                                                 <p>{{ profil.email }}</p>
                                                 <p>{% if profil.vues == 0 %} Je n'ai pas de vues {% else %} Profil vue {{ profil.vues }} fois {% endif %}</p>
@@ -79,7 +84,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-8">
-                                                <a class="btn btn-outline-primary" href="{{ path('mon_compte', {id: profil.id}) }}">Voir le profil <i class="fas fa-search-plus"></i></a>
+                                                <a class="btn btn-primary" href="{{ path('mon_compte', {id: profil.id}) }}">Voir le profil <i class="fas fa-search-plus"></i></a>
                                                 {# <a class="btn btn-outline-primary" href="{{ path('contact-profil', {id: profil.id}) }}">Me contacter <i class="fas fa-envelope"></i></a> #}
                                             </div>
                                         </div>

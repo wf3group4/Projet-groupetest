@@ -60,12 +60,11 @@ class EmailService{
         $this->mailer->send($email);
     }
 
-    public function email_contact_pro($contact){
+    public function contact_webmaster($contact){
 
         $data = array(
-            'from' => $contact->getEmail(),
             'subject' => 'Email du site',
-            'template' => 'emails/contact_pro.email.twig',
+            'template' => 'emails/contact_admin.email.twig',
             'context' => array(
                 'contact' => $contact
             )

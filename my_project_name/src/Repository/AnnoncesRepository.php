@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Annonces;
+use App\Entity\Notifs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

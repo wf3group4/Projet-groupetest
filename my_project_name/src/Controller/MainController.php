@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\ModifCompteType;
 use App\Form\PortfolioType;
 use App\Form\SignalementType;
+use App\Form\ContactProType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,24 +21,22 @@ use App\Service\EmailService;
 use DateTime;
 use Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 
 class MainController extends AbstractController
 {
     /**
      * @Route("/", name="accueil")
      */
-    public function accueil(UsersRepository $usersRepo, AnnoncesRepository $annoncesRepo)
+    public function accueil(UsersRepository $usersRepo, AnnoncesRepository $annoncesRepo, PortfolioRepository $portfolioRepo)
     {
-        $personnes = $usersRepo->getLastUser();
-        //dump($titre); die();
-        $annonces = $annoncesRepo->getLastAnnonces(3);
-
+        $personnes = $usersRepo->getLastUser(); //cherche les dernieres personnes
+        $annonces = $annoncesRepo->getLastAnnonces(3); //cherche les 3 dernieres annonces à poster dans l'accueil
+        $portfolios = $portfolioRepo->getLastPortfolios(9); //cherche les 9 dernieres arts à poster dans l'accueil
 
         return $this->render('main/index.html.twig', [
             'personnes' => $personnes,
-            'annonces' => $annonces
+            'annonces' => $annonces,
+            'portfolios' => $portfolios,
         ]);
     }
 
@@ -52,7 +51,6 @@ class MainController extends AbstractController
         AvisRepository $avisRepo,
         Request $request
     ) {
-
         $user = $userRepo->find($id);
         $annonces = $annoncesRepo->getUserAnnonces($id);
         $liens = $portfolioRepo->getUserLiens($id);
@@ -60,6 +58,7 @@ class MainController extends AbstractController
 
         if (!$user) {
             $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
+
             return $this->redirectToRoute('accueil');
         }
 
@@ -88,7 +87,7 @@ class MainController extends AbstractController
             $em->persist($portfolios);
             $em->flush();
 
-            $this->addFlash('success', "Les réalisations on bien été modifiées");
+            $this->addFlash('success', 'Les réalisations on bien été modifiées');
 
             return $this->redirectToRoute('mon_compte', [
                 'id' => $id,
@@ -100,11 +99,12 @@ class MainController extends AbstractController
         if ($action && $action == 'delete-img') {
             $id_img = $request->query->get('id_img');
             $portfolios = $portfolioRepo->find($id_img);
-            $portfolios->setImgUrl(NULL);
+            $portfolios->setImgUrl(null);
             $em->flush();
             $this->addFlash('danger', "L'image a bien été supprimé.");
+
             return $this->redirectToRoute('mon_compte', [
-                'id' => $id
+                'id' => $id,
             ]);
         }
 
@@ -113,11 +113,12 @@ class MainController extends AbstractController
         if ($action && $action == 'delete-lien') {
             $id_lien = $request->query->get('id_lien');
             $liens = $portfolioRepo->find($id_lien);
-            $liens->setLiens(NULL);
+            $liens->setLiens(null);
             $em->flush();
-            $this->addFlash('danger', "Le lien a bien été supprimé.");
+            $this->addFlash('danger', 'Le lien a bien été supprimé.');
+
             return $this->redirectToRoute('mon_compte', [
-                'id' => $id
+                'id' => $id,
             ]);
         }
 
@@ -136,11 +137,10 @@ class MainController extends AbstractController
             $em->persist($avis);
             $em->flush();
 
-
-
             $this->addFlash('success', 'Avis Ajouté !');
+
             return $this->redirectToRoute('mon_compte', [
-                'id' => $id
+                'id' => $id,
             ]);
         }
 
@@ -164,9 +164,8 @@ class MainController extends AbstractController
             }
         }
 
-
-
         $moyenne = $user->getMoyenne();
+
         return $this->render('main/mon_compte.html.twig', [
             'annonces' => $annonces,
             'portfolios' => $portfolios,
@@ -175,10 +174,9 @@ class MainController extends AbstractController
             'id' => $id,
             'user' => $user,
             'form' => $form->createView(),
-            'moyenne' => $moyenne
+            'moyenne' => $moyenne,
         ]);
     }
-
 
     /**
      * @Route("/modification-compte/{id}", name="modif_compte")
@@ -191,7 +189,6 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $user = $form->getData()
                 ->setPassword(
                     $passwordEncoder->encodePassword(
@@ -204,7 +201,7 @@ class MainController extends AbstractController
             $file = $form['avatar']->getData();
             if ($file) {
                 $repertoire = $this->getParameter('images');
-                $nameOfPicture = 'avatar-' . rand(1, 99999) . '.' . $file->guessExtension();
+                $nameOfPicture = 'avatar-'.rand(1, 99999).'.'.$file->guessExtension();
                 $file->move($repertoire, $nameOfPicture);
                 $user->setAvatar($nameOfPicture);
             }
@@ -212,10 +209,10 @@ class MainController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', "Le profil a bien été modifié.");
+            $this->addFlash('success', 'Le profil a bien été modifié.');
 
             return $this->redirectToRoute('mon_compte', [
-                'id' => $user->getId()
+                'id' => $user->getId(),
             ]);
         }
 
@@ -238,7 +235,7 @@ class MainController extends AbstractController
         return $this->render('main/portfolio.html.twig', [
             'id' => $id,
             'user' => $user,
-            'portfolios' => $portfolios
+            'portfolios' => $portfolios,
         ]);
     }
 
@@ -276,7 +273,7 @@ class MainController extends AbstractController
         $annonce = $annonceRepo->find($id);
         $em = $this->getDoctrine()->getManager();
 
-        //Création du signalement 
+        //Création du signalement
         $signalement = new Signalement();
 
         $form = $this->createForm(SignalementType::class);
@@ -295,6 +292,7 @@ class MainController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('success', 'Votre signalement à bien été envoyé !');
+
                 return $this->redirectToRoute('mon_compte', [
                     'id' => $id
                 ]);
@@ -307,11 +305,13 @@ class MainController extends AbstractController
                 $em->flush();
 
                 $this->addFlash('success', 'Votre signalement à bien été envoyé !');
+
                 return $this->redirectToRoute('annonce', [
                     'id' => $id
                 ]);
             }
         }
+
         return $this->render('main/form_signalement.html.twig', [
             'id' => $id,
             'user' => $user,
@@ -320,12 +320,12 @@ class MainController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     /**
      * @Route("/mes_candidatures/{id}", name="mes_candidatures")
      */
     public function mes_candidatures($id, UsersRepository $userRepo, AnnoncesRepository $annoncesRepo, Request $request)
     {
-
         // On récupère l'utilisateur
         $user = $userRepo->find($id);
 
@@ -341,7 +341,8 @@ class MainController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         if ($this->getUser() != $user) {
-            throw new \Exception("Vous devez être connecté");
+            throw new \Exception('Vous devez être connecté');
+
             return $this->redirectToRoute('accueil');
         }
 
@@ -378,7 +379,7 @@ class MainController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         if ($this->getUser() != $user) {
-            throw new \Exception("Vous devez être connecté");
+            throw new \Exception('Vous devez être connecté');
             $this->redirectToRoute('accueil');
         }
 
@@ -402,5 +403,53 @@ class MainController extends AbstractController
             'annonces' => $annonces,
             'candidature_valide' => $candidature_valide,
         ]);
+    }
+
+    /**
+     * @Route("/nous-contacter", name="nous_contacter")
+     */
+    public function contac(Request $request, EmailService $emailService
+    ) {
+        $contactProtype = $this->createForm(ContactProType::class);
+        if (
+            $request->isMethod('POST')
+        ) {
+            $params = $request->request->all();
+            $emailService->contact_webmaster($params['contact_pro']);
+            $this->addFlash('success', 'votre message a bien été envoyé.');
+
+            return $this->redirectToRoute('accueil');
+        }
+
+        return $this->render('pied/nous_contacter.html.twig', [
+            'form' => $contactProtype->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/apropos", name="aPropos")
+     */
+    public function apropos()
+    {
+        return $this->render('pied/apropos.html.twig'
+            );
+    }
+
+    /**
+     * @Route("/mentions-legales", name="mentions_legales")
+     */
+    public function mentions_legales()
+    {
+        return $this->render('pied/mentions_legales.html.twig'
+            );
+    }
+
+    /**
+     * @Route("/recrutement", name="recrutement")
+     */
+    public function recrutement()
+    {
+        return $this->render('pied/recrutement.html.twig'
+            );
     }
 }

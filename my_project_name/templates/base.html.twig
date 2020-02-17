@@ -32,9 +32,9 @@
             </div>
 
             {% set currentPage = app.request.attributes.get('_route') %}
-            {{ currentPage != 'accueil' ? '<div class="container">' }}
+            {{ currentPage not in ['accueil', 'annonces', 'liste-profils'] ? '<div class="container">' }}
                  {% block body %}{% endblock %}
-            {{ currentPage != 'accueil' ? '</div">' }} 
+            {{ currentPage not in ['accueil', 'annonces', ' liste-profils'] ? '</div">' }} 
 
         </main>
 

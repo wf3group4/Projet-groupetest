@@ -204,7 +204,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_stat');
         }
         foreach ($annonceCree as $annonce) {
-            $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
+            $fmt = new IntlDateFormatter('en', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
             $fmt->setPattern('MMMM yyyy');
             $liste[] = ucfirst($fmt->format(strtotime(date_format($annonce->getDateCreation(), "F-Y"))));
             $annonceMois = array_count_values($liste);
@@ -238,7 +238,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_stat');
         }
         foreach ($annonceCloture as $annonce) {
-            $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
+            $fmt = new IntlDateFormatter('en', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
             $fmt->setPattern('MMMM yyyy');
             $listecloture[] = ucfirst($fmt->format(strtotime(date_format($annonce->getClosedAt(), "F-Y"))));
             $annonceClotureMois = array_count_values($listecloture);

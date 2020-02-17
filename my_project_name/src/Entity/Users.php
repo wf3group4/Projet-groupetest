@@ -100,6 +100,11 @@ class Users implements UserInterface
     private $annonces_postule;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notifs", mappedBy="user", orphanRemoval=true)
+     */
+    private $notifs;
+
+    /*
      * @ORM\OneToMany(targetEntity="App\Entity\Signalement", mappedBy="user")
      */
     private $signalements;
@@ -127,6 +132,7 @@ class Users implements UserInterface
         $this->annonces = new ArrayCollection();
         $this->avis = new ArrayCollection();
         $this->annonces_postule = new ArrayCollection();
+        $this->notifs = new ArrayCollection();
         $this->signalements = new ArrayCollection();
         $this->annonces_prestataire = new ArrayCollection();
     }
@@ -454,6 +460,22 @@ class Users implements UserInterface
     }
 
     /**
+     * @return Collection|Notifs[]
+     */
+    public function getNotifs(): Collection
+    {
+        return $this->notifs;
+    }
+
+    public function addNotif(Notifs $notif): self
+    {
+        if (!$this->notifs->contains($notif)) {
+            $this->notifs[] = $notif;
+            $notif->setUser($this);
+        }
+    }
+        
+    /*
      * @return Collection|Signalement[]
      */
     public function getSignalements(): Collection
@@ -524,6 +546,18 @@ class Users implements UserInterface
         return $this;
     }
 
+    public function removeNotif(Notifs $notif): self
+    {
+        if ($this->notifs->contains($notif)) {
+            $this->notifs->removeElement($notif);
+            // set the owning side to null (unless already changed)
+            if ($notif->getUser() === $this) {
+                $notif->setUser(null);
+
+            }
+        }
+    }
+    
     public function removeAnnoncesPrestataire(Annonces $annoncesPrestataire): self
     {
         if ($this->annonces_prestataire->contains($annoncesPrestataire)) {

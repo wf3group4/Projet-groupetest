@@ -4,9 +4,15 @@
 {% endblock %}
 
 {% block body %}
-
+	<div class="container-fluid" style="background-image: url(/images/denimjacket.jpg); width: 100%; height: 300px;">
+		<div class="row mt-5 text-center  ">
+			<div class="col-12 mt-5 pt-5">
+				<button type="button" class="btn btn-danger mt-5 ">Déposez une annonce gratuitement</button>
+			</div>	
+		</div>	
+	</div>
 	<div class="container">
-		<u><h1 class="my-5 text-center">Liste des annonces</h1></u>
+		<h1 class="my-5 text-center">Liste des annonces</h1>
 		<div class="row">
 			<div class="col-12">
 				<form class="form-inline my-2 my-lg-0">
@@ -30,17 +36,19 @@
 							<option value="{{ tag.nom }}">{{ tag.nom }}</option>
 							{% endfor %}
 						</select>
-						<button class="btn btn-primary my-2 my-sm-0" type="submit">Rechercher</button>
+						<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Rechercher</button>
 
 					</div>
 				</form>
 			</div>
 		</div>
-			{% for annonce in annonces%}
-				<div class="container border-bottom border-danger my-5">
+			{% for annonce in annonces %}
+				<div class="container border my-5">
 				   <div class="row">
 						<div class="col-md-8">
+							<a href="{{ path('annonce', { id: annonce.id }) }}">
 							<h2>{{annonce.titre}}</h2>
+							</a>
 						</div>
 						<div class="col-4">
 							<!-- Affichage des tags -->
@@ -60,7 +68,7 @@
 					   	 fois
 				   	</p>
 					<p>{{annonce.description | slice(0, 200)}}...</p>
-					<div>
+					<div class="border-top">
 						<!-- On affiche la liste des postulants -->
 						{% if not annonce.UserPostulant.isEmpty %}
 						<u><p>Les artistes intéressés :</p></u>
@@ -86,7 +94,6 @@
 							<p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
 						{% endif %}
 					</div>
-					<a href="{{ path('annonce', { id: annonce.id }) }}" class="btn btn-primary mb-3">Lire l'annonce</a>
 				</div>
 			{% endfor %}
 		<div class="row mt-2">
