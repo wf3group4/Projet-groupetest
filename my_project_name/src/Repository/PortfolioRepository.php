@@ -19,9 +19,9 @@ class PortfolioRepository extends ServiceEntityRepository
         parent::__construct($registry, Portfolio::class);
     }
 
-     /**
-      * @return Portfolio[] Returns an array of Portfolio objects
-      */
+    /**
+     * @return Portfolio[] Returns an array of Portfolio objects
+     */
     public function getUserPortfolios($user)
     {
         return $this->createQueryBuilder('portfolio')
@@ -33,36 +33,20 @@ class PortfolioRepository extends ServiceEntityRepository
         ;
     }
 
-      /**
-      * @return LastPorts[9] Returns an array of Portfolio objects
-      */
-    public function getLastPorts($id){
-        return $this->createQueryBuilder('lastPortfolios')
-        ->andWhere('portfolio.id = :id')
-        ->setParameter('id', $id)
+    
+
+    /**
+     * @return LastPortfolios[] Returns an array of the last Arts posted
+     */
+    public function getLastPortfolios($max)
+    {
+        return $this->createQueryBuilder('portfolio')
+        ->andWhere('portfolio.img_url IS NOT NULL')
         ->orderBy('portfolio.id', 'DESC')
-        ->setMaxResults(9)
+        ->setMaxResults($max)
         ->getQuery()
         ->getResult()
-      ;
-    }
-
-/**
-      * @return LastPortfolios[] Returns an array of the last Arts posted
-      */
-
-      public function getLastPortfolios($max = 9){
-        return $this->findBy(
-            array(),
-            array(
-                'id' => 1
-            ),
-            array(
-                'date_creation' => 'DESC'
-            ),
-            $max
-        )
-        ;
+    ;
     }
 
     public function getUserLastPortfolio($user)
@@ -76,10 +60,10 @@ class PortfolioRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-    } 
+    }
 
-
-    public function getUserLiens($user){
+    public function getUserLiens($user)
+    {
         return $this->createQueryBuilder('portfolio')
         ->andWhere('portfolio.user = :user')
         ->setParameter('user', $user)
@@ -88,7 +72,6 @@ class PortfolioRepository extends ServiceEntityRepository
         ->getResult()
         ;
     }
-    
 
     /*
     public function findOneBySomeField($value): ?Portfolio

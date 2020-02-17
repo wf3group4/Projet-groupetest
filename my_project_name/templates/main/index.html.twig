@@ -5,137 +5,91 @@
 
 {% block body %}
 
-	<div class="container-fluid " style="background-image: url(/images/art.jpg); width: 100%; height: 500px;">
+	{# une banner index qui est plus large que pour les autres pages, et qui change quand on revient sur la page #}
+
+	<div class="container-fluid " id="bannerombre" change style="background-image: url(/images/art.jpg); width: 100%; height: 500px;">
 		<div class="row text-center  ">
-			<div class="col-12">
-				<div>
-					<h1 class="display-5 my-5  text-center " style="color:  #B22222;">Entrées des Artistes</h1>
-					<h2 class="display-5 my-5 text-dark text-center">Voici un site destiné aux artistes.</h2>
-					<h2 class="display-5 text-right my-3  text-center first" style=" 
-                background: rgba(211,211,211, 0.5); color: dark brown"; >Parfois on a tous besoin d'un coup  de main,
-						<br>de matos ou un peu d'exposition. Voici l'endroit pour vous !
-						<br>
-						Que ce soit pour offrir vos services <br>
-						ou que vous soyez à la recherche d'aide pour votre business.
-					</h3>
-				</div>
+			<div
+				class="col-12">
+				{# text présentant le site   #}
+
+				<h1 class="display-5 my-5  text-center " style="color:  #B22222;">Entrées des Artistes</h1>
+				<h2 class="display-5 my-5 text-dark text-center">Voici un site destiné aux artistes.</h2>
+				<h2 class="display-5 text-right my-3  text-center first" style="
+										                background: rgba(211,211,211, 0.5); color: dark brown" ;>Parfois on a tous besoin d'un coup  de main,
+					<br>de matos ou un peu d'exposition. Voici l'endroit pour vous !
+					<br>
+					Que ce soit pour offrir vos services
+					<br>
+					ou que vous soyez à la recherche d'aide pour votre business.
+				</h3>
 			</div>
 			<div class="col-12  my-5 ">
 				<button type="button" class="btn btn-danger ">Déposez une annonce gratuitement</button>
-			</div>	
+			</div>
 		</div>
 	</div>
 
 	<main>
 		<div class="container">
-			<div class="row container-fluid m-2 py-3 ">
-				<div class="col-12">
-					<h2 class="text-center text-success my-5">les dernières annonces</h2>
-					{#<a href=" {{ path('annonce', { annonce }) }} " class="btn btn-dark">Tout Voir</a>#}
-				</div>
-			</div>
+			<h2 class="text-center  my-5">les dernières annonces</h2>
 			<div class="row">
 				<div class="col-12">
 					{% for annonce in annonces %}
 						<h5 class="">{{ annonce.titre }}
 						</h5>
-				</div>
-
-				<div class="col-12">
-					<p>
-						{{ annonce.description|raw|slice(0,20) }}
+						<div class="col-12">
+							<p>
+								{{ annonce.description|raw|slice(0,200) }}
 								...
-					</p>
-				</div>
-				
-				<div class="col-12">
-					<a href=" {{ path('annonce', { id: annonce.id }) }} " class="btn btn-dark">Lire l'article</a>
-					<hr>
+							</p>
+						</div>
+
+						<div class="col-12">
+							<a href=" {{ path('annonce', { id: annonce.id }) }} " class="btn btn-dark">Lire l'article</a>
+							<hr>
+						</div>
 					{% endfor %}
 				</div>
 			</div>
+			<div class="text-right">
+				<a href=" {{ path('annonces') }} " class="btn btn-dark my-5">Tout Voir</a>
+			</div>
 		</div>
+
 		<!-- section image separateur avec pub-->
-	<div class="container-fluid" style="background-image: url(/images/composition_banner.png); width: 100%; height: 190px;">
-		<div class="row text-center  ">
-			<div class="col-12 pt-5">
-				<h1 class=" display-5 text-white text-center "><span style="background-color: #2F4F4F">Rejoignez la communauté des artistes ici !</span></h1>
-			<div class="col-12  pt-3">
-				<button type="button" class="btn btn-danger">Créez votre portfolio gratuitement</button>
-					
-				<h3 class="display-5 text-right pt-3 mt-3 text-white text-center">Faites vous connaitre, publiez vos meilleures créations et trouvez des clients !
-						
+
+
+		<div class="container-fluid" style="background-image: url(/images/optimisé_banners/long_compos1.jpg); width: 100%; height: 190px;">
+			<div class="row text-center">
+				<div class="col-12 pt-5">
+					<h1 class=" display-5 text-white">
+						<span style="background-color: #2F4F4F">Rejoignez la communauté des artistes ici !</span>
+					</h1>
+				</div>
+				<div class="col-12 pt-3">
+					<button type="button" class="btn btn-danger">Créez votre portfolio gratuitement</button>
+					<h3 class="display-5 text-right pt-3 mt-3 text-white">
+						Faites vous connaitre, publiez vos meilleures créations et trouvez des clients !
 					</h3>
 				</div>
 			</div>
 		</div>
-	</div>
-
-	</div>
-		<div class="container">
-			<div class="row  centered ">
-
-				<div class="col-12">
-					<h2 class="display-5 text-warning text-center py-5">Nos Derniers Chefs D'oeuvres !</h2>
-				</div>
-			</div>
-			<hr>
-			<div class="row">
-				<div
-					class="col-4">
-					{#	{{portfolios(portfolios)}} 
-					<a href=" {{ path('portfolio', { image_url }) }}"></a>
-					 9 derniers portfolios 
-					{% for personne in personnes  %}
-						<h5 class="card-titre">{{ personne.name }}
-						</h5>
-						<p class="card">
-							{{ personne.description|raw|slice(0,20) }}
-							...</p>
-						<a href=" {{ path('mon_compte', { id: personne.id }) }} " class="btn btn-info">Voir Profile</a>
-					{% endfor %}#}
-				</div>
+		{# ci-dessous retourne les 9 dernières créations postés à travers le site #}
+		<div class="container-fluid">
+			<div class="col-12">
+				<h2 class="display-5 text-warning text-center py-5">Nos Derniers Chefs D'oeuvres !</h2>
 			</div>
 
 			<div class="row d-flex flex-wrap ml-5">
-                                            <div class="card p-3 m-3" style="width: 18rem;">
-                        
-                                                         
-                            <img class="card-img-top" src="/images/foxy2.jpg" alt="Card image cap">
-                        </div>
-                                            <div class="card p-3 m-3" style="width: 18rem;">
-                        
-                                                         
-                            <img class="card-img-top" src="/images/bucheron.jpg" alt="Card image cap">
-                        </div>
-                                            <div class="card p-3 m-3" style="width: 18rem;">
-                        
-                                                         
-                            <img class="card-img-top" src="/images/voleur.jpg" alt="Card image cap">
-                        </div>
-                            
-                </div>			
-			<div class="row " id="">
-                                                                                        
-                    <div class="  col-sm-4 col-xs-6" onclick="javascript:window.location = &quot;/fr/oeuvres-d-art/peinture&quot;;">
-                        <img src="https://www.artmajeur.com/media/cache/resolve-artwork/home/12898907.jpg" class="img-responsive" nopin="nopin">
-                            <a href="/fr/oeuvres-d-art/peinture" class="hollowOFF hide "></a>
-                    </div>
-                                                                  
-                    <div class=" col-sm-4 col-xs-6" onclick="javascript:window.location = &quot;/fr/oeuvres-d-art/sculpture&quot;;">
-                        <img src="https://www.artmajeur.com/media/cache/resolve-artwork/home/10939009.jpg" class="img-responsive" nopin="nopin">
-                            <a href="/fr/oeuvres-d-art/sculpture" class="hollowOFF hide "></a>
-                     </div>
-                                                                  
-                    <div class="col-sm-4 col-xs-6" onclick="javascript:window.location = &quot;/fr/oeuvres-d-art/photographie&quot;;">
-                        <img src="https://www.artmajeur.com/media/cache/resolve-artwork/home/12912836.jpg" class="img-responsive" nopin="nopin">
-                            <a href="/fr/oeuvres-d-art/photographie" class="hollowOFF hide "></a>
-                    </div>
-
-                </div>
-                
-        </div>
-		
-		</main>
-	{% endblock %}
+				{% for portfolio in portfolios %}
+					<div class="card p-3 m-3" style="width: 18rem;">
+						<img class="card-img-top" src="{{ asset('images/'~portfolio.imgUrl)}}" alt="Card image cap">
+					</div>
+				{% endfor %}
+			</div>
+			<!--fin card-->
+		</div>
+	</main>
+{% endblock %}
 

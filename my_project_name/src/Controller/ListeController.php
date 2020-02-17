@@ -191,9 +191,9 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
-    public function annonce($id, Request $request, AnnoncesRepository $annoncesRepo, UsersRepository $usersRepo, EmailService $emailService)
+    public function annonce($id, Request $request, AnnoncesRepository $annoncesRepo, 
+                            UsersRepository $usersRepo, EmailService $emailService)
     {
-        
         // On récupère l' AnnoncesRepository
         $em = $this->getDoctrine()->getManager();
         $annoncesRepo = $em->getRepository(Annonces::class);

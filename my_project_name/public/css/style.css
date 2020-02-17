@@ -1,91 +1,105 @@
 /*--------------PAGE LISTE PROFIL-----------------*/
 
 
-
-
 /* ------------PAGE MON COMPTE------------- */
+
 
 /*-----------AVIS----------*/
 
 #nom {
-    display:none;
+    display: none;
 }
 
 #prenom {
-    display:none;
+    display: none;
 }
 
 
 /* ------------PAGE ACCUEIL------------- */
 
 
+/**
+* ombre dessous le banner 
+*/
 
+#bannerombre {
+    -webkit-box-shadow: 0 17px 10px -6px #373737;
+    box-shadow: 0 17px 10px -6px #373737;
+}
 
-*:before, *:after {
+*:before,
+*:after {
     box-sizing: border-box;
 }
 
-.container:before{
-    clear: both;
-}
-.container:after{
+.container:before {
     clear: both;
 }
 
-body{
-    font-family:  Verdana, Arial, Helvetica, sans-serif;
+.container:after {
+    clear: both;
+}
 
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     line-height: 1.5;
-    color:rgb(10, 120, 134) ;
+    color: rgb(10, 120, 134);
 }
-p, p u{
+
+p,
+p u {
     font-size: medium;
 }
+
 body {
-    font-size: 1em; /* That is your text's default font size. Here i chose 12px */
+    font-size: 1em;
+    /* That is your text's default font size. Here i chose 12px */
 }
 
-nav a{
+nav a {
     color: rgb(102, 35, 35) !important;
     font-size: 1.5em !important;
-    }
+}
 
-nav i{
-    color: rgb(10, 120, 134)  !important;
+nav i {
+    color: rgb(10, 120, 134) !important;
     font-size: 1.8em !important;
-    }
+}
 
-nav em{
-     color: rgb(10, 120, 134)  !important;
+nav em {
+    color: rgb(10, 120, 134) !important;
     font-size: 1em !important;
-    }
+}
 
-index-jumbotron h1{
+index-jumbotron h1 {
     font-size: 42;
     margin-bottom: 20px;
 }
 
-.jumbotron h1, .jumbotron .h1 {
+.jumbotron h1,
+.jumbotron .h1 {
     color: inherit;
 }
-.index-jumbotron-title{
+
+.index-jumbotron-title {
     text-transform: uppercase;
 }
 
-.index-jumbotron-title, .index-jumbotron-text{
+.index-jumbotron-title,
+.index-jumbotron-text {
     color: inherit;
     max-width: 526px;
 }
 
-.index-jumbotron p{
+.index-jumbotron p {
     margin-bottom: 20px;
     font-weight: 200;
 }
 
-
 #listeAvatar {
     list-style-type: none;
 }
+
 .side-panel .tip h4 {
     color: #555555;
     font-size: 21px;
