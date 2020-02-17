@@ -164,6 +164,8 @@ class MainController extends AbstractController
             }
         }
 
+        
+        // Calcul de la moyenne
         $moyenne = $user->getMoyenne();
 
         return $this->render('main/mon_compte.html.twig', [

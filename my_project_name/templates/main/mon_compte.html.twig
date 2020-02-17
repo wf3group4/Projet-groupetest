@@ -3,6 +3,7 @@
 {% block title %}Profil | {{user.name}} {{user.lastname}}{% endblock %}
 
 {% block body %}
+    <!-- le niveau suivant l'argent générer -->
     <div>
         <h1 class="text-center py-5" id="titre">{{user.name}} {{user.lastname}} -
             {% if user.commission >= 600 %}
@@ -43,13 +44,17 @@
                 <p>{% include 'shared/etoile.html.twig' with { note: moyenne } %}({{ user.avis|length }})</p>
                 
                 {% if app.user and app.user.id == user.id %}
-                    <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">Modifier mon profil</a>
+                    <a href="{{ path('modif_compte', {id: app.user.id}) }}" class="btn btn-outline-primary">
+                        Modifier mon profil
+                    </a>
                 {% endif %}
                 {% if app.user and app.user.id != user.id %}
-                    <a href="{{ path('contact-profil', {id: user.id}) }}"     class="btn btn-primary" >Me contacter</a>
+                    <a href="{{ path('contact-profil', {id: user.id}) }}" class="btn btn-primary">
+                        Me contacter
+                    </a>
                 {% endif %}    
             </div>
-
+                <!-- SIGNALEMENT -->
             {% if app.user and app.user.id != user.id %}
                 <a href="{{ path('signalement', { id: user.id, cible: 'user'}) }}" class="text-danger ml-auto">Signaler cet utilisateur</a>
             {% endif %}
