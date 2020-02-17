@@ -36,7 +36,7 @@
                         <a href="{{path('mes_annonces', {id: user.id, action: 'paiement_valide', annonce_id: annonce.id})}}" class="btn btn-success">Payer l'artiste</a>
                     </div>
                 </div>
-				<p class="  ml-3">{{annonce.description}}</p>
+				<p class="  ml-3">{{annonce.description | raw }}</p>
 			</article>
 		{% endif %}
 	{% endfor %}
@@ -64,7 +64,7 @@
     					</a>
                     </div>
 				</div>
-				<p class="  ml-3">{{annonce.description}}</p>
+				<p class="  ml-3">{{annonce.description | raw}}</p>
 			</article>
 		{% endif %}
 	{% endfor %}
@@ -99,7 +99,7 @@
 						<h3 class="ml-3">{{annonce.titre}}</h3>
 					</a>
 				</div>
-				<p class="  ml-3">{{annonce.description}}</p>
+				<p class="  ml-3">{{annonce.description | raw}}</p>
 			</article>
 		{% endif %}
 	{% endfor %}

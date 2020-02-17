@@ -240,7 +240,10 @@ class ListeController extends AbstractController
         // Traitement du bouton ça m'interesse, on ajoute un utilisateur intéressé
         $action = $request->query->get('action');
         if ($action == 'add') {
+            $annonce->addUserPostulant($this->getUser());
+            $em->flush();
 
+            
 //             $notifs = new Notifs();
 // // ici j'appelle les nouvelles personnes intéressées, avec l'annonce/titre est date de postulation
 //             $notifs
