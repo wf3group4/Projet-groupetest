@@ -248,28 +248,85 @@ class AdminController extends AbstractController
 
         // Stats sur le CA \\
 
-        //     $query2 = $annoncesRepo->createQueryBuilder('a')
-        //         ->where("a.closed_at BETWEEN :debut AND :fin")
-        //         ->setParameter('debut', $debut)
-        //         ->setParameter('fin', $fin)
-        //         ->orderBy("a.closed_at", "ASC");;
-        //     $stats = $query2
-        //         ->getQuery()
-        //         ->getResult();
-        //     foreach ($stats as $stat) {
-        //         $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
-        //         $fmt->setPattern('MMMM yyyy');
-        //         $testdate[] = ucfirst($fmt->format(strtotime(date_format($stat->getClosedAt(), "F-Y"))));
-        //         $testprix[]= $stat->getPrix();
-        //         $test[] = array_combine($testdate, $testprix);
+            $datas = $annoncesRepo->createQueryBuilder('a')
+                ->select('a.closed_at, a.prix')
+                ->where("a.closed_at BETWEEN :debut AND :fin")
+                ->setParameter('debut', $debut)
+                ->setParameter('fin', $fin)
+                ->orderBy("a.closed_at", "ASC")
+                ->getQuery()
+                ->getResult();
 
-        // }dump($test);die;
+            $date_debut = new \DateTime($debut);
+            $date_fin = new \DateTime($fin);
+            $interval = $date_debut->diff($date_fin);
+            $interval_months = $interval->y * 12 + $interval->m;
+            
+            $current_date = $date_debut;
+            $mois_intl = $this->moisIntl();
+            $stats = [];
+            for ($i=0; $i < $interval_months; $i++) { 
+                $cle = $current_date->format('Yn');
+                $stats[ $cle ]['values'] = 0;
+                $stats[ $cle ]['labels'] = $mois_intl[ $current_date->format('n') ] . ' ' . $current_date->format('Y');
+
+                $current_date->modify('+1 month');
+            }
+        
+            foreach ($datas as $datat) {
+                $cle = $datat['closed_at']->format('Yn');
+                if (isset($stats[ $cle ])) {
+                    $stats[ $cle ]['values'] = $stats[ $cle ]['values'] + $datat['prix'] * 1;
+                }
+            }
+
+            $ca = [];
+            foreach($stats as $stat) {
+                $ca['values'][] = $stat['values'];
+                $ca['labels'][] = $stat['labels'];
+            }
 
         return $this->render('admin/admin-stat.html.twig', [
             'data' => $data,
             'dataCloture' =>$dataCloture,
             'erreur' => $erreur,
-            // 'test' => $test
         ]);
+    }
+
+
+
+    public function moisIntl($locale = 'fr')
+    {
+        $mois['fr'] = array(
+            1 => 'Jan',
+            2 => 'Fev',
+            3 => 'Mar',
+            4 => 'Avr',
+            5 => 'Mai',
+            6 => 'Jui',
+            7 => 'Juil',
+            8 => 'Aou',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Dec',
+        );
+        
+        $mois['en'] = array(
+            1 => '',
+            2 => '',
+            3 => '',
+            4 => '',
+            5 => '',
+            6 => '',
+            7 => '',
+            8 => '',
+            9 => '',
+            10 => '',
+            11 => '',
+            12 => '',
+        );
+
+        return $mois[$locale];
     }
 }
