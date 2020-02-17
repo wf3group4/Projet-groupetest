@@ -241,7 +241,7 @@ class AdminController extends AbstractController
             $fmt = new IntlDateFormatter('fr_FR', IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE);
             $fmt->setPattern('MMMM yyyy');
             $listecloture[] = ucfirst($fmt->format(strtotime(date_format($annonce->getClosedAt(), "F-Y"))));
-            $annonceClotureMois = array_count_values($liste);
+            $annonceClotureMois = array_count_values($listecloture);
         }
         $dataCloture['labels'] = array_keys($annonceClotureMois);
         $dataCloture['values'] = array_values($annonceClotureMois);
@@ -264,7 +264,6 @@ class AdminController extends AbstractController
         //         $test[] = array_combine($testdate, $testprix);
 
         // }dump($test);die;
-
 
         return $this->render('admin/admin-stat.html.twig', [
             'data' => $data,
