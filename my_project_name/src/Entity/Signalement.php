@@ -22,7 +22,7 @@ class Signalement
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="signalements")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="signalements")
      */
     private $user;
 

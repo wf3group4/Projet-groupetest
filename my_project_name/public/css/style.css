@@ -7,15 +7,8 @@ body{
 }
 
 
+
 /*--------------PAGE LISTE PROFIL-----------------*/
-
-#Profiles:nth-of-type(2n){
-    background-color: #ff5733;
-}
-
-#Profiles:nth-of-type(4){
-    background-color: #b1ff33;
-}
 
 
 /* ------------PAGE MON COMPTE------------- */
@@ -44,56 +37,170 @@ body{
 .presetUserCurrent {
     display:none;
 }
+/*-----------AVIS----------*/
+
+#nom {
+    display: none;
+}
+
+#prenom {
+    display: none;
+}
 
 
 
 /* ------------PAGE ACCUEIL------------- */
 
 
+/**
+* ombre dessous le banner 
+*/
 
+#bannerombre {
+    -webkit-box-shadow: 0 17px 10px -6px #373737;
+    box-shadow: 0 17px 10px -6px #373737;
+}
 
-
-*:before, *:after {
+*:before,
+*:after {
     box-sizing: border-box;
 }
 
-.container:before{
-    clear: both;
-}
-.container:after{
+.container:before {
     clear: both;
 }
 
-body{
-    font-family: Lato, Arial, Helvetica, sans-serif;
+.container:after {
+    clear: both;
+}
 
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     line-height: 1.5;
-    color:rgb(14, 46, 38) ;
+    color: rgb(10, 120, 134);
 }
 
-index-jumbotron h1{
+/* p,
+p u {
+    font-size: medium;
+} */
+
+/* body {
+    font-size: 1em;
+    
+} */
+
+/* nav a {
+    color: rgb(102, 35, 35) !important;
+    font-size: 1.5em !important;
+}
+
+nav i {
+    color: rgb(10, 120, 134) !important;
+    font-size: 1.8em !important;
+}
+
+nav em {
+    color: rgb(10, 120, 134) !important;
+    font-size: 1em !important;
+} */
+
+index-jumbotron h1 {
     font-size: 42;
     margin-bottom: 20px;
 }
 
-.jumbotron h1, .jumbotron .h1 {
+.jumbotron h1,
+.jumbotron .h1 {
     color: inherit;
 }
-.index-jumbotron-title{
-    text-transform: uppercase;
-}
 
-.index-jumbotron-title, .index-jumbotron-text{
+
+
+.index-jumbotron-title,
+.index-jumbotron-text {
     color: inherit;
     max-width: 526px;
 }
 
-.indexojumbotron p{
+.index-jumbotron p {
     margin-bottom: 20px;
     font-weight: 200;
 }
 
-
 #listeAvatar {
     list-style-type: none;
+}
+
+.side-panel .tip h4 {
+    color: #555555;
+    font-size: 21px;
+    font-weight: 500;
+    margin: 0 0 33px;
+}
+
+.side-panel {
+    width: 33%;
+    max-width: 400px;
+    min-width: inherit;
+}
+
+h1{
+    font-size: 1.8em;
+}
+h2{
+    font-size: 1.5em;
+}
+
+h3{
+    font-size: 1.2em;
+}
+
+h4 {
+    margin-block-start: 1.33em;
+    margin-block-end: 1.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.side-panel .tip .tip-row .tip-title {
+    font-weight: 500;
+}
+
+.side-panel .tip .tip-row {
+    font-size: 16px;
+    margin-bottom: 33px;
+}
+
+.side-panel .phone {
+    padding: 25px 25px 0;
+    border-top: solid 1px #eff1f2;
+}
+
+.side-panel .tip {
+    padding: 50px 25px 20px;
+    line-height: 22px;
+}
+
+.main-panel {
+    padding-top: 18px;
+    margin: 0 25px;
+    border: 0;
+    float: none;
+    width: auto;
+}
+
+aside {
+    display: block;
+}
+
+body .contact-form-container .submit-ticket-form .form-actions {
+    margin-top: 20px;
+}
+
+body .contact-form-container .form-actions {
+    display: flex;
+    text-align: center;
+    flex-direction: row-reverse;
 }

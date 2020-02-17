@@ -1,15 +1,13 @@
-<footer class="container border-top mt-5">
+<div class="container-fluid bg-white py-3">
+    <div class="container">
     <div class="row">
         <!-- Liste des articles parut récemment-->
         <div class="col-md-8">
-            <p>À propos</p>
-
             <div class="list-group">
-                <a class="list-group-item list-group-item-action" href="#">L'équipe</a>
-                <a class="list-group-item list-group-item-action" href="#">Recrutement</a>
-                <a class="list-group-item list-group-item-action" href="#">RGPD</a>
-                <a class="list-group-item list-group-item-action" href="#">Mentions-légales</a>
-                <a class="list-group-item list-group-item-action" href="#">Nous contacter <i class="far fa-paper-plane"></i></a>
+                <a class="list-group-item list-group-item-action" href="{{ path ('aPropos' )}}">à Propos</a>
+                <a class="list-group-item list-group-item-action" href="{{ path ('recrutement' )}}">Recrutement</a>
+                <a class="list-group-item list-group-item-action" href="{{ path ('nous_contacter' )}}">Nous Contacter</a>
+                <a class="list-group-item list-group-item-action" href="{{ path ('mentions_legales')}}">Mentions-légales</a>
             </div>
         </div>
         <div class="col-md-2">
@@ -33,5 +31,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</footer>
+    </div> 
+    </div>   
+</div>

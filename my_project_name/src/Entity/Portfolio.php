@@ -22,7 +22,7 @@ class Portfolio
     private $img_url;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\users", inversedBy="portfolios")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="portfolios")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

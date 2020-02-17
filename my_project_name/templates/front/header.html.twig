@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light p-2">
     <div class="container">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -7,8 +7,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                            <a class="nav-link text-primary" href="{{path('accueil')}} ">Home</a>
+                        </li>
                 <li class="nav-item">
-                    <a class="nav-link text-primary" href="{{path('annonces')}} "><i class="fas fa-book"></i> Annonces</a>
+                    <a class="nav-link text-primary" href="{{path('annonces')}} "><i class="fas fa-megaphone"></i> Les annonces</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-primary" href="{{path('liste-profils')}}"><i class="fas fa-address-book"></i> Les profils</a>
@@ -16,7 +19,7 @@
             </ul>
 
             <a class="navbar-brand  justify-content-between" href="{{path('accueil')}}">
-            <img src="{{asset('images/ananse_logo_trans.png')}}" title="accueil" alt="ananse logo">
+            <img src="{{asset('images/ananse_logo_trans.png')}}" height="50" title="accueil" alt="ananse logo">
             </a>
 
 
@@ -35,7 +38,7 @@
                         <a class="dropdown-item" href="{{path('portfolio', {id: app.user.id})}}">Mon Porfolio</a>  
                         <a class="dropdown-item" href="{{path('mes_candidatures', {id: app.user.id})}}">Mes candidatures</a>
                         <a class="dropdown-item" href="{{path('mes_annonces', {id: app.user.id})}}">Mes annonces</a>
-                        <a class="dropdown-item" href="{{path('app_logout')}}">Déconnexion <i class="fas fa-sign-out-alt"></i></a>
+                        <a class="dropdown-item" href="{{path('app_logout')}}">D�connexion <i class="fas fa-sign-out-alt"></i></a>
                         {% else %} 
                         <a class="dropdown-item" href="{{path('app_login')}}">Connexion <i class="fas fa-sign-in-alt"></i></a>
                             <div class="dropdown-divider"></div>
