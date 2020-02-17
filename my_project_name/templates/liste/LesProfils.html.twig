@@ -3,7 +3,7 @@
 {% block title %}Les Profils{% endblock %}
 
 {% block body %}
-
+		
     {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
@@ -16,6 +16,13 @@
     {% endfor %}
 
     <!-- TITRE -->
+    <div class="container-fluid" style="background-image: url(/images/purplegirl.jpg); width: 100%; height: 300px;">
+    	<div class="row text-center  ">
+<div class="col-12  pt-5">
+	<button type="button" class="btn btn-danger mt-5">Créez un profile gratuitement</button>
+</div>	</div>
+    </div>
+    <div class="container">
     <div class="row mt-4">
         <div class="col-7">
             <h1>Liste des profiles</h1>
@@ -70,7 +77,6 @@
                                             <p>{{ profil.description|raw|slice(0,60) }}...</p>
                                         {% endif %}
                                         <div class="row">
-
                                             <div class="col-4">
                                                 <p>{{ profil.email }}</p>
                                                 <p>{% if profil.vues == 0 %} Je n'ai pas de vues {% else %} Profil vue {{ profil.vues }} fois {% endif %}</p>

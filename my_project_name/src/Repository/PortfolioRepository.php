@@ -19,9 +19,9 @@ class PortfolioRepository extends ServiceEntityRepository
         parent::__construct($registry, Portfolio::class);
     }
 
-     /**
-      * @return Portfolio[] Returns an array of Portfolio objects
-      */
+    /**
+     * @return Portfolio[] Returns an array of Portfolio objects
+     */
     public function getUserPortfolios($user)
     {
         return $this->createQueryBuilder('portfolio')
@@ -31,6 +31,22 @@ class PortfolioRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    
+
+    /**
+     * @return LastPortfolios[] Returns an array of the last Arts posted
+     */
+    public function getLastPortfolios($max)
+    {
+        return $this->createQueryBuilder('portfolio')
+        ->andWhere('portfolio.img_url IS NOT NULL')
+        ->orderBy('portfolio.id', 'DESC')
+        ->setMaxResults($max)
+        ->getQuery()
+        ->getResult()
+    ;
     }
 
     public function getUserLastPortfolio($user)
@@ -44,10 +60,10 @@ class PortfolioRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-    } 
+    }
 
-
-    public function getUserLiens($user){
+    public function getUserLiens($user)
+    {
         return $this->createQueryBuilder('portfolio')
         ->andWhere('portfolio.user = :user')
         ->setParameter('user', $user)
