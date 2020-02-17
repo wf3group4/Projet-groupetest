@@ -1,0 +1,131 @@
+{% extends "base.html.twig" %}
+
+{% block title %}admin stats
+{% endblock %}
+
+{% block body %}
+
+<h1 class="text-center">Les statistiques</h1>
+
+<u><p class="my-5 text-info">Choisissez une statistique en cliquant sur les onglets ci dessous</p></u>
+<nav>
+    <div class="nav nav-tabs my-5" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link" id="nav-annonceCree-tab" data-toggle="tab" href="#nav-annonceCree" role="tab" aria-controls="nav-home" aria-selected="true">Nombre d'annonce crée par mois</a>
+      <a class="nav-item nav-link" id="nav-annonceCloture-tab" data-toggle="tab" href="#nav-annonceCloture" role="tab" aria-controls="nav-profile" aria-selected="false">Nombre d'annonce cloturé par mois</a>
+    </div>
+</nav>
+
+<div class="tab-content" id="myTabContent">
+
+    {# GRAPH ANNONCE CREE #}
+    <div class="tab-pane fade show active" id="nav-annonceCree" role="tabpanel" aria-labelledby="home-tab">
+        <form class="my-2" method="GET">
+            <label for="debut">Choisissez une date de départ</label>
+            <input type="date" name="debut" id="debut">
+        
+            <label for="fin">Choisissez une date de fin</label>
+            <input type="date" name="fin" id="fin">
+        
+            <input type="submit" value="Envoyer">
+        </form>
+        
+        {{erreur}}
+        <canvas id="annonceMois"></canvas>        
+    </div>
+
+    {# GRAPH ANNONCE CLOTURE #}
+    <div class="tab-pane fade" id="nav-annonceCloture" role="tabpanel" aria-labelledby="profile-tab">
+        <form class="my-2" method="GET">
+            <label for="debutGraphCloture">Choisissez une date de départ</label>
+            <input type="date" name="debutGraphCloture" id="debutGraphCloture">
+        
+            <label for="finGraphCloture">Choisissez une date de fin</label>
+            <input type="date" name="finGraphCloture" id="finGraphCloture">
+        
+            <input type="submit" value="Envoyer">
+        </form>
+        
+        {{erreur}}
+        <canvas id="annonceClotureMois"></canvas>
+        
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+    let label = {{ data.labels| json_encode() | raw }};
+    let value = {{ data.values| json_encode() | raw }};
+    var ctx = document.getElementById('annonceMois').getContext('2d');
+    var chart = new Chart(ctx, { // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: label,
+            datasets: [
+                {
+                    label: "Le nombre d'annonce crée cette année par mois",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: value
+                }
+            ]
+        },
+
+        // Configuration options go here
+        options: {
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        }
+    });
+</script>
+
+
+<script>
+    let label2 = {{ dataCloture.labels| json_encode() | raw }};
+    let value2 = {{ dataCloture.values| json_encode() | raw }};
+    var ctx = document.getElementById('annonceClotureMois').getContext('2d');
+    var chart = new Chart(ctx, { // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: label2,
+            datasets: [
+                {
+                    label: "Le nombre d'annonce cloturé cette année par mois",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: value2
+                }
+            ]
+        },
+
+        // Configuration options go here
+        options: {
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        }
+    });
+</script>
+{% endblock %}

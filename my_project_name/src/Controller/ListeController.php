@@ -163,15 +163,10 @@ class ListeController extends AbstractController
      */
     public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo, PaginatorInterface $paginator)
     {
-
         $query = $annoncesRepo->createQueryBuilder('a')
             ->addSelect('a', 't')
             ->leftJoin('a.tag', 't')
             ->andWhere('a.active = 1');
-
-
-
-
 
         $searchParNom = $request->query->get('titre');
         if($searchParNom)
@@ -214,6 +209,7 @@ class ListeController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
@@ -227,9 +223,7 @@ class ListeController extends AbstractController
         $annonce = $annoncesRepo->find($id);
 
         $annonce->setVues($annonce->getVues()+1);
-
         $em->flush();
-
 
         if (!$annonce) {
             $this->addFlash('danger', "L'article demandé n'a pas été trouvé.");
@@ -252,7 +246,6 @@ class ListeController extends AbstractController
 
             $this->addFlash('success', "Votre retrait de l'annonce a bien été enregistré");
             return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
-
         }
 
         // Traitement du bouton Choisir cet artiste
@@ -284,8 +277,6 @@ class ListeController extends AbstractController
             return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);
         }
         
-
-
         return $this->render('liste/annonce.html.twig', [
             'annonce' => $annonce,
         ]);
@@ -339,7 +330,6 @@ class ListeController extends AbstractController
                 'id' => $user_id
             ]);
         }
-
 
         $form = $this->createForm(CreerAnnonceType::class, $annonce);
 

@@ -50,18 +50,4 @@ class AnnoncesRepository extends ServiceEntityRepository
         )
         ;
     }
-
-
-
-    /*
-    public function findOneBySomeField($value): ?Annonces
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
