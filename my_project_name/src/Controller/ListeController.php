@@ -241,17 +241,17 @@ class ListeController extends AbstractController
         $action = $request->query->get('action');
         if ($action == 'add') {
 
-            $notifs = new Notifs();
-// ici j'appelle les nouvelles personnes intéressées, avec l'annonce/titre est date de postulation
-            $notifs
-                ->setmessage("voivi une nouvelle personne intéressée :&nbsp;")
-                ->setUser($annonce->getUser())
-                ->setDate(new \DateTime())
-                ->setActive(1)
-                ;
+//             $notifs = new Notifs();
+// // ici j'appelle les nouvelles personnes intéressées, avec l'annonce/titre est date de postulation
+//             $notifs
+//                 ->setmessage("voivi une nouvelle personne intéressée :&nbsp;")
+//                 ->setUser($annonce->getUser())
+//                 ->setDate(new \DateTime())
+//                 ->setActive(1)
+//                 ;
                 
-                $em->persist($notifs);
-                $em->flush();
+//                 $em->persist($notifs);
+//                 $em->flush();
 
 
 

@@ -7,6 +7,7 @@ body{
 }
 
 
+
 /*--------------PAGE LISTE PROFIL-----------------*/
 
 
@@ -79,17 +80,17 @@ body {
     color: rgb(10, 120, 134);
 }
 
-p,
+/* p,
 p u {
     font-size: medium;
-}
+} */
 
-body {
+/* body {
     font-size: 1em;
-    /* That is your text's default font size. Here i chose 12px */
-}
+    
+} */
 
-nav a {
+/* nav a {
     color: rgb(102, 35, 35) !important;
     font-size: 1.5em !important;
 }
@@ -102,7 +103,7 @@ nav i {
 nav em {
     color: rgb(10, 120, 134) !important;
     font-size: 1em !important;
-}
+} */
 
 index-jumbotron h1 {
     font-size: 42;
@@ -114,9 +115,7 @@ index-jumbotron h1 {
     color: inherit;
 }
 
-.index-jumbotron-title {
-    text-transform: uppercase;
-}
+
 
 .index-jumbotron-title,
 .index-jumbotron-text {
@@ -144,6 +143,17 @@ index-jumbotron h1 {
     width: 33%;
     max-width: 400px;
     min-width: inherit;
+}
+
+h1{
+    font-size: 1.8em;
+}
+h2{
+    font-size: 1.5em;
+}
+
+h3{
+    font-size: 1.2em;
 }
 
 h4 {
