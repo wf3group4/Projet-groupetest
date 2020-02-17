@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Annonces;
 use App\Entity\Users;
 use App\Entity\Avis;
-use App\Entity\Tags;
 use App\Form\CreerAnnonceType;
 use App\Repository\AnnoncesRepository;
 use App\Form\ContactProType;
@@ -22,41 +21,46 @@ use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\UsersRepository;
 use Exception;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function Sodium\add;
 
 class ListeController extends AbstractController
 {
     /**
      * @Route("/liste-profils", name="liste-profils")
      */
-    public function Profils(Request $request, PaginatorInterface $paginator)
+    public function Profils(Request $request, PaginatorInterface $paginator, UsersRepository $usersRepo)
     {
-        $em = $this->getDoctrine()->getManager();
-        $usersRepo = $em->getRepository(Users::class)->findAll();
+        $query = $usersRepo->createQueryBuilder('b');
+
+        $searchParNomOrPrenom = $request->query->get('search');
+
+        if($searchParNomOrPrenom)
+        {
+           $query
+                ->orWhere('b.Name LIKE :search')
+                ->orWhere('b.Lastname LIKE :search')
+                ->setParameter('search', "%$searchParNomOrPrenom%");
+
+        }
+
+        $profil = $query
+            ->getQuery()
+            ->getResult();
+
+        if(!$profil)
+        {
+            $this->addFlash("error", "sa marche pas !!");
+        }
+        else
+        {
+            $this->addFlash('success', "za marche !!");
+        }
 
         $profil = $paginator->paginate(
             $usersRepo, // Requête contenant les données à paginer
             $request->query->getInt('page',1), // Numéro de la page en cours, passé dans l'URL, si aucune page
             3
         );
-
-
-        $search = $request->query->get('search');
-            if ($search)
-            {
-                $profil = $usersRepo->SearchByName($search);
-
-                if(!$profil)
-                {
-                    $this->addFlash('danger', 'Aucun résultat trouvé');
-                    return $this->redirectToRoute('liste-profils');
-                }
-
-
-                    $this->addFlash('success', 'Résultat trouvée !');
-
-            }
-
-
 
         return $this->render('liste/LesProfils.html.twig', [
             'profiles' => $profil,
@@ -70,10 +74,13 @@ class ListeController extends AbstractController
     public function Profil($id, Request $request)
     {
         // On récupère User repository
+
         $em = $this->getDoctrine()->getManager();
         $usersRepo = $em->getRepository(Users::class);
         // requête pour récupérer tous les profil
         $profil = $usersRepo->find($id);
+
+        // Si une personne se trompe dans l'url ou autre cela redirige
         if (!$profil) {
             $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
             return $this->redirectToRoute('accueil');
@@ -165,28 +172,26 @@ class ListeController extends AbstractController
     public function annonces(AnnoncesRepository $annoncesRepo,Request $request, TagsRepository $tagsRepo, PaginatorInterface $paginator)
     {
 
-        $query = $annoncesRepo->createQueryBuilder('a')
-            ->addSelect('a', 't')
-            ->leftJoin('a.tag', 't')
-            ->andWhere('a.active = 1');
-
-
-
-
+        $query = $annoncesRepo->createQueryBuilder('a');
 
         $searchParNom = $request->query->get('titre');
+
         if($searchParNom)
         {
             $query
                 ->orWhere('a.titre LIKE :titre')
                 ->setParameter('titre', "%$searchParNom%");
 
+
         }
 
         $tri = $request->query->get('ordre');
         if($tri)
         {
+
             $query
+                ->leftJoin('a.tag', 't')
+                ->andWhere('a.active = 1')
                 ->orderBy('a.prix', "$tri");
 
         }
@@ -194,14 +199,25 @@ class ListeController extends AbstractController
         $tag = $request->query->get('tag');
         if ($tag) {
             $query
+                ->addSelect('a', 't')
+                ->leftJoin('a.tag', 't')
+                ->andWhere('a.active = 1')
                 ->andWhere('t.nom = :nom')
                 ->setParameter('nom', $tag);
+
 
         }
 
         $annonces = $query
             ->getQuery()
             ->getResult();
+
+        if(!$annonces) {
+            $this->addFlash('danger', 'Aucun résultat trouvée !!');
+
+        } else {
+            $this->addFlash('success', "Résultat trouvée !!");
+        }
 
         $annonces = $paginator->paginate(
             $query,

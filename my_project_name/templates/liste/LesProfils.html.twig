@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ListeController!{% endblock %}
+{% block title %}Hello {{ app.user.name }}!{% endblock %}
 
 {% block body %}
 
@@ -15,19 +15,16 @@
         {% endfor %}
     {% endfor %}
 
-    <!-- TITRE -->
+    <!-- TITRE ET BARRE DE RECHERCHE -->
     <div class="row mt-4">
         <div class="col-7">
-            <h1>Liste des profiles</h1>
-
+            <h1>Liste des profils</h1>
         </div>
         <div class="col-5">
-
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="search" type="text" placeholder="Rechercher un artiste">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Rechercher</button>
             </form>
-
         </div>
     </div>
 
@@ -70,10 +67,8 @@
                                             <p>{{ profil.description|raw|slice(0,60) }}...</p>
                                         {% endif %}
                                         <div class="row">
-
                                             <div class="col-4">
                                                 <p>{% if profil.vues == 0 %} Je n'ai pas de vues {% else %} Profil vue {{ profil.vues }} fois {% endif %}</p>
-
                                             </div>
                                         </div>
                                         <div class="row">
@@ -85,11 +80,11 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             {% endfor %}
+
+        <!-- PAGINATION -->
         <div class="row mt-2">
             <div class="col-12">
                 {{ knp_pagination_render(profiles) }}
