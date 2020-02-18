@@ -23,149 +23,9 @@ use Exception;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use function Sodium\add;
 
-class ListeController extends AbstractController
+class ListeAnnoncesController extends AbstractController
 {
-    /**
-     * @Route("/liste-profils", name="liste-profils")
-     */
-    public function Profils(Request $request, PaginatorInterface $paginator, UsersRepository $usersRepo)
-    {
-        $query = $usersRepo->createQueryBuilder('b');
-
-        $searchParNomOrPrenom = $request->query->get('search');
-
-        if($searchParNomOrPrenom)
-        {
-           $query
-                ->orWhere('b.Name LIKE :search')
-                ->orWhere('b.Lastname LIKE :search')
-                ->setParameter('search', "%$searchParNomOrPrenom%");
-
-        }
-
-        $profil = $query
-            ->getQuery()
-            ->getResult();
-
-        if(!$profil)
-        {
-            $this->addFlash("error", "sa marche pas !!");
-        }
-        else
-        {
-            $this->addFlash('success', "za marche !!");
-        }
-
-        $profil = $paginator->paginate(
-            $usersRepo, // Requête contenant les données à paginer
-            $request->query->getInt('page',1), // Numéro de la page en cours, passé dans l'URL, si aucune page
-            3
-        );
-
-        return $this->render('liste/LesProfils.html.twig', [
-            'profiles' => $profil,
-        ]);
-    }
-
-
-    /**
-     * @Route("/profil/{id}", name="profil")
-     */
-    public function Profil($id, Request $request)
-    {
-        // On récupère User repository
-
-        $em = $this->getDoctrine()->getManager();
-        $usersRepo = $em->getRepository(Users::class);
-        // requête pour récupérer tous les profil
-        $profil = $usersRepo->find($id);
-
-        // Si une personne se trompe dans l'url ou autre cela redirige
-        if (!$profil) {
-            $this->addFlash('danger', "Le profil demandé n'a pas été trouvé.");
-            return $this->redirectToRoute('accueil');
-        }
-
-        //Ajoute un commentaire
-
-        if ($request->isMethod('POST')) {
-            $data = $request->request->all();
-
-            $avis = (new Avis())
-                ->setNom($data['nom'])
-                ->setPrenom($data['prenom'])
-                ->setContenu($data['contenu'])
-                ->setRgpd(1)
-                ->setCreateAt(new \DateTime())
-                ->setUsers($profil);
-
-            $em->persist($avis);
-            $em->flush();
-
-            $this->addFlash('success', 'Avis Ajouté !');
-            return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
-        }
-
-        // Supprimer un avis
-
-        $action = $request->query->get('action');
-        if ($action && $action == 'delete') {
-            $id_avis = $request->query->get('id_avis');
-
-            if ($id_avis) {
-                $avisRepo = $em->getRepository(Avis::class);
-                $avis = $avisRepo->find($id_avis);
-
-                $em->remove($avis);
-                $em->flush();
-
-                $this->addFlash('success', 'Vous venez de supprimer un avis !');
-                return $this->redirectToRoute('profil', ['id' => $profil->getId()]);
-            }
-        }
-
-        return $this->render('liste/profil.html.twig', [
-            'profil' => $profil,
-        ]);
-    }
-
-    /**
-     * @Route("/contact-profil/{id}", name="contact-profil")
-    */
-    public function contactProfil($id, EmailService $emailService, Request $request)
-    {
-        // On récupère User repository
-        $em = $this->getDoctrine()->getManager();
-        $usersRepo = $em->getRepository(Users::class);
-        // requête pour récupérer tous les profil
-        $profil = $usersRepo->find($id);
-
-
-        $form = $this->createForm(ContactProType::class);
-
-            if($request->isMethod("POST"))
-            {
-                $params = $request->request->all();
-//                dump($params);die;
-                $emailService->ContactProfil($params['contact_pro']);
-
-                $this->addFlash('success', 'Votre message à bien été envoyé !');
-
-                return $this->redirectToRoute('mon_compte', [
-                    'id' => $id
-                ]);
-
-            }
-
-
-
-        return $this->render('liste/contactProfil.html.twig',[
-            'profil' => $profil,
-            'form' => $form->createView(),
-        ]);
-    }
-
-
+    // Récupération de toutes les annonces et algorithme pour la recherche
     /**
      * @Route("/annonces", name="annonces")
      */
@@ -174,8 +34,8 @@ class ListeController extends AbstractController
 
         $query = $annoncesRepo->createQueryBuilder('a');
 
+        // Recherche par le nom
         $searchParNom = $request->query->get('titre');
-
         if($searchParNom)
         {
             $query
@@ -185,6 +45,7 @@ class ListeController extends AbstractController
 
         }
 
+        // Le tri par prix
         $tri = $request->query->get('ordre');
         if($tri)
         {
@@ -196,6 +57,7 @@ class ListeController extends AbstractController
 
         }
 
+        // Tri par tag
         $tag = $request->query->get('tag');
         if ($tag) {
             $query
@@ -231,6 +93,7 @@ class ListeController extends AbstractController
         ]);
     }
 
+    // Quand un utilisateur veut voir une annonce en particulier
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
@@ -307,6 +170,7 @@ class ListeController extends AbstractController
         ]);
     }
 
+    // Quand l'annonceur veut modifier ou supprimer son article
     /**
      * @Route("/annonce-crud/{id}", name="annonce_crud")
      */

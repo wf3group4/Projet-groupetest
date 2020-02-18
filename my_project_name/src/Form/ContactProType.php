@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Controller\ListeController;
+use App\Controller\ListeAnnoncesController;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,7 +51,7 @@ class ContactProType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ListeController::class,
+            'data_class' => ListeAnnoncesController::class,
         ]);
     }
 }
