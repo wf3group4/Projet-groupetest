@@ -6,7 +6,6 @@ use App\Entity\Annonces;
 use App\Entity\Users;
 use App\Entity\Avis;
 use App\Entity\Tags;
-use App\Entity\Notifs;
 use App\Form\CreerAnnonceType;
 use App\Repository\AnnoncesRepository;
 use App\Form\ContactProType;
@@ -220,8 +219,7 @@ class ListeController extends AbstractController
     /**
      * @Route("/annonce/{id}", name="annonce")
      */
-    public function annonce($id, Request $request, AnnoncesRepository $annoncesRepo, 
-                            UsersRepository $usersRepo, EmailService $emailService)
+    public function annonce($id, Request $request, AnnoncesRepository $annoncesRepo, UsersRepository $usersRepo, EmailService $emailService)
     {
         // On récupère l' AnnoncesRepository
         $em = $this->getDoctrine()->getManager();
@@ -242,24 +240,6 @@ class ListeController extends AbstractController
         if ($action == 'add') {
             $annonce->addUserPostulant($this->getUser());
             $em->flush();
-
-            
-//             $notifs = new Notifs();
-// // ici j'appelle les nouvelles personnes intéressées, avec l'annonce/titre est date de postulation
-//             $notifs
-//                 ->setmessage("voivi une nouvelle personne intéressée :&nbsp;")
-//                 ->setUser($annonce->getUser())
-//                 ->setDate(new \DateTime())
-//                 ->setActive(1)
-//                 ;
-                
-//                 $em->persist($notifs);
-//                 $em->flush();
-
-
-
-            // $annonce->addUserPostulant($this->getUser());
-            // $em->flush();
 
             $this->addFlash('success', "Votre intérêt a bien été enregistré");
             return $this->redirectToRoute('annonce', ['id' => $annonce->getId()]);

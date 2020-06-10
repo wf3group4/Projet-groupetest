@@ -36,6 +36,10 @@
 							vues {{ annonce.vues }}
 						{% endif %}
 						  fois</p>
+						  {% if app.user and annonce.user.id != app.user.id %}
+						  <u class="text-danger"><a href="{{ path('signalement', { id: annonce.id, cible: 'annonce'}) }}" class="text-danger ml-auto">Signaler cette annonce</a></u>
+					  {% endif %}
+				  
 				</div>
 			</div>
 		</div>
@@ -67,13 +71,9 @@
 					</div>
 					{% endif %}
 				{% endif %}
-				{% if app.user and annonce.user.id != app.user.id %}
-					<a href="{{ path('signalement', { id: annonce.id, cible: 'annonce'}) }}" class="text-danger ml-auto">Signaler cette annonce</a>
-				{% endif %}
 			</div>
 		</div>
 		<!-- fin de la col description -->
-
 	</div>
 	<!-- fin de la row -->
 

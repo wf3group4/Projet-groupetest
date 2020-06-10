@@ -14,9 +14,9 @@
 
 		{% for annonce in candidature_valide %}
 			{% if annonce.Active == 2 %}
-				<article class="border rounded shadow my-3 p-2 bg-light">
+				<article class="border rounded shadow p-2 bg-light">
 					<div class="row">
-						<div class="col-md-7">
+						<div class="col-md-7 mb-3">
 							<i>Annonce créée le
 								{{annonce.dateCreation | date('d M Y')}}
 								à
@@ -28,18 +28,18 @@
 					</div>
 
 					<div class="row">
-
 						<div class="col-9">
 							<a href="{{path('annonce', {id: annonce.id})}}">
-								<h3 class="ml-3">{{annonce.titre}}</h3>
+								<h3 class="">{{annonce.titre}}</h3>
 							</a>
+							<p class="  my-3">{{annonce.description | raw}}</p>
+
 						</div>
 						<div class="col-3">
 							<a href="{{path('mes_candidatures', {id: user.id, annonce_id: annonce.id, action: 'projet_fini'})}} " class="btn btn-success">Déclarer le projet fini</a>
 						</div>
 					</div>
 
-					<p class="  my-3">{{annonce.description | raw}}</p>
 				</article>
 			{% endif %}
 		{% endfor %}
@@ -69,21 +69,21 @@
 
 					<div class="row">
 
-						<div class="col">
+						<div class="col-md-9">
 							<a href="{{path("annonce", {id: annonce.id})}}">
 								<h3 class="ml-3">{{annonce.titre}}</h3>
 							</a>
+							<p class="ml-3">{{annonce.description | raw }}</p>
 						</div>
 						<!-- Gestion du bouton ça m'intéresse -->
 
 						{% if annonce in app.user.annoncesPostule %}
-							<div class="col">
+							<div class="col-md-3">
 								<a href="{{path('annonce', {id: annonce.id, action: 'remove'})}}" class="btn btn-info">Ca ne m'intéresse plus</a>
 							</div>
 						{% endif %}
 
 					</div>
-					<p class="ml-3">{{annonce.description | raw }}</p>
 				</article>
 			{% endif %}
 

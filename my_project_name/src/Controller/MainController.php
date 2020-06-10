@@ -372,9 +372,6 @@ class MainController extends AbstractController
         $user = $userRepo->find($id);
         $annonces = $annoncesRepo->getUserAnnonces($id);
 
-        // On récupère les annonces pour lesquels l'utilisateur a été séléctionné comme prestataire
-        $candidature_valide = $user->getAnnoncesPrestataire();
-
         $action = $request->query->get('action');
         $em = $this->getDoctrine()->getManager();
 
@@ -401,7 +398,6 @@ class MainController extends AbstractController
         return $this->render('main/mes_annonces.html.twig', [
             'user' => $user,
             'annonces' => $annonces,
-            'candidature_valide' => $candidature_valide,
         ]);
     }
 

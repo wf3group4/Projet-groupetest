@@ -67,7 +67,7 @@
 					   	{% endif %}
 					   	 fois
 				   	</p>
-					<p>{{annonce.description | slice(0, 200)}}...</p>
+					<p>{{annonce.description | raw}}</p>
 					<div class="border-top">
 						<!-- On affiche la liste des postulants -->
 						{% if not annonce.UserPostulant.isEmpty %}

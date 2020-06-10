@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class CreerAnnonceType extends AbstractType
 {
@@ -48,7 +49,7 @@ class CreerAnnonceType extends AbstractType
                 'expanded'  => true,
                 'multiple'  => true,
             ])
-            ->add('date_limite', DateTimeType::class)
+            ->add('date_limite', DateType::class)
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
                 'row_attr' => [
