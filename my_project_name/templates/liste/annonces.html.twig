@@ -75,7 +75,7 @@
 						<ul class="list-group list-group-horizontal">
 							{% for user in annonce.UserPostulant|sort((a,b) => b.commission <=> a.commission) %}
 								<li id="listeAvatar" class="">
-									<a href="{{ path('mon_compte', {id: user.id}) }}"><img src="{{ asset('images/'~user.avatar)}}" alt="avatar" class="img-fluid rounded-circle mr-2 mb-3" style="width: 34px; height:34px;" data-toggle="tooltip" data-placement="top" title="{{user.name}} {{user.lastname}} "></a>
+									<a href="{{ path('mon_compte', {id: user.id}) }}"><img src="{{ asset('images/'~user.avatar)}}" alt="avatar" class="img-fluid rounded-circle mr-2 mb-3" style="width: 34px; height:34px;" data-toggle="tooltip"  title="{{user.name}} {{user.lastname}}"></a>
 									{# {% if user.commission >= 600 %}
 										<span class="badge badge-pill badge-success">4</span>
 									{% elseif user.commission >= 400 %}

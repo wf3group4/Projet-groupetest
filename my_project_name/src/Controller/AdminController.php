@@ -211,7 +211,7 @@ class AdminController extends AbstractController
         }
         $data['labels'] = array_keys($annonceMois);
         $data['values'] = array_values($annonceMois);
-dump($liste);die;
+
 
 
         // Stats sur le nombre d'annonce cloturé \\
