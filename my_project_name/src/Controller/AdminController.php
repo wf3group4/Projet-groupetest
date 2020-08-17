@@ -173,7 +173,6 @@ class AdminController extends AbstractController
      */
     public function admin_stat(AnnoncesRepository $annoncesRepo, UsersRepository $userRepo, Request $request)
     {
-
         // Paramètre globaux
         $erreur = null;
         $debut = $request->query->get('debut');
@@ -195,7 +194,6 @@ class AdminController extends AbstractController
             ->setParameter('debut', $debut)
             ->setParameter('fin', $fin)
             ->orderBy("a.date_creation", "ASC");
-
         $annonceCree = $query
             ->getQuery()
             ->getResult();

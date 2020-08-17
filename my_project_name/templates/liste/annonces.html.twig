@@ -76,23 +76,13 @@
 							{% for user in annonce.UserPostulant|sort((a,b) => b.commission <=> a.commission) %}
 								<li id="listeAvatar" class="">
 									<a href="{{ path('mon_compte', {id: user.id}) }}"><img src="{{ asset('images/'~user.avatar)}}" alt="avatar" class="img-fluid rounded-circle mr-2 mb-3" style="width: 34px; height:34px;" data-toggle="tooltip"  title="{{user.name}} {{user.lastname}}"></a>
-									{# {% if user.commission >= 600 %}
-										<span class="badge badge-pill badge-success">4</span>
-									{% elseif user.commission >= 400 %}
-										<span class="badge badge-pill badge-secondary">3</span>
-									{% elseif user.commission >= 200 %}
-										<span class="badge badge-pill badge-info">2</span>
-									{% elseif user.commission >= 100 %}
-										<span class="badge badge-pill badge-warning">1</span>
-									{% else %}
-										<span class="badge badge-pill badge-primary">0</span>
-									{% endif %} #}
 								</li>
 							{% endfor %}
 						</ul>	
 						{% else %}
 							<p> Aucun artiste n'a postulé à cette annonce pour le moment</p>
 						{% endif %}
+						
 					</div>
 				</div>
 			{% endfor %}
